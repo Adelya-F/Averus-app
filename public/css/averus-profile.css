@@ -1,0 +1,40 @@
+.averus-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.averus-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.averus-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.tagline {
+    color: gray;
+    margin-top: 8px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.contact p {
+    margin: 6px 0;
+}
