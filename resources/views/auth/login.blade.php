@@ -1,47 +1,144 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="min-h-screen flex items-center justify-center bg-[#faf6ef]">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl">
+       <h2 class="text-3xl font-bold text-center text-blue-700 mb-2">
+    Selamat Datang
+</h2>
+<p class="text-center text-sm text-gray-600 mb-6">
+    Masuk untuk melanjutkan pembelajaran Anda
+</p>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        @if (session('status'))
+            <div class="mb-4 text-green-600 text-sm">
+                {{ session('status') }}
+            </div>
+        @endif
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <!-- Email -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">
+                    Email
+                </label>
+                <input 
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    required
+                    autofocus
+                    class="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                >
+                @error('email')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <!-- Password -->
+           <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700">
+        Password
+    </label>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+    <div class="relative">
+        <input 
+            type="password"
+            name="password"
+            id="password"
+            required
+            class="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none pr-10"
+        >
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+        <!-- Toggle Button -->
+        <button 
+            type="button"
+            onclick="togglePassword()"
+            class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-blue-600"
+        >
+            <!-- Eye Open -->
+            <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" 
+                class="h-5 w-5" fill="none" viewBox="0 0 24 24" 
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5
+                    c4.477 0 8.268 2.943 9.542 7
+                    -1.274 4.057-5.065 7-9.542 7
+                    -4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+            <!-- Eye Closed -->
+            <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19
+                    c-4.477 0-8.268-2.943-9.542-7
+                    a9.956 9.956 0 012.223-3.592m3.19-2.32
+                    A9.956 9.956 0 0112 5
+                    c4.477 0 8.268 2.943 9.542 7
+                    a9.97 9.97 0 01-4.293 5.29M15 12a3 3 0 00-3-3
+                    m0 0a3 3 0 00-3 3
+                    m3-3v.01M3 3l18 18"/>
+            </svg>
+        </button>
+    </div>
+
+    @error('password')
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
+<script>
+function togglePassword() {
+    const password = document.getElementById('password');
+    const eyeOpen = document.getElementById('eye-open');
+    const eyeClosed = document.getElementById('eye-closed');
+
+    if (password.type === "password") {
+        password.type = "text";
+        eyeOpen.classList.add("hidden");
+        eyeClosed.classList.remove("hidden");
+    } else {
+        password.type = "password";
+        eyeOpen.classList.remove("hidden");
+        eyeClosed.classList.add("hidden");
+    }
+}
+</script>
+
+            <!-- Remember -->
+            <div class="flex items-center justify-between mb-6">
+                <label class="flex items-center text-sm">
+                    <input type="checkbox" name="remember" class="mr-2">
+                    Remember me
+                </label>
+
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" 
+                       class="text-sm text-indigo-600 hover:underline">
+                        Forgot?
+                    </a>
+                @endif
+            </div>
+
+            <button 
+                type="submit"
+               class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
+            >
+                Log In
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
