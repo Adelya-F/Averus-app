@@ -21,6 +21,16 @@
                <li class="nav-item"><a class="nav-link" href="#program">Program</a></li>
                <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
                <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+               @auth
+<li class="nav-item">
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="nav-link btn btn-link" style="border:none;">
+            Logout
+        </button>
+    </form>
+</li>
+@endauth
             </ul>
         </div>
     </div>
