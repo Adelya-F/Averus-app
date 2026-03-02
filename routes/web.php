@@ -1,30 +1,7 @@
 <?php
-
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-// Landing Page (PUBLIC)
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Dashboard (HARUS LOGIN)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-// Role Pages
-Route::get('/admin', function () {
-    return "Ini Dashboard Admin";
-})->middleware(['auth']);
-
-Route::get('/guru', function () {
-    return "Ini Dashboard Guru";
-})->middleware(['auth']);
-
-Route::get('/siswa', function () {
-    return "Ini Dashboard Siswa";
-})->middleware(['auth']);
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProfileController;
 
 // Public Pages
 Route::get('/tentang', function () {
@@ -40,6 +17,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/', function () {
+    return view('dashboard'); // ini dashboard umum
+})->name('home');
+
+
+Route::middleware(['auth','role:admin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});
+
+Route::middleware(['auth','role:siswa'])->group(function () {
+    Route::get('/siswa', function () {
+        return view('siswa.dashboard');
+    })->name('siswa.dashboard');
 });
 
 require __DIR__.'/auth.php';
