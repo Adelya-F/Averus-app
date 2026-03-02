@@ -31,9 +31,18 @@ Route::middleware(['auth','role:admin'])->group(function () {
 });
 
 Route::middleware(['auth','role:siswa'])->group(function () {
+
     Route::get('/siswa', function () {
         return view('siswa.dashboard');
     })->name('siswa.dashboard');
+
+    Route::get('/siswa/absen', function () {
+        return view('siswa.absen');
+    })->name('siswa.absen');
+
+    Route::get('/siswa/jadwal', function () {
+        return view('siswa.jadwal');
+    })->name('siswa.jadwal');
 });
 
 require __DIR__.'/auth.php';
