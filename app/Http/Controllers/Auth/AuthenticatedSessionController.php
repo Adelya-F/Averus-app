@@ -28,13 +28,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if ($request->user()->role == 'admin') {
-            return redirect('/admin');
-        } elseif ($request->user()->role == 'guru') {
-            return redirect('/guru');
-        } else {
-            return redirect('/siswa');
-        }
+        $user = Auth::user();
+
+if ($user->role === 'admin') {
+    return redirect()->route('admin.dashboard');
+}
+
+if ($user->role === 'siswa') {
+    return redirect()->route('siswa.dashboard');
+}
+
+return redirect('/');
             }
 
     /**
