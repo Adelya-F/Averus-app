@@ -26,7 +26,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <h2 class="fw-bold text-primary">500+</h2>
+                <h2 class="fw-bold text-primary">100+</h2>
                 <p>Siswa Aktif</p>
             </div>
             <div class="col-md-4">
