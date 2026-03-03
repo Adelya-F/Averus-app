@@ -2,6 +2,7 @@
 <html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Averus Course</title>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -9,23 +10,32 @@
 
 <!-- NAVIGATION -->
 <nav class="bg-white shadow-md fixed w-full z-50">
-  <div class="w-full px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
-    <div class="flex items-center space-x-3">
-      <img src="{{ asset('image/averus.png') }}" alt="Logo Averus" class="h-10 w-auto">
-      <h1 class="text-2xl font-bold text-blue-600">Averus College</h1>
+  <div class="w-full px-4 md:px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
+    
+    <div class="flex items-center space-x-2 md:space-x-3">
+      <img src="{{ asset('image/averus.png') }}" alt="Logo Averus" class="h-8 md:h-10 w-auto">
+      <h1 class="text-xs md:text-2xl font-bold flex">
+        <span class="text-red-500">A</span><span class="text-yellow-500">v</span><span class="text-green-500">e</span><span class="text-blue-500">r</span><span class="text-purple-500">u</span><span class="text-pink-500">s</span>
+        <span class="ml-1 text-violet-900">College</span> 
+      </h1>
     </div>
-    <div class="space-x-6 hidden md:flex items-center">
-      <a href="#" class="hover:text-yellow-600">Dashboard</a>
-      <a href="#program" class="hover:text-yellow-600">Program</a>
-      <a href="#fasilitas" class="hover:text-yellow-600">Fasilitas</a>
-      <a href="{{ route('register') }}" class="text-blue-600 font-semibold">Daftar</a>
-      <a href="{{ route('login') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Login</a>
+
+    <div class="flex items-center space-x-2 md:space-x-6">
+      <a href="#" class="text-[10px] md:text-base hover:text-yellow-600 transition font-medium">Dashboard</a>
+      <a href="#program" class="text-[10px] md:text-base hover:text-yellow-600 transition font-medium">Program</a>
+      
+      <a href="{{ route('register') }}" class="text-[10px] md:text-base text-blue-600 font-bold hover:underline">Daftar</a>
+      
+      <a href="{{ route('login') }}" class="bg-blue-600 text-white px-2 py-1 md:px-4 md:py-2 rounded-md md:rounded-lg text-[10px] md:text-base hover:bg-blue-700 transition shadow-sm">
+        Login
+      </a>
     </div>
+
   </div>
 </nav>
 
 <!-- HERO SECTION -->
-<section class="pt-32 pb-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white w-full">
+<section class="pt-32 pb-20 bg-gradient-to-r from-blue-300 to-indigo-500 text-white w-full">
   <div class="px-6 md:px-12 lg:px-24 grid md:grid-cols-2 gap-10 items-center max-w-7xl mx-auto">
     <div>
       <h2 class="text-4xl md:text-5xl font-bold leading-tight">Tingkatkan Prestasimu Bersama Kami</h2>
@@ -35,7 +45,7 @@
       </div>
     </div>
     <div>
-      <img src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b" class="rounded-xl shadow-2xl w-full" alt="Kursus">
+      <img src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b" class="rounded-xl shadow-2xl w-full mt-10 md:mt-0" alt="Kursus">
     </div>
   </div>
 </section>
@@ -60,27 +70,27 @@
 
         <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
           <h4 class="font-semibold text-lg mb-2">Kelas Interaktif</h4>
-          <p class="text-gray-600 text-sm">Belajar aktif & tidak membosankan.</p>
+          <p class="text-gray-600 text-sm">Belajar jadi aktif, tidak membosankan, dan pastinya jauh lebih menyenangkan bagi siswa.</p>
         </div>
 
         <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
-          <h4 class="font-semibold text-lg mb-2">Laporan Berkala</h4>
-          <p class="text-gray-600 text-sm">Orang tua memantau perkembangan siswa.</p>
+          <h4 class="font-semibold text-lg mb-2">Belajar Jadi Mudah</h4>
+          <p class="text-gray-600 text-sm">Penjelasan materi dibuat sesederhana mungkin agar konsep tersulit pun jadi gampang dimengerti.</p>
         </div>
 
         <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
-          <h4 class="font-semibold text-lg mb-2">Mentor Profesional</h4>
-          <p class="text-gray-600 text-sm">Pengajar berpengalaman & tersertifikasi.</p>
+          <h4 class="font-semibold text-lg mb-2">Kurikulum Update</h4>
+          <p class="text-gray-600 text-sm">Materi selalu disesuaikan dengan kurikulum sekolah terbaru (Merdeka).</p>
         </div>
 
         <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
-          <h4 class="font-semibold text-lg mb-2">Kelas Interaktif</h4>
-          <p class="text-gray-600 text-sm">Belajar aktif & tidak membosankan.</p>
+          <h4 class="font-semibold text-lg mb-2">Fasilitas Terpenuhi</h4>
+          <p class="text-gray-600 text-sm">Faisilitas alat tulis, Ruangan kelas yang nyaman dan lingkungan belajar yang tenang serta bersih.</p>
         </div>
 
         <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
-          <h4 class="font-semibold text-lg mb-2">Laporan Berkala</h4>
-          <p class="text-gray-600 text-sm">Orang tua memantau perkembangan siswa.</p>
+          <h4 class="font-semibold text-lg mb-2">Jadwal Belajar Fleksibel</h4>
+          <p class="text-gray-600 text-sm">Pilihan waktu belajar yang dapat disesuaikan dengan jadwal sekolah agar siswa tidak terlalu lelah.</p>
         </div>
         
         </div>
@@ -89,7 +99,7 @@
 </section>
 
 <!-- PROGRAM SECTION -->
-<section id="program" class="py-20 bg-[#FFFBEB] reveal w-full">
+<section id="program" class="py-20 bg-gradient-to-r from-yellow-300 to-amber-100 reveal w-full">
   <div class="px-6 md:px-12 lg:px-24 max-w-5xl mx-auto text-center">
     <h3 class="text-3xl font-bold mb-4">Program Kelas</h3>
     <p class="text-gray-600 mb-10">Pilih jenjang pendidikan untuk melihat detail program kami.</p>
@@ -188,7 +198,13 @@
       <div class="col-span-1 md:col-span-1">
         <div class="flex items-center space-x-3 mb-6">
           <img src="{{ asset('image/averus.png') }}" alt="Logo Averus" class="h-10 w-auto">
-          <h4 class="text-xl font-bold">Averus College</h4>
+          <h4 class="text-xl font-bold"> <span class="text-red-500">A</span>
+      <span class="text-yellow-500">v</span>
+      <span class="text-green-500">e</span>
+      <span class="text-blue-500">r</span>
+      <span class="text-purple-500">u</span>
+      <span class="text-pink-500">s</span>
+      <span class="ml-2 text-violet-900">College</span> </h4>
         </div>
         <p class="text-gray-400 text-sm leading-relaxed">
           Membangun generasi cerdas dengan metode belajar yang personal, interaktif, dan menyenangkan sejak 2026.
@@ -210,21 +226,27 @@
         </ul>
       </div>
 
-      <div>
-        <h5 class="font-bold mb-6 text-lg">Hubungi Kami</h5>
-        <ul class="space-y-4 text-gray-400 text-sm">
-          <li class="flex items-start gap-3">
-            <span>📍</span>
-            <span>Jl. Pendidikan No. 123, Jakarta, Indonesia</span>
-          </li>
-          <li class="flex items-center gap-3">
-            <span>📞</span>
-            <span>+62 812 3456 7890</span>
-          </li>
-        </ul>
+    <div>
+  <h5 class="font-bold mb-6 text-lg">Hubungi Kami</h5>
+  <ul class="space-y-4 text-gray-400 text-sm">
+    <li class="flex items-start gap-3">
+      <span>📍</span>
+      <span>Jl. Margaluyu No.53</span>
+    </li>
+    <li class="flex flex-col gap-y-3">
+      <div class="flex items-center gap-3">
+        <span class="text-green-500">📞</span>
+        <span class="text-gray-300">+62 815 7311 0402</span>
+        <span class="text-xs text-gray-500">(Ibu Yuli)</span>
       </div>
-
-    </div>
+      <div class="flex items-center gap-3">
+        <span class="text-green-500">📞</span>
+        <span class="text-gray-300">+62 896 1916 6886</span>
+        <span class="text-xs text-gray-500">(Bapak Eko)</span>
+      </div>
+    </li>
+  </ul>
+</div>
 
     <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
       <p>© 2026 Averus College Nusantara. All Rights Reserved.</p>

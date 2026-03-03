@@ -13,10 +13,26 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+
+            // Data Login
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            // Data Form Averus
+            $table->string('school')->nullable();
+            $table->string('class')->nullable();
+            $table->string('hobby')->nullable();
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('parent_name')->nullable();
+            $table->string('parent_phone')->nullable();
+            $table->string('favorite_subject')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('tiktok')->nullable();
+            $table->string('role')->default('siswa');
+
             $table->rememberToken();
             $table->timestamps();
         });
