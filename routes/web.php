@@ -3,6 +3,16 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
 
+// Public Pages
+Route::get('/tentang', function () {
+    return view('tentang');
+});
+
+Route::get('/program', function () {
+    return view('program');
+});
+
+// Profile (Auth Only)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -34,6 +44,5 @@ Route::middleware(['auth','role:siswa'])->group(function () {
         return view('siswa.jadwal');
     })->name('siswa.jadwal');
 });
-
 
 require __DIR__.'/auth.php';
