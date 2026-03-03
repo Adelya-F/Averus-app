@@ -15,7 +15,12 @@
     <div class="flex items-center space-x-2 md:space-x-3">
       <img src="{{ asset('image/averus.png') }}" alt="Logo Averus" class="h-8 md:h-10 w-auto">
       <h1 class="text-xs md:text-2xl font-bold flex">
-        <span class="text-red-500">A</span><span class="text-yellow-500">v</span><span class="text-green-500">e</span><span class="text-blue-500">r</span><span class="text-purple-500">u</span><span class="text-pink-500">s</span>
+        <span class="text-red-500">A</span>
+        <span class="text-yellow-500">v</span>
+        <span class="text-green-500">e</span>
+        <span class="text-blue-500">r</span>
+        <span class="text-purple-500">u</span>
+        <span class="text-pink-500">s</span>
         <span class="ml-1 text-violet-900">College</span> 
       </h1>
     </div>

@@ -19,6 +19,7 @@
             <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Dashboard</a>
             <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Data Siswa</a>
             <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Data Pengajar</a>
+            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">jadwal</a>
             <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Laporan</a>
             <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Inbox</a>
         </nav>
