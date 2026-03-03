@@ -35,5 +35,4 @@ Route::middleware(['auth','role:siswa'])->group(function () {
     })->name('siswa.jadwal');
 });
 
-
 require __DIR__.'/auth.php';
