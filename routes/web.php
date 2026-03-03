@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/tentang', function () {
     return view('tentang');
@@ -29,10 +30,17 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth','role:admin'])->group(function () {
 
-    Route::get('/admin', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin', [AdminController::class, 'dashboard'])
+        ->name('admin.dashboard');
 
+    Route::get('/admin/pengajar', [AdminController::class, 'pengajar'])
+        ->name('admin.pengajar');
+
+    Route::get('/admin/pengajar/create', [AdminController::class, 'createPengajar'])
+        ->name('admin.pengajar.create');
+
+    Route::post('/admin/pengajar/store', [AdminController::class, 'storePengajar'])
+        ->name('admin.pengajar.store');
 });
 
 Route::middleware(['auth','role:siswa'])->group(function () {
@@ -48,7 +56,6 @@ Route::middleware(['auth','role:siswa'])->group(function () {
     Route::get('/siswa/jadwal', function () {
         return view('siswa.jadwal');
     })->name('siswa.jadwal');
-
 });
 
 require __DIR__.'/auth.php';

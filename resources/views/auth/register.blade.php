@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <div class="min-h-screen flex items-center justify-center bg-blue-50 px-4 py-10">
+    <div class="min-h-screen flex items-start sm:items-center justify-center bg-blue-50 px-4 py-10">
 
-        <div class="w-full max-w-2xl space-y-8">
+        <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl space-y-8">
 
             <div class="text-center">
                 <h2 class="text-3xl font-extrabold text-blue-800">
@@ -13,7 +13,7 @@
             </div>
 
             <form method="POST" action="{{ route('register') }}"
-                class="space-y-6 bg-white p-8 rounded-xl shadow-lg">
+                class="space-y-6 bg-white p-6 sm:p-8 rounded-xl shadow-lg">
                 @csrf
 
                 <!-- Nama Lengkap -->
@@ -128,12 +128,12 @@
 
                 <input type="hidden" name="role" value="siswa">
 
-                <div class="flex justify-between items-center mt-6">
-                    <a class="text-sm text-blue-600 underline" href="{{ route('login') }}">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mt-6">
+                    <a class="text-sm text-blue-600 underline text-center sm:text-left" href="{{ route('login') }}">
                         Sudah punya akun?
                     </a>
 
-                    <x-primary-button class="bg-blue-600 hover:bg-blue-700">
+                    <x-primary-button class="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
                         Daftar
                     </x-primary-button>
                 </div>
