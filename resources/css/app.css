@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 1. Reset Global Styles */
+body {
+    caret-color: transparent; /* Hilangkan garis cursor */
+    cursor: default;
+    background-color: #f9fafb; /* bg-gray-50 */
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. Utilitas Scrollbar (Sembunyikan tapi tetap bisa scroll) */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -10,11 +20,7 @@
     scrollbar-width: none;
 }
 
-body {
-    caret-color: transparent; /* hilangkan garis cursor */
-    cursor: default;
-}
-
+/* 3. Animasi Reveal (Muncul saat scroll) */
 .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -25,5 +31,12 @@ body {
     transform: translateY(0);
 }
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+/* 4. Tipografi Khusus */
+h1 span {
+    display: inline-block; /* Agar teks warna-warni tidak pecah saat wrap */
+}
+
+/* 5. Custom Card Styling (Opsional agar bayangan lebih halus) */
+.card {
+    will-change: transform; /* Optimasi performa animasi */
+}
