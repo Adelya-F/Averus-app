@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('favorite_subject')->nullable();
             $table->string('instagram')->nullable();
             $table->string('tiktok')->nullable();
+            $table->string('status')->default('pending'); // status: pending, accepted, rejected
 
             // Role Management (Default 'siswa')
             // Ditambahkan index() supaya query pencarian role lebih cepat
