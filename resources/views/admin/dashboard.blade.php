@@ -7,10 +7,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<!--SIDEBAR-->
 <body class="bg-gray-100 min-h-screen flex">
 
-    <!-- SIDEBAR -->
     <aside id="sidebar"
     class="fixed inset-y-0 left-0 z-50 w-64 bg-blue-400 text-white 
     transform -translate-x-full transition-transform duration-300 ease-in-out
@@ -31,16 +29,23 @@
         </button>
     </div>
 
+    <nav class="flex-1 p-4 space-y-3">
+        <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Dashboard</a>
+        
+        <a href="{{ route('admin.verifikasi') }}" class="flex justify-between items-center px-4 py-2 rounded-lg hover:bg-blue-700">
+            <span>Verifikasi Siswa</span>
+            @if($pendingSiswa > 0)
+                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-bounce">
+                    {{ $pendingSiswa }}
+                </span>
+            @endif
+        </a>
 
-        <nav class="flex-1 p-4 space-y-3">
-            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Dashboard</a>
-            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Data Siswa</a>
-            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Data Pengajar</a>
-            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">jadwal</a>
-            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Laporan</a>
-            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Inbox</a>
-        </nav>
-
+        <a href="{{ route('admin.pengajar') }}" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Data Pengajar</a>
+        <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Jadwal</a>
+        <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Laporan</a>
+        <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700">Inbox</a>
+    </nav>
 
     <div class="p-4 border-t border-blue-700">
         <form method="POST" action="{{ route('logout') }}">
@@ -56,83 +61,62 @@
 class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden">
 </div>
 
-    <!-- MAIN CONTENT -->
     <div class="flex-1 flex flex-col">
 
-        <!-- TOPBAR -->
-       <header class="bg-[#faf6ef] shadow p-4 flex items-center justify-between">
+        <header class="bg-[#faf6ef] shadow p-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button id="openSidebar" class="text-blue-600 text-2xl md:hidden focus:outline-none">
+                    ☰
+                </button>
+                <h1 class="text-xl font-semibold text-gray-700">Dashboard Admin</h1>
+            </div>
 
-    <div class="flex items-center gap-4">
-        <!-- BUTTON MENU -->
-        <button id="openSidebar" class="text-blue-600 text-2xl md:hidden focus:outline-none">
-            ☰
-        </button>
+            <a href="{{ route('profile.edit') }}" 
+            class="flex items-center gap-3 hover:bg-gray-100 px-3 py-2 rounded-xl transition-all duration-200 hover:shadow-sm">
+                <span class="text-sm text-gray-700 font-medium">{{ Auth::user()->name }}</span>
+                <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+            </a>
+        </header>
 
-        <h1 class="text-xl font-semibold text-gray-700">
-            Dashboard Admin
-        </h1>
-    </div>
-
-   <a href="{{ route('profile.edit') }}" 
-   class="flex items-center gap-3 hover:bg-gray-100 px-3 py-2 rounded-xl transition-all duration-200 hover:shadow-sm">
-
-    <!-- NAMA -->
-    <span class="text-sm text-gray-700 font-medium">
-        {{ Auth::user()->name }}
-    </span>
-
-    <!-- FOTO BULAT (INITIAL) -->
-    <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-    </div>
-
-</a>
-</header>
-
-        <!-- CONTENT -->
         <main class="p-6 flex-1">
 
-            <!-- CARD STATISTIK -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <div class="bg-white p-6 rounded-xl shadow">
-                    <h3 class="text-gray-500 text-sm">Total Siswa</h3>
-                    <p class="text-3xl font-bold text-blue-700 mt-2">
-                        120
-                    </p>
+                    <h3 class="text-gray-500 text-sm">Total Siswa Aktif</h3>
+                    <p class="text-3xl font-bold text-blue-700 mt-2">{{ $totalSiswa }}</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl shadow">
                     <h3 class="text-gray-500 text-sm">Total Pengajar</h3>
-                    <p class="text-3xl font-bold text-green-600 mt-2">
-                        15
-                    </p>
+                    <p class="text-3xl font-bold text-green-600 mt-2">{{ $totalPengajar }}</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl shadow">
-                    <h3 class="text-gray-500 text-sm">Kelas Aktif</h3>
-                    <p class="text-3xl font-bold text-purple-600 mt-2">
-                        8
-                    </p>
+                    <h3 class="text-gray-500 text-sm">Pendaftar Baru</h3>
+                    <p class="text-3xl font-bold text-red-500 mt-2">{{ $pendingSiswa }}</p>
                 </div>
 
             </div>
 
-            <!-- SECTION TAMBAHAN -->
             <div class="mt-8 bg-white p-6 rounded-xl shadow">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">
-                    Aktivitas Terbaru
-                </h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">Aktivitas Terbaru</h3>
 
-                <ul class="space-y-2 text-gray-600 text-sm">
-                    <li>• Siswa baru mendaftar</li>
+                <ul class="space-y-3 text-gray-600 text-sm">
+                    @if($pendingSiswa > 0)
+                    <li class="flex items-center justify-between p-2 bg-red-50 rounded-lg border border-red-100">
+                        <span>• <strong>{{ $pendingSiswa }} Siswa</strong> baru menunggu verifikasi admin.</span>
+                        <a href="{{ route('admin.verifikasi') }}" class="text-blue-600 font-bold hover:underline">Verifikasi Sekarang →</a>
+                    </li>
+                    @endif
                     <li>• Jadwal kelas diperbarui</li>
                     <li>• Pengajar menambahkan materi</li>
                 </ul>
             </div>
 
         </main>
-
     </div>
 
 <script>

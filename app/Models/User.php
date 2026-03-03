@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property string $status
+ * @property string $role
+ */
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -25,6 +30,7 @@ class User extends Authenticatable
         'instagram',
         'tiktok',
         'role',
+        'status',
     ];
 
     protected $hidden = [
@@ -43,5 +49,10 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    public function isAccepted()
+    {
+        return $this->status === 'accepted';
     }
 }
