@@ -1,100 +1,110 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Pengajar - Averus</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-stone-50 min-h-screen">
 
-@section('content')
-    <div class="min-h-screen flex items-start sm:items-center justify-center bg-blue-50 px-4 py-10">
+    <header class="bg-gradient-to-r from-blue-300 to-indigo-500 shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="{{ route('admin.pengajar') }}"
+                   class="w-10 h-10 flex items-center justify-center bg-white rounded-lg shadow hover:bg-blue-50 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </a>
 
-        <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl space-y-8">
+                <h1 class="text-white text-xl font-semibold">
+                    Tambah Pengajar 
+                    <span class="text-red-500">A</span><span class="text-yellow-500">v</span><span class="text-green-500">e</span><span class="text-blue-500">r</span><span class="text-purple-500">u</span><span class="text-pink-500">s</span>
+                </h1>
+            </div>
+        </div>
+    </header>
 
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-blue-800">
-                    Form Tambah Pengajar
-                </h2>
-                <p class="mt-2 text-blue-600">
-                    Silakan isi data pengajar dengan lengkap.
-                </p>
+    <div class="max-w-4xl mx-auto px-6 py-10">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-6 bg-blue-50 border-b border-blue-100">
+                <h2 class="text-lg font-bold text-blue-800">Formulir Data Baru</h2>
+                <p class="text-sm text-blue-600">Pastikan semua informasi NIP dan Email sudah benar.</p>
             </div>
 
-            <form method="POST"
-                action="{{ route('admin.pengajar.store') }}"
-                class="space-y-6 bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-
+            <form method="POST" action="{{ route('admin.pengajar.store') }}" class="p-8 space-y-5">
                 @csrf
 
-                <!-- NIP -->
-                <div>
-                    <x-input-label for="nip" value="NIP" />
-                    <x-text-input id="nip" class="block mt-1 w-full"
-                        type="text" name="nip" :value="old('nip')" required />
-                    <x-input-error :messages="$errors->get('nip')" class="mt-2" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-gray-700">NIP</label>
+                        <input type="text" name="nip" value="{{ old('nip') }}" required
+                               class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                        @error('nip') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-gray-700">Nama Lengkap</label>
+                        <input type="text" name="nama" value="{{ old('nama') }}" required
+                               class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                        @error('nama') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-gray-700">Alamat Email</label>
+                        <input type="email" name="email" value="{{ old('email') }}" required
+                               class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                        @error('email') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-gray-700">No. HP / WhatsApp</label>
+                        <input type="text" name="phone" value="{{ old('phone') }}" required
+                               class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                        @error('phone') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-gray-700">Tanggal Lahir</label>
+                        <input type="date" name="tanggal_lahir" required
+                               class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-gray-700">Jenis Kelamin</label>
+                        <select name="jenis_kelamin" required
+                                class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                            <option value="">Pilih</option>
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Nama -->
-                <div>
-                    <x-input-label for="nama" value="Nama Lengkap" />
-                    <x-text-input id="nama" class="block mt-1 w-full"
-                        type="text" name="nama" :value="old('nama')" required />
-                    <x-input-error :messages="$errors->get('nama')" class="mt-2" />
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">Alamat Lengkap</label>
+                    <textarea name="address" rows="3" required
+                              class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">{{ old('address') }}</textarea>
                 </div>
 
-                <!-- Email -->
-                <div>
-                    <x-input-label for="email" value="Email" />
-                    <x-text-input id="email" class="block mt-1 w-full"
-                        type="email" name="email" :value="old('email')" required />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                </div>
-
-                <!-- No HP -->
-                <div>
-                    <x-input-label for="phone" value="No HP / WhatsApp" />
-                    <x-text-input id="phone" class="block mt-1 w-full"
-                        type="text" name="phone" :value="old('phone')" required />
-                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-                </div>
-
-                <!-- Tanggal Lahir -->
-                <div>
-                    <x-input-label for="tanggal_lahir" value="Tanggal Lahir" />
-                    <x-text-input id="tanggal_lahir" class="block mt-1 w-full"
-                        type="date" name="tanggal_lahir" required />
-                    <x-input-error :messages="$errors->get('tanggal_lahir')" class="mt-2" />
-                </div>
-
-                <!-- Jenis Kelamin -->
-                <div>
-                    <x-input-label for="jenis_kelamin" value="Jenis Kelamin" />
-                    <select name="jenis_kelamin"
-                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        required>
-                        <option value="">Pilih Jenis Kelamin</option>
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                    </select>
-                    <x-input-error :messages="$errors->get('jenis_kelamin')" class="mt-2" />
-                </div>
-
-                <!-- Alamat -->
-                <div>
-                    <x-input-label for="address" value="Alamat Lengkap" />
-                    <textarea name="address" rows="3"
-                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        required>{{ old('address') }}</textarea>
-                    <x-input-error :messages="$errors->get('address')" class="mt-2" />
-                </div>
-
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mt-6">
-
-                    <a href="{{ route('admin.pengajar') }}"
-                        class="text-sm text-blue-600 underline text-center sm:text-left">
-                        Kembali ke Daftar Pengajar
+                <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+                    <a href="{{ route('admin.pengajar') }}" 
+                       class="px-6 py-2.5 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-100 transition">
+                        Batal
                     </a>
-
-                    <x-primary-button class="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
-                        Simpan Data
-                    </x-primary-button>
+                    <button type="submit" 
+                            class="px-8 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-md shadow-indigo-100 transition transform active:scale-95">
+                        Simpan Data Pengajar
+                    </button>
                 </div>
-
             </form>
         </div>
     </div>
-@endsection
+
+    <footer class="bg-stone-100 text-gray-400 py-6 text-center text-xs">
+        © 2026 Averus. Semua hak cipta dilindungi.
+    </footer>
+
+</body>
+</html>
