@@ -58,6 +58,9 @@
 {{-- ISI KONTEN --}}
 <main>
     @yield('content')
+    <main class="py-4">
+    {{ $slot }}
+</main>
 </main>
 
 <section class="py-10 bg-gradient-to-r from-yellow-300 to-amber-100 w-full text-center mt-auto">
