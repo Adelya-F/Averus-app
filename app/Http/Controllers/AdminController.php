@@ -44,29 +44,48 @@ class AdminController extends Controller
     // 🔥 VERIFIKASI SISWA
     public function verifikasiSiswa()
     {
+        // 1. Ambil tanggal hari ini pakai Carbon
+        $today = \Carbon\Carbon::today();
+
+        // 2. Ambil daftar siswa yang masih 'pending' (buat tabel verifikasi)
         $siswas = User::where('role', 'siswa')
             ->where('status', 'pending')
             ->get();
 
-        return view('admin.verifikasi', compact('siswas'));
+        // 3. Hitung yang SUDAH diproses (accepted/rejected) KHUSUS HARI INI
+        $diterimaHariIni = User::where('status', 'accepted')
+            ->whereDate('updated_at', $today)
+            ->count();
+
+        $ditolakHariIni = User::where('status', 'rejected')
+            ->whereDate('updated_at', $today)
+            ->count();
+
+        // 4. Kirim SEMUA variabelnya ke view verifikasi
+        return view('admin.verifikasi', compact(
+            'siswas', 
+            'diterimaHariIni', 
+            'ditolakHariIni'
+        ));
     }
 
-    // 🔥 UPDATE STATUS SISWA
-    public function updateStatus(Request $request, User $user)
-    {
-        $request->validate([
-            'status' => 'required|in:accepted,rejected'
-        ]);
+    // 🔥 UPDATE STATUS SISWA (Pastikan begini isinya)
+        public function updateStatus(Request $request, User $user)
+        {
+            $request->validate([
+                'status' => 'required|in:accepted,rejected' // Sesuai dengan value di form blade kamu
+            ]);
 
-        $user->update([
-            'status' => $request->status
-        ]);
+            $user->update([
+                'status' => $request->status
+            ]);
 
-        $pesan = $request->status === 'accepted' ? 'diterima' : 'ditolak';
+            // Pesan notifikasi dinamis
+            $pesan = $request->status === 'accepted' ? 'diterima' : 'ditolak';
 
-        return redirect()->back()
-            ->with('success', "Siswa {$user->name} berhasil {$pesan}!");
-    }
+            return redirect()->back()
+                ->with('success', "Siswa {$user->name} berhasil {$pesan}!");
+        }
 
     // 🔥 DATA PENGAJAR
     public function pengajar()

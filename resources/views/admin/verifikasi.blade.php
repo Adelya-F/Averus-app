@@ -9,8 +9,15 @@
 <body class="bg-[#f8f6f2]">
 
 <div class="p-6 max-w-7xl mx-auto">
-
-    <!-- HEADER -->
+@if(session('success'))
+    <div class="mb-6 p-4 bg-green-500 text-white rounded-xl shadow-lg flex items-center justify-between animate-bounce-short">
+        <div class="flex items-center gap-3">
+            <span>✅</span>
+            <span class="font-bold">{{ session('success') }}</span>
+        </div>
+        <button onclick="this.parentElement.remove()" class="text-white/80 hover:text-white">✕</button>
+    </div>
+@endif
    <!-- HEADER -->
 <div class="mb-8 flex items-center justify-between">
 
@@ -64,16 +71,16 @@
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border-l-4 border-green-500 p-4">
-            <p class="text-sm text-gray-500">Diterima Hari Ini</p>
+            <p class="text-sm text-gray-500 font-bold">Diterima Hari Ini</p>
             <p class="text-2xl font-bold text-green-500">
-                5
+                {{ $diterimaHariIni }}
             </p>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border-l-4 border-red-500 p-4">
-            <p class="text-sm text-gray-500">Ditolak Hari Ini</p>
+            <p class="text-sm text-gray-500 font-bold">Ditolak Hari Ini</p>
             <p class="text-2xl font-bold text-red-500">
-                2
+                {{ $ditolakHariIni }}
             </p>
         </div>
 
@@ -144,8 +151,9 @@
                                 <form action="{{ route('admin.verifikasi.update', $siswa->id) }}" method="POST">
                                     @csrf @method('PATCH')
                                     <input type="hidden" name="status" value="accepted">
-                                    <button type="submit"
-                                        class="text-white bg-green-500 hover:bg-green-600 font-semibold rounded-lg text-xs px-4 py-2 transition shadow-sm hover:shadow-md">
+                                    <button type="submit" 
+                                            onclick="return confirm('Apakah Anda yakin ingin MENERIMA pendaftaran {{ $siswa->name }}?')"
+                                            class="text-white bg-green-500 hover:bg-green-600 font-semibold rounded-lg text-xs px-4 py-2 transition shadow-sm hover:shadow-md">
                                         Terima
                                     </button>
                                 </form>
@@ -153,8 +161,9 @@
                                 <form action="{{ route('admin.verifikasi.update', $siswa->id) }}" method="POST">
                                     @csrf @method('PATCH')
                                     <input type="hidden" name="status" value="rejected">
-                                    <button type="submit"
-                                        class="text-red-600 border border-red-300 hover:bg-red-50 font-semibold rounded-lg text-xs px-4 py-2 transition">
+                                    <button type="submit" 
+                                            onclick="return confirm('Apakah Anda yakin ingin MENOLAK pendaftaran {{ $siswa->name }}?')"
+                                            class="text-red-600 border border-red-300 hover:bg-red-50 font-semibold rounded-lg text-xs px-4 py-2 transition">
                                         Tolak
                                     </button>
                                 </form>
