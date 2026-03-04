@@ -17,7 +17,7 @@
       <h1 class="text-xs md:text-2xl font-bold flex">
         <span class="text-red-500">A</span>
         <span class="text-yellow-500">v</span>
-        <span class="text-green-500">e</span>
+        <span class="text-green-400">e</span>
         <span class="text-blue-500">r</span>
         <span class="text-purple-500">u</span>
         <span class="text-pink-500">s</span>
@@ -205,7 +205,7 @@
           <img src="{{ asset('image/averus.png') }}" alt="Logo Averus" class="h-10 w-auto">
           <h4 class="text-xl font-bold"> <span class="text-red-500">A</span>
       <span class="text-yellow-500">v</span>
-      <span class="text-green-500">e</span>
+      <span class="text-green-400">e</span>
       <span class="text-blue-500">r</span>
       <span class="text-purple-500">u</span>
       <span class="text-pink-500">s</span>
