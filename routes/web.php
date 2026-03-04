@@ -1,6 +1,6 @@
 <?php
 
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
@@ -33,27 +33,37 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 
-Route::middleware(['auth', 'role:siswa'])->group(function () {
+    Route::middleware(['auth', 'role:siswa'])->group(function () {
+
     Route::get('/siswa', function () {
-        if (auth()->user()->status !== 'accepted') {
+        $user = Auth::user();
+
+        if ($user->status !== 'accepted') {
             return redirect()->route('registration.status');
         }
+
         return view('siswa.dashboard');
     })->name('siswa.dashboard');
 
     Route::get('/siswa/absen', function () {
-        if (auth()->user()->status !== 'accepted') {
+        $user = Auth::user();
+
+        if ($user->status !== 'accepted') {
             return redirect()->route('registration.status');
         }
+
         return view('siswa.absen');
     })->name('siswa.absen');
 
     Route::get('/siswa/jadwal', function () {
-        if (auth()->user()->status !== 'accepted') {
+        $user = Auth::user();
+
+        if ($user->status !== 'accepted') {
             return redirect()->route('registration.status');
         }
+
         return view('siswa.jadwal');
     })->name('siswa.jadwal');
-});
 
+});
 require __DIR__.'/auth.php';
