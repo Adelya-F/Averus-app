@@ -1,14 +1,16 @@
-<x-app-layout>
+@extends('layouts.app')
+
+@section('content')
     <div class="min-h-screen flex items-start sm:items-center justify-center bg-blue-50 px-4 py-10">
 
         <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl space-y-8">
 
             <div class="text-center">
                 <h2 class="text-3xl font-extrabold text-blue-800">
-                    Tambah Data Pengajar
+                    Form Tambah Pengajar
                 </h2>
                 <p class="mt-2 text-blue-600">
-                    Silakan isi data pengajar dengan lengkap dan benar.
+                    Silakan isi data pengajar dengan lengkap.
                 </p>
             </div>
 
@@ -18,7 +20,7 @@
 
                 @csrf
 
-                {{-- NIP --}}
+                <!-- NIP -->
                 <div>
                     <x-input-label for="nip" value="NIP" />
                     <x-text-input id="nip" class="block mt-1 w-full"
@@ -26,7 +28,7 @@
                     <x-input-error :messages="$errors->get('nip')" class="mt-2" />
                 </div>
 
-                {{-- Nama --}}
+                <!-- Nama -->
                 <div>
                     <x-input-label for="nama" value="Nama Lengkap" />
                     <x-text-input id="nama" class="block mt-1 w-full"
@@ -34,7 +36,7 @@
                     <x-input-error :messages="$errors->get('nama')" class="mt-2" />
                 </div>
 
-                {{-- Email --}}
+                <!-- Email -->
                 <div>
                     <x-input-label for="email" value="Email" />
                     <x-text-input id="email" class="block mt-1 w-full"
@@ -42,15 +44,15 @@
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
-                {{-- No HP --}}
+                <!-- No HP -->
                 <div>
-                    <x-input-label for="no_hp" value="No HP / WhatsApp" />
-                    <x-text-input id="no_hp" class="block mt-1 w-full"
-                        type="text" name="no_hp" :value="old('no_hp')" required />
-                    <x-input-error :messages="$errors->get('no_hp')" class="mt-2" />
+                    <x-input-label for="phone" value="No HP / WhatsApp" />
+                    <x-text-input id="phone" class="block mt-1 w-full"
+                        type="text" name="phone" :value="old('phone')" required />
+                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
 
-                {{-- Tanggal Lahir --}}
+                <!-- Tanggal Lahir -->
                 <div>
                     <x-input-label for="tanggal_lahir" value="Tanggal Lahir" />
                     <x-text-input id="tanggal_lahir" class="block mt-1 w-full"
@@ -58,7 +60,7 @@
                     <x-input-error :messages="$errors->get('tanggal_lahir')" class="mt-2" />
                 </div>
 
-                {{-- Jenis Kelamin --}}
+                <!-- Jenis Kelamin -->
                 <div>
                     <x-input-label for="jenis_kelamin" value="Jenis Kelamin" />
                     <select name="jenis_kelamin"
@@ -71,26 +73,15 @@
                     <x-input-error :messages="$errors->get('jenis_kelamin')" class="mt-2" />
                 </div>
 
-                {{-- Mata Pelajaran --}}
+                <!-- Alamat -->
                 <div>
-                    <x-input-label for="mata_pelajaran" value="Mata Pelajaran" />
-                    <x-text-input id="mata_pelajaran" class="block mt-1 w-full"
-                        type="text" name="mata_pelajaran"
-                        placeholder="Contoh: Matematika, Bahasa Inggris"
-                        :value="old('mata_pelajaran')" required />
-                    <x-input-error :messages="$errors->get('mata_pelajaran')" class="mt-2" />
-                </div>
-
-                {{-- Alamat --}}
-                <div>
-                    <x-input-label for="alamat" value="Alamat Lengkap" />
-                    <textarea name="alamat" rows="3"
+                    <x-input-label for="address" value="Alamat Lengkap" />
+                    <textarea name="address" rows="3"
                         class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        required>{{ old('alamat') }}</textarea>
-                    <x-input-error :messages="$errors->get('alamat')" class="mt-2" />
+                        required>{{ old('address') }}</textarea>
+                    <x-input-error :messages="$errors->get('address')" class="mt-2" />
                 </div>
 
-                {{-- Tombol --}}
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mt-6">
 
                     <a href="{{ route('admin.pengajar') }}"
@@ -106,4 +97,4 @@
             </form>
         </div>
     </div>
-</x-app-layout>
+@endsection

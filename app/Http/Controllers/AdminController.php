@@ -88,7 +88,6 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone' => 'required',
             'address' => 'required',
-            'mata_pelajaran' => 'required',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan'
         ]);
@@ -102,7 +101,6 @@ class AdminController extends Controller
             'nip' => $request->nip,
             'phone' => $request->phone,
             'address' => $request->address,
-            'mata_pelajaran' => $request->mata_pelajaran,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
         ]);
