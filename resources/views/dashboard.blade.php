@@ -15,13 +15,18 @@
     <div class="flex items-center space-x-2 md:space-x-3">
       <img src="{{ asset('image/averus.png') }}" alt="Logo Averus" class="h-8 md:h-10 w-auto">
       <h1 class="text-xs md:text-2xl font-bold flex">
-        <span class="text-red-500">A</span><span class="text-yellow-500">v</span><span class="text-green-500">e</span><span class="text-blue-500">r</span><span class="text-purple-500">u</span><span class="text-pink-500">s</span>
+        <span class="text-red-500">A</span>
+        <span class="text-yellow-500">v</span>
+        <span class="text-green-400">e</span>
+        <span class="text-blue-500">r</span>
+        <span class="text-purple-500">u</span>
+        <span class="text-pink-500">s</span>
         <span class="ml-1 text-violet-900">College</span> 
       </h1>
     </div>
 
     <div class="flex items-center space-x-2 md:space-x-6">
-      <a href="#" class="text-[10px] md:text-base hover:text-yellow-600 transition font-medium">Dashboard</a>
+      <a href="#dashboard" class="text-[10px] md:text-base hover:text-yellow-600 transition font-medium">Dashboard</a>
       <a href="#program" class="text-[10px] md:text-base hover:text-yellow-600 transition font-medium">Program</a>
       
       <a href="{{ route('register') }}" class="text-[10px] md:text-base text-blue-600 font-bold hover:underline">Daftar</a>
@@ -200,7 +205,7 @@
           <img src="{{ asset('image/averus.png') }}" alt="Logo Averus" class="h-10 w-auto">
           <h4 class="text-xl font-bold"> <span class="text-red-500">A</span>
       <span class="text-yellow-500">v</span>
-      <span class="text-green-500">e</span>
+      <span class="text-green-400">e</span>
       <span class="text-blue-500">r</span>
       <span class="text-purple-500">u</span>
       <span class="text-pink-500">s</span>

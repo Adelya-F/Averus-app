@@ -11,7 +11,18 @@
                     Daftar sekarang dan bergabung bersama kami!
                 </p>
             </div>
-
+            
+            @if ($errors->any())
+                <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+                    <p class="font-bold">Ups! Pendaftaran gagal:</p>
+                    <ul class="mt-2 list-disc list-inside text-sm">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            
             <form method="POST" action="{{ route('register') }}"
                 class="space-y-6 bg-white p-6 sm:p-8 rounded-xl shadow-lg">
                 @csrf
