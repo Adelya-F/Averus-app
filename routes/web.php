@@ -30,6 +30,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Proses Accept & Reject
     Route::patch('/admin/verifikasi/{user}/update', [AdminController::class, 'updateStatus'])->name('admin.verifikasi.update');
+    // Pastikan ada rute seperti ini di grup middleware admin
+    Route::get('/admin/inbox', [AdminController::class, 'inbox'])->name('admin.inbox');
+    Route::get('/admin/inbox/read/{id}', [AdminController::class, 'readInbox'])->name('admin.inbox.read');
 });
 
 

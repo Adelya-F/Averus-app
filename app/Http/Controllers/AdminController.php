@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inbox;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,8 +16,9 @@ class AdminController extends Controller
         $totalPengajar = User::where('role', 'pengajar')->count();
         // Hitung juga pendaftar yang butuh ACC untuk notifikasi di dashboard
         $pendingSiswa = User::where('role', 'siswa')->where('status', 'pending')->count();
+        $unreadCount = Inbox::where('is_read', false)->count();
 
-        return view('admin.dashboard', compact('totalSiswa', 'totalPengajar', 'pendingSiswa'));
+        return view('admin.dashboard', compact('totalSiswa', 'totalPengajar', 'pendingSiswa', 'unreadCount'));
     }
 
     // 🔥 DATA SISWA (Hanya yang sudah diterima)
@@ -80,5 +82,28 @@ class AdminController extends Controller
 
         return redirect()->route('admin.pengajar')
             ->with('success', 'Pengajar berhasil ditambahkan!');
+    }
+
+    public function inbox()
+    {
+        // Mengambil semua pesan, yang terbaru tampil di atas
+        $messages = Inbox::orderBy('created_at', 'desc')->get();
+        
+        // Menghitung jumlah pesan yang belum dibaca untuk badge/notifikasi
+        $unreadCount = Inbox::where('is_read', false)->count();
+
+        return view('admin.inbox', compact('messages', 'unreadCount'));
+    }
+
+    // Fungsi "Jembatan" untuk menandai pesan dibaca lalu pindah halaman
+    public function readInbox($id)
+    {
+        $inbox = Inbox::findOrFail($id);
+        
+        // Ubah status is_read menjadi true (angka 1)
+        $inbox->update(['is_read' => true]);
+
+        // Redirect admin ke link yang tersimpan (Halaman Verifikasi)
+        return redirect($inbox->link);
     }
 }
