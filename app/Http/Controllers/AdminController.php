@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
+use App\Models\Inbox;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -21,10 +21,13 @@ class AdminController extends Controller
             ->where('status', 'pending')
             ->count();
 
+        $unreadCount = Inbox::where('is_read', false)->count();
+
         return view('admin.dashboard', compact(
             'totalSiswa',
             'totalPengajar',
-            'pendingSiswa'
+            'pendingSiswa',
+            'unreadCount'
         ));
     }
 
@@ -95,7 +98,7 @@ class AdminController extends Controller
         User::create([
             'name' => $request->nama,
             'email' => $request->email,
-            'password' => 'password123', // otomatis di-hash oleh cast
+            'password' => 'password123',
             'role' => 'pengajar',
             'status' => 'accepted',
             'nip' => $request->nip,
@@ -108,6 +111,25 @@ class AdminController extends Controller
         return redirect()->route('admin.pengajar')
             ->with('success', 'Pengajar berhasil ditambahkan');
     }
+
+    // 🔥 INBOX
+    public function inbox()
+    {
+        $messages = Inbox::orderBy('created_at', 'desc')->get();
+        $unreadCount = Inbox::where('is_read', false)->count();
+
+        return view('admin.inbox', compact('messages', 'unreadCount'));
+    }
+
+    // 🔥 READ INBOX
+    public function readInbox($id)
+    {
+        $inbox = Inbox::findOrFail($id);
+
+        $inbox->update([
+            'is_read' => true
+        ]);
+
+        return redirect($inbox->link);
+    }
 }
-
-
