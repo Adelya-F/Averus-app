@@ -34,12 +34,15 @@
             </h1>
         </a>
 
-        <ul class="navbar-nav ms-auto align-items-center">
-            <li class="nav-item me-3">
-                <a class="nav-link" href="javascript:history.back()">
-                    <i class="bi bi-arrow-left"></i> Back
-                </a>
-            </li>
+        <a href="{{ route('admin.dashboard') }}" 
+           class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-blue-100/50 hover:text-blue-600 transition-all duration-200 group">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="h-6 w-6 group-hover:-translate-x-1 transition-transform" 
+                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </a>
 
             @auth
             <li class="nav-item">

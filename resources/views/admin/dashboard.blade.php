@@ -30,18 +30,93 @@
         </div>
 
         <nav class="flex-1 p-4 space-y-3">
-            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 rounded-lg bg-blue-700 font-semibold shadow-inner">
-                Dashboard
-            </a>
-            
-            {{-- MENU VERIFIKASI SISWA SUDAH DIHAPUS DARI SINI --}}
+            <a href="{{ route('admin.dashboard') }}" 
+   class="flex items-center gap-3 px-4 py-2 rounded-lg bg-blue-700 font-semibold shadow-inner">
 
-            <a href="{{ route('admin.pengajar') }}" class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">Data Pengajar</a>
-            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">Jadwal</a>
-            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">Laporan</a>
-            
-            <a href="{{ route('admin.inbox') }}" class="flex justify-between items-center px-4 py-2 rounded-lg hover:bg-blue-700 transition group">
-            <span class="font-medium">Inbox</span>
+    <!-- Icon Dashboard -->
+    <svg xmlns="http://www.w3.org/2000/svg" 
+         class="w-5 h-5" 
+         fill="none" 
+         viewBox="0 0 24 24" 
+         stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 3h7v7H3V3zm11 0h7v4h-7V3zM3 14h4v7H3v-7zm7 3h11v4H10v-4z"/>
+    </svg>
+
+    Dashboard
+</a>
+
+
+<a href="{{ route('admin.pengajar') }}" 
+   class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+
+    <!-- Icon User -->
+    <svg xmlns="http://www.w3.org/2000/svg" 
+         class="w-5 h-5" 
+         fill="none" 
+         viewBox="0 0 24 24" 
+         stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5.121 17.804A9 9 0 1118.88 17.8M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+    </svg>
+
+    Data Pengajar
+</a>
+
+
+<a href="#" 
+   class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+
+    <!-- Icon Calendar -->
+    <svg xmlns="http://www.w3.org/2000/svg" 
+         class="w-5 h-5" 
+         fill="none" 
+         viewBox="0 0 24 24" 
+         stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10m-11 9h12a2 2 0 002-2V7H3v11a2 2 0 002 2z"/>
+    </svg>
+
+    Jadwal
+</a>
+
+
+<a href="#" 
+   class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+
+    <!-- Icon Report -->
+    <svg xmlns="http://www.w3.org/2000/svg" 
+         class="w-5 h-5" 
+         fill="none" 
+         viewBox="0 0 24 24" 
+         stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 17v-6m4 6V7m4 10V3M5 21h14"/>
+    </svg>
+
+    Laporan
+</a>
+
+
+<a href="{{ route('admin.inbox') }}" 
+   class="flex justify-between items-center px-4 py-2 rounded-lg hover:bg-blue-700 transition group">
+
+    <div class="flex items-center gap-3">
+
+        <!-- Icon Inbox -->
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-5 h-5" 
+             fill="none" 
+             viewBox="0 0 24 24" 
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0l-3 4H7l-3-4m16 0H4"/>
+        </svg>
+
+        <span class="font-medium">Inbox</span>
+    </div>
+
+</a>
             
             @if(isset($unreadCount) && $unreadCount > 0)
                 <span class="relative flex h-6 w-6">
