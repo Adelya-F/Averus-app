@@ -11,17 +11,41 @@ class AdminController extends Controller
     // 🔥 DASHBOARD ADMIN
     public function dashboard()
     {
-        $totalSiswa = User::where('role', 'siswa')->count();
+        $totalSiswa = User::where('role', 'siswa')->where('status', 'accepted')->count();
         $totalPengajar = User::where('role', 'pengajar')->count();
+        // Hitung juga pendaftar yang butuh ACC untuk notifikasi di dashboard
+        $pendingSiswa = User::where('role', 'siswa')->where('status', 'pending')->count();
 
-        return view('admin.dashboard', compact('totalSiswa', 'totalPengajar'));
+        return view('admin.dashboard', compact('totalSiswa', 'totalPengajar', 'pendingSiswa'));
     }
 
-    // 🔥 DATA SISWA
+    // 🔥 DATA SISWA (Hanya yang sudah diterima)
     public function siswa()
     {
-        $siswa = User::where('role', 'siswa')->get();
+        $siswa = User::where('role', 'siswa')->where('status', 'accepted')->get();
         return view('admin.siswa', compact('siswa'));
+    }
+
+    // 🔥 HALAMAN VERIFIKASI (Siswa yang statusnya masih 'pending')
+    public function verifikasiSiswa()
+    {
+        $siswas = User::where('role', 'siswa')
+                      ->where('status', 'pending')
+                      ->get();
+                      
+        return view('admin.verifikasi', compact('siswas'));
+    }
+
+    // 🔥 PROSES UPDATE STATUS (Accept atau Reject)
+    public function updateStatus(Request $request, User $user)
+    {
+        // Validasi agar status yang masuk cuma accepted atau rejected
+        $user->update([
+            'status' => $request->status 
+        ]);
+
+        $pesan = $request->status == 'accepted' ? 'diterima' : 'ditolak';
+        return redirect()->back()->with('success', "Siswa {$user->name} berhasil {$pesan}!");
     }
 
     // 🔥 DATA PENGAJAR
@@ -51,6 +75,7 @@ class AdminController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'pengajar',
+            'status' => 'accepted', // Pengajar yang dibuat admin langsung aktif
         ]);
 
         return redirect()->route('admin.pengajar')

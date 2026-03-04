@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
 
-            // Data Login
+            // Kredensial Login Utama
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            // Data Form Averus
+            // Data Form Averus (Semua dibuat nullable agar Admin/User lain tidak wajib isi)
             $table->string('school')->nullable();
             $table->string('class')->nullable();
             $table->string('hobby')->nullable();
@@ -31,12 +31,17 @@ return new class extends Migration
             $table->string('favorite_subject')->nullable();
             $table->string('instagram')->nullable();
             $table->string('tiktok')->nullable();
-            $table->string('role')->default('siswa');
+            $table->string('status')->default('pending'); // status: pending, accepted, rejected
+
+            // Role Management (Default 'siswa')
+            // Ditambahkan index() supaya query pencarian role lebih cepat
+            $table->string('role')->default('siswa')->index();
 
             $table->rememberToken();
             $table->timestamps();
         });
 
+        // Tabel bawaan Laravel (Jangan dihapus)
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
