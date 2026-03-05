@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,12 +12,13 @@
 
 <style>
 body{
-    padding-top:80px;
+    padding-top:50px;
 }
 </style>
-
 </head>
+
 <body>
+
 
 <!-- NAVBAR -->
 <nav class="fixed top-0 left-0 w-full shadow bg-gradient-to-r from-blue-300 to-indigo-500">
@@ -64,9 +66,11 @@ class="h-10 w-auto">
 
 
 <!-- ISI -->
+
 <main>
 @yield('content')
 </main>
+
 
 
 <!-- FOOTER -->
@@ -75,6 +79,7 @@ class="h-10 w-auto">
 <footer class="text-amber-900 font-medium">
 &copy; 2026 Averus. Semua hak cipta dilindungi.
 </footer>
+
 
 </section>
 
