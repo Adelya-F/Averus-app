@@ -51,19 +51,28 @@
 
     <!-- HEADER -->
     <header class="bg-white shadow p-4 flex justify-between items-center">
-        <h1 class="text-xl font-semibold text-gray-700">
-            Dashboard Pengajar
-        </h1>
+    <h1 class="text-xl font-semibold text-gray-700">
+        Dashboard Pengajar
+    </h1>
 
-        <div class="flex items-center gap-3">
-            <span class="text-sm text-gray-600">
+    <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 hover:bg-gray-50 p-2 rounded-lg transition group">
+        <div class="text-right hidden sm:block">
+            <p class="text-sm font-semibold text-gray-700 group-hover:text-blue-600">
                 {{ Auth::user()->name }}
-            </span>
-
-            <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-                {{ strtoupper(substr(Auth::user()->name,0,1)) }}
-            </div>
+            </p>
+            <p class="text-xs text-gray-500 uppercase">
+                {{ Auth::user()->role }}
+            </p>
         </div>
+
+        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold shadow-sm overflow-hidden">
+            @if(Auth::user()->avatar)
+                <img src="{{ asset('storage/avatars/'.Auth()->user()->avatar) }}" class="w-full h-full object-cover">
+            @else
+                {{ strtoupper(substr(Auth()->user()->name,0,1)) }}
+            @endif
+        </div>
+    </a>
     </header>
 
     <!-- MAIN -->

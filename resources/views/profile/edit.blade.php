@@ -4,211 +4,342 @@
 
 <style>
 .profile-section{
-    min-height:85vh;
-    background:#f0f4ff;
-    padding:50px 20px;
+    min-height:100vh;
+    background:#f4f7ff;
+    padding:110px 20px 60px;
 }
 
 .profile-container{
-    max-width:1000px;
+    max-width:1100px;
     margin:auto;
     display:grid;
     grid-template-columns:320px 1fr;
     gap:30px;
 }
 
-.profile-card{
-    background:#fff;
-    border-radius:20px;
-    padding:40px 30px;
-    text-align:center;
-    box-shadow:0 20px 40px rgba(37,99,235,0.15);
-}
-
-.avatar{
-    width:110px;
-    height:110px;
-    border-radius:50%;
-    margin:0 auto 20px;
-    background:linear-gradient(135deg,#2563eb,#3b82f6);
-    color:white;
-    font-size:36px;
-    font-weight:bold;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.profile-name{
-    font-size:22px;
-    font-weight:600;
-}
-
-.profile-email{
-    font-size:14px;
-    color:#3b82f6;
-    margin-bottom:15px;
-}
-
-.profile-bio{
-    font-size:14px;
-    color:#64748b;
-    margin-bottom:25px;
-    font-style:italic;
-}
-
-.btn-primary{
-    padding:12px 25px;
-    border:none;
-    border-radius:10px;
-    background:#2563eb;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-}
-
-.btn-logout{
-    padding:12px 25px;
-    border:1px solid #ef4444;
-    border-radius:10px;
-    background:transparent;
-    color:#ef4444;
-    font-weight:600;
-    cursor:pointer;
-}
-
+.profile-card,
 .info-card{
     background:#fff;
     border-radius:20px;
-    padding:30px 35px;
-    box-shadow:0 20px 40px rgba(37,99,235,0.1);
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    border:1px solid rgba(0,0,0,0.05);
 }
 
-.info-item{
+.profile-card{
+    padding:35px 25px;
+    text-align:center;
+    position:sticky;
+    top:120px;
+}
+
+.info-card{
+    padding:40px;
+}
+
+.avatar-wrapper{
+    position:relative;
+    width:130px;
+    height:130px;
+    margin:auto;
+    margin-bottom:20px;
+}
+
+.avatar{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    padding:18px 0;
-    border-bottom:1px solid #dbeafe;
-    font-size:14px;
+    justify-content:center;
+    font-size:45px;
+    overflow:hidden;
+    border:4px solid #fff;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.upload-label{
+    position:absolute;
+    bottom:5px;
+    right:5px;
+    background:#2563eb;
+    color:white;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    border:3px solid #fff;
+}
+
+.grid-form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:10px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-label{
+    font-size:11px;
+    font-weight:700;
+    color:#64748b;
+    margin-bottom:8px;
+    text-transform:uppercase;
 }
 
 .edit-input{
-    border:1px solid #dbeafe;
-    border-radius:5px;
-    padding:5px 10px;
+    border:1.5px solid #e2e8f0;
+    border-radius:12px;
+    padding:12px 16px;
     font-size:14px;
-    width:60%;
+    background:#f8fafc;
+    transition:0.3s;
 }
 
-.bottom-action{
-    margin-top:25px;
-    text-align:right;
+.edit-input:focus{
+    border-color:#2563eb;
+    outline:none;
+    background:#fff;
+    box-shadow:0 0 0 4px rgba(37,99,235,0.1);
+}
+
+.edit-input:disabled{
+    cursor:not-allowed;
+    background:#f1f5f9;
+    color:#94a3b8;
+}
+
+.btn-action{
+    padding:12px;
+    border-radius:12px;
+    font-weight:600;
+    cursor:pointer;
+    border:none;
+    width:100%;
+    margin-top:10px;
+}
+
+.btn-edit{
+    background:#64748b;
+    color:white;
+}
+
+.btn-save{
+    background:#2563eb;
+    color:white;
+    display:none;
+}
+
+.btn-logout{
+    background:#fff;
+    color:#ef4444;
+    border:1px solid #fee2e2;
+    width:100%;
+    margin-top:12px;
+    padding:10px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.role-badge{
+    background:#dbeafe;
+    color:#2563eb;
+    padding:6px 16px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
 }
 
 @media(max-width:768px){
-    .profile-container{
-        grid-template-columns:1fr;
-    }
+.profile-container{
+grid-template-columns:1fr;
+}
+
+.profile-card{
+position:relative;
+top:0;
+}
+
+.grid-form{
+grid-template-columns:1fr;
+}
 }
 </style>
 
+
 <div class="profile-section">
-<div class="profile-container">
 
-<!-- CARD KIRI -->
-<div class="profile-card">
-
-<div class="avatar">
-{{ strtoupper(substr(auth()->user()->name,0,1)) }}
-</div>
-
-<div class="profile-name">{{ auth()->user()->name }}</div>
-<div class="profile-email">{{ auth()->user()->email }}</div>
-
-<div class="profile-bio">
-{{ auth()->user()->bio ?? 'Belum ada bio. Klik edit untuk menambahkan.' }}
-</div>
-
-<!-- LOGOUT -->
-<form method="POST" action="{{ route('logout') }}">
-@csrf
-<button type="submit" class="btn-logout">
-Log Out
-</button>
-</form>
-
-</div>
-
-<!-- CARD KANAN -->
-<div class="info-card">
-
-<h3 style="margin-bottom:20px;">Informasi Akun</h3>
-
-<form id="profileForm" action="{{ route('profile.update') }}" method="POST">
+<form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('patch')
 
-<div class="info-item">
-<span>Nama Lengkap</span>
-<input type="text" name="name" class="edit-input" value="{{ auth()->user()->name }}" disabled>
+<div class="profile-container">
+
+<div class="profile-card">
+
+<div class="avatar-wrapper">
+
+<div class="avatar" id="avatarPreview">
+
+@if(auth()->user()->avatar)
+<img src="{{ asset('storage/avatars/'.auth()->user()->avatar) }}">
+@else
+{{ strtoupper(substr(auth()->user()->name,0,1)) }}
+@endif
+
 </div>
 
-<div class="info-item">
-<span>Email</span>
-<input type="email" name="email" class="edit-input" value="{{ auth()->user()->email }}" disabled>
+<label for="avatarInput" class="upload-label" id="uploadBtn">
+📷
+</label>
+
+<input type="file" name="avatar" id="avatarInput" style="display:none" onchange="previewImage(this)">
+
 </div>
 
-<div class="info-item">
-<span>Bio</span>
-<textarea name="bio" class="edit-input" rows="2" disabled>{{ auth()->user()->bio }}</textarea>
-</div>
+<h2 style="font-size:20px;font-weight:700;">
+{{ auth()->user()->name }}
+</h2>
 
-<div class="info-item">
-<span>Bergabung Sejak</span>
-<strong>{{ auth()->user()->created_at->format('d M Y') }}</strong>
-</div>
+<p style="color:#64748b;font-size:14px;margin-bottom:20px;">
+{{ auth()->user()->email }}
+</p>
 
-<div class="info-item">
-<span>Role</span>
-<span style="background:#2563eb;color:white;padding:4px 12px;border-radius:15px;">
-{{ auth()->user()->role ?? 'User' }}
+<div style="margin-bottom:15px;">
+<span class="role-badge">
+{{ auth()->user()->role }}
 </span>
 </div>
 
-<div class="bottom-action">
-
-<button type="button" id="editBtn" class="btn-primary">
-Edit Profile
+<button type="button" id="editBtn" class="btn-action btn-edit">
+Edit Profil
 </button>
 
-<button type="submit" id="saveBtn" class="btn-primary" style="display:none;">
+<button type="submit" id="saveBtn" class="btn-action btn-save">
 Simpan Perubahan
 </button>
 
-</div>
+</form>
 
+<form action="{{ route('logout') }}" method="POST">
+@csrf
+<button type="submit" class="btn-logout">
+Logout
+</button>
 </form>
 
 </div>
 
+
+<div class="info-card">
+
+<h3 style="font-size:18px;font-weight:700;margin-bottom:25px;border-left:4px solid #2563eb;padding-left:15px;">
+Informasi Personal
+</h3>
+
+<div class="grid-form">
+
+<div class="input-group">
+<label class="input-label">Nama Lengkap</label>
+<input type="text" name="name" value="{{ old('name',auth()->user()->name) }}" class="edit-input" disabled>
 </div>
+
+<div class="input-group">
+<label class="input-label">Email</label>
+<input type="email" name="email" value="{{ old('email',auth()->user()->email) }}" class="edit-input" disabled>
 </div>
+
+@if(auth()->user()->role !== 'admin')
+
+<div class="input-group">
+<label class="input-label">WhatsApp</label>
+<input type="text" name="phone" value="{{ old('phone',auth()->user()->phone) }}" class="edit-input" disabled>
+</div>
+
+<div class="input-group">
+<label class="input-label">Instagram</label>
+<input type="text" name="instagram" value="{{ old('instagram',auth()->user()->instagram) }}" class="edit-input" disabled>
+</div>
+
+<div class="input-group">
+<label class="input-label">TikTok</label>
+<input type="text" name="tiktok" value="{{ old('tiktok',auth()->user()->tiktok) }}" class="edit-input" disabled>
+</div>
+
+@endif
+
+@if(auth()->user()->role === 'pengajar')
+
+<div class="input-group">
+<label class="input-label">Mata Pelajaran</label>
+<input type="text" name="mata_pelajaran" value="{{ old('mata_pelajaran',auth()->user()->mata_pelajaran) }}" class="edit-input" disabled>
+</div>
+
+@endif
+
+</div>
+
+<div class="input-group" style="margin-top:15px;">
+<label class="input-label">Bio (Opsional)</label>
+<textarea name="bio" rows="3" class="edit-input" disabled>{{ old('bio',auth()->user()->bio) }}</textarea>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
 
-const editBtn = document.getElementById('editBtn');
-const saveBtn = document.getElementById('saveBtn');
-const inputs = document.querySelectorAll('.edit-input');
+const editBtn=document.getElementById('editBtn')
+const saveBtn=document.getElementById('saveBtn')
+const uploadBtn=document.getElementById('uploadBtn')
+const inputs=document.querySelectorAll('.edit-input')
 
-editBtn.onclick = function(){
+editBtn.onclick=function(){
 
 inputs.forEach(input=>{
-input.disabled = false;
-});
+input.disabled=false
+})
 
-editBtn.style.display = "none";
-saveBtn.style.display = "inline-block";
+uploadBtn.style.display="flex"
+editBtn.style.display="none"
+saveBtn.style.display="block"
+
+}
+
+function previewImage(input){
+
+if(input.files && input.files[0]){
+
+var reader=new FileReader()
+
+reader.onload=function(e){
+
+document.getElementById('avatarPreview').innerHTML='<img src="'+e.target.result+'">'
+
+}
+
+reader.readAsDataURL(input.files[0])
+
+}
 
 }
 

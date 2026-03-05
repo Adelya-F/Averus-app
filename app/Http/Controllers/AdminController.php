@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengajar;
-use App\Models\Inbox;
 use App\Models\User;
+use App\Models\Inbox;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -16,7 +16,7 @@ class AdminController extends Controller
             ->where('status', 'accepted')
             ->count();
 
-        $totalPengajar = Pengajar::count();
+        $totalPengajar = User::where('role', 'pengajar')->count();
 
         $pendingSiswa = User::where('role', 'siswa')
             ->where('status', 'pending')
@@ -45,15 +45,12 @@ class AdminController extends Controller
     // 🔥 VERIFIKASI SISWA
     public function verifikasiSiswa()
     {
-        // 1. Ambil tanggal hari ini pakai Carbon
-        $today = \Carbon\Carbon::today();
+        $today = Carbon::today();
 
-        // 2. Ambil daftar siswa yang masih 'pending' (buat tabel verifikasi)
         $siswas = User::where('role', 'siswa')
             ->where('status', 'pending')
             ->get();
 
-        // 3. Hitung yang SUDAH diproses (accepted/rejected) KHUSUS HARI INI
         $diterimaHariIni = User::where('status', 'accepted')
             ->whereDate('updated_at', $today)
             ->count();
@@ -62,7 +59,6 @@ class AdminController extends Controller
             ->whereDate('updated_at', $today)
             ->count();
 
-        // 4. Kirim SEMUA variabelnya ke view verifikasi
         return view('admin.verifikasi', compact(
             'siswas', 
             'diterimaHariIni', 
@@ -70,69 +66,71 @@ class AdminController extends Controller
         ));
     }
 
-    // 🔥 UPDATE STATUS SISWA (Pastikan begini isinya)
-        public function updateStatus(Request $request, User $user)
-        {
-            $request->validate([
-                'status' => 'required|in:accepted,rejected' // Sesuai dengan value di form blade kamu
-            ]);
-
-            $user->update([
-                'status' => $request->status
-            ]);
-
-            // Pesan notifikasi dinamis
-            $pesan = $request->status === 'accepted' ? 'diterima' : 'ditolak';
-
-            return redirect()->back()
-                ->with('success', "Siswa {$user->name} berhasil {$pesan}!");
-        }
-
-    // 🔥 DATA PENGAJAR
-        public function pengajar()
-        {
-            // 🟢 PERBAIKAN: Ambil dari tabel pengajar agar muncul di list
-            $pengajar = Pengajar::all(); 
-
-            // Sesuaikan dengan letak file blade Anda (admin.pengajar.pengajar)
-            return view('admin.pengajar.pengajar', compact('pengajar'));
-        }
-
-    // 🔥 FORM TAMBAH PENGAJAR
-        public function createPengajar()
-        {
-            return view('admin.pengajar.create');
-        }
-
-        // 🔥 SIMPAN PENGAJAR
-        public function storePengajar(Request $request)
-        {
-        // 1. Validasi - Arahkan ke tabel 'pengajar'
+    // 🔥 UPDATE STATUS SISWA
+    public function updateStatus(Request $request, User $user)
+    {
         $request->validate([
-            'nip' => 'required|unique:pengajar,nip', // Ganti users jadi pengajar
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:pengajar,email', // Ganti users jadi pengajar
-            'phone' => 'required',
-            'address' => 'required',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan'
+            'status' => 'required|in:accepted,rejected'
         ]);
 
-    // 2. Simpan ke tabel 'pengajar' (Ganti User::create jadi Pengajar::create)
-    \App\Models\Pengajar::create([
-        'nip'           => $request->nip,
-        'nama'          => $request->nama,
-        'email'         => $request->email,
-        'no_hp'         => $request->phone,   // Nama kolom di migration Anda 'no_hp'
-        'alamat'        => $request->address, // Nama kolom di migration Anda 'alamat'
-        'tanggal_lahir' => $request->tanggal_lahir,
-        'jenis_kelamin' => $request->jenis_kelamin,
-        'mata_pelajaran'=> 'Umum',            // Tambahkan default karena di migration NOT NULL
-    ]);
+        $user->update([
+            'status' => $request->status
+        ]);
 
-    return redirect()->route('admin.pengajar')
-        ->with('success', 'Pengajar berhasil ditambahkan ke tabel pengajar!');
-}
+        $pesan = $request->status === 'accepted' ? 'diterima' : 'ditolak';
+
+        return redirect()->back()
+            ->with('success', "Siswa {$user->name} berhasil {$pesan}!");
+    }
+
+    // 🔥 DATA PENGAJAR
+    public function pengajar()
+    {
+        // Ambil dari table users dengan role pengajar
+        $pengajar = User::where('role', 'pengajar')->get();
+
+        return view('admin.pengajar.pengajar', compact('pengajar'));
+    }
+
+    // 🔥 FORM TAMBAH PENGAJAR
+    public function createPengajar()
+    {
+        return view('admin.pengajar.create');
+    }
+
+    // 🔥 SIMPAN PENGAJAR
+    public function storePengajar(Request $request)
+    {
+        $request->validate([
+            'nip'            => 'required|unique:users,nip',
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|email|unique:users,email',
+            'password'       => 'required|string|min:6',
+            'phone'          => 'required|string',
+            'address'        => 'required|string',
+            'tanggal_lahir'  => 'required|date',
+            'jenis_kelamin'  => 'required|in:Laki-laki,Perempuan',
+            'mata_pelajaran' => 'nullable|string',
+        ]);
+
+        // Simpan langsung ke table users dengan role = pengajar
+        User::create([
+            'name'           => $request->name,
+            'email'          => $request->email,
+            'password'       => bcrypt($request->password),
+            'role'           => 'pengajar',
+            'nip'            => $request->nip,
+            'phone'          => $request->phone,
+            'address'        => $request->address,
+            'tanggal_lahir'  => $request->tanggal_lahir,
+            'jenis_kelamin'  => $request->jenis_kelamin,
+            'mata_pelajaran' => $request->mata_pelajaran ?? 'Umum',
+        ]);
+
+        return redirect()->route('admin.pengajar')
+            ->with('success', 'Pengajar berhasil ditambahkan!');
+    }
+
     // 🔥 INBOX
     public function inbox()
     {

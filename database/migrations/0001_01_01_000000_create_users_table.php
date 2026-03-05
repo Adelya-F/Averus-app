@@ -12,41 +12,42 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-    $table->id();
+            $table->id();
 
-    // Kredensial Login Utama
-    $table->string('name');
-    $table->string('email')->unique();
-    $table->timestamp('email_verified_at')->nullable();
-    $table->string('password');
+            // 🔑 Kredensial login
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
 
-    // Data Form Averus
+            // Role: siswa, pengajar, admin
+            $table->string('role')->default('siswa')->index();
 
-    $table->string('school')->nullable();
-    $table->string('class')->nullable();
-    $table->string('hobby')->nullable();
-    $table->text('address')->nullable();
-    $table->string('phone')->nullable();
-    $table->string('parent_name')->nullable();
-    $table->string('parent_phone')->nullable();
-    $table->string('favorite_subject')->nullable();
-    $table->string('instagram')->nullable();
-    $table->string('tiktok')->nullable();
-    $table->string('status')->default('pending');
+            // 🔥 Data pengajar
+            $table->string('nip')->nullable()->unique();
+            $table->string('mata_pelajaran')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('jenis_kelamin')->nullable();
 
-    // Role
-    $table->string('role')->default('siswa')->index();
+            // 🔹 Data siswa
+            $table->string('school')->nullable();
+            $table->string('class')->nullable();
+            $table->string('hobby')->nullable();
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('parent_name')->nullable();
+            $table->string('parent_phone')->nullable();
+            $table->string('favorite_subject')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('tiktok')->nullable();
+            $table->string('status')->default('pending');
 
-    // 🔥 Tambahan Data Pengajar (WAJIB di dalam sini)
-    $table->string('nip')->nullable()->unique();
-    $table->string('mata_pelajaran')->nullable();
-    $table->date('tanggal_lahir')->nullable();
-    $table->string('jenis_kelamin')->nullable();
+            // Foto profile dan bio untuk semua user
+            $table->string('avatar')->nullable();
+            $table->text('bio')->nullable();
 
-    $table->rememberToken();
-    $table->timestamps();
-});
-        
+            $table->timestamps();
+        });
     }
 
     /**
@@ -55,7 +56,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
     }
 };

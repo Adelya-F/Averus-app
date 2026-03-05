@@ -15,7 +15,7 @@ class Pengajar extends Model
 
     protected $fillable = [
         'nip',
-        'nama',
+        'name',
         'email',
         'no_hp',
         'alamat',
