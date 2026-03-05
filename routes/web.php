@@ -11,10 +11,31 @@ use App\Models\Jadwal;
 
 // Dashboard umum
 Route::get('/', function () {
+<<<<<<< HEAD
     return view('dashboard');
 })->name('home');
 
 // Middleware auth umum
+=======
+
+    if (Auth::check()) {
+
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if (Auth::user()->role === 'pengajar') {
+            return redirect()->route('pengajar.dashboard');
+        }
+
+        if (Auth::user()->role === 'siswa') {
+            return redirect()->route('siswa.dashboard');
+        }
+    }
+
+    return view('dashboard'); // landing page untuk tamu
+})->name('home');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
