@@ -4,10 +4,10 @@
 
 /* 1. Reset Global Styles */
 body {
-    cursor: default;
+    /* cursor: default; */
     background-color: #f9fafb; /* bg-gray-50 */
     margin: 0;
-    
+    padding: 0;
 }
 
 /* 2. Utilitas Scrollbar (Sembunyikan tapi tetap bisa scroll) */
