@@ -1,155 +1,195 @@
+@extends('layouts.app')
+
 <x-guest-layout>
-    <div class="min-h-screen flex items-start sm:items-center justify-center bg-blue-50 px-4 py-10">
+    <div class="relative rounded-3xl shadow-2xl border border-indigo-100 overflow-hidden
+            bg-gradient-to-br from-white via-blue-50 to-indigo-50
+            backdrop-blur-sm transition duration-500 hover:shadow-indigo-200">
+    
+    <!-- Accent Top Line -->
+    <div class="absolute top-0 left-0 w-full h-2 
+                bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500"></div>
 
-        <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl space-y-8">
+    <!-- Header Form -->
+    <div class="p-8 bg-gradient-to-r from-indigo-50 to-blue-100 border-b border-indigo-200">
+        <h2 class="text-lg font-bold text-blue-800">Formulir Pendaftaran Siswa</h2>
+        <p class="text-sm text-blue-600">Pastikan semua data diisi dengan benar.</p>
+    </div>
 
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-blue-800">
-                    Formulir Pendaftaran Averus College
-                </h2>
-                <p class="mt-2 text-blue-600">
-                    Daftar sekarang dan bergabung bersama kami!
-                </p>
-            </div>
-            
-            @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
-                    <p class="font-bold">Ups! Pendaftaran gagal:</p>
-                    <ul class="mt-2 list-disc list-inside text-sm">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            
-            <form method="POST" action="{{ route('register') }}"
-                class="space-y-6 bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                @csrf
+    <div class="px-8 pt-6">
+    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+        <div id="progressBar" 
+             class="bg-indigo-600 h-2 w-0 transition-all duration-500"></div>
+    </div>
+    <p class="text-xs text-gray-500 mt-2">
+        Progress pengisian: <span id="progressText">0%</span>
+    </p>
+    </div>
 
-                <!-- Nama Lengkap -->
-                <div>
-                    <x-input-label for="name" value="Nama Lengkap" />
-                    <x-text-input id="name" class="block mt-1 w-full"
-                        type="text" name="name" :value="old('name')" required autofocus />
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                </div>
+    <form method="POST" action="{{ route('register') }}" class="p-8 space-y-10">
+        @csrf
+        
+        <!-- INFORMASI DASAR -->
+        <div class="space-y-6 p-6 rounded-2xl bg-white/70 backdrop-blur-sm border border-indigo-50 shadow-sm">
+            <h3 class="text-md font-semibold text-gray-800 border-b pb-2">
+                Informasi Dasar
+            </h3>
 
-                <!-- Sekolah -->
-                <div>
-                    <x-input-label for="school" value="Sekolah" />
-                    <x-text-input id="school" class="block mt-1 w-full"
-                        type="text" name="school" :value="old('school')" required />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">Nama Lengkap</label>
+                    <input type="text" name="name" value="{{ old('name') }}" required
+                        class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
                 </div>
 
-                <!-- Kelas -->
-                <div>
-                    <x-input-label for="class" value="Kelas" />
-                    <select name="class" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm" required>
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">Asal Sekolah</label>
+                    <input type="text" name="school" value="{{ old('school') }}" required
+                        class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">Kelas</label>
+                    <select name="class" required
+                        class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
                         <option value="">Pilih Kelas</option>
-                        @for ($i = 1; $i <= 6; $i++)
-                            <option value="SD {{ $i }}">SD {{ $i }}</option>
-                        @endfor
-                        @for ($i = 7; $i <= 9; $i++)
-                            <option value="SMP {{ $i }}">SMP {{ $i }}</option>
-                        @endfor
-                        @for ($i = 10; $i <= 12; $i++)
-                            <option value="SMA {{ $i }}">SMA {{ $i }}</option>
+                        @for ($i = 1; $i <= 12; $i++)
+                            <option value="{{ $i }}">Kelas {{ $i }}</option>
                         @endfor
                     </select>
                 </div>
 
-                <!-- Hobi -->
-                <div>
-                    <x-input-label for="hobby" value="Hobi" />
-                    <x-text-input id="hobby" class="block mt-1 w-full"
-                        type="text" name="hobby" :value="old('hobby')" />
-                </div>
-
-                <!-- Alamat -->
-                <div>
-                    <x-input-label for="address" value="Alamat Lengkap" />
-                    <textarea name="address" rows="3"
-                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">{{ old('address') }}</textarea>
-                </div>
-
-                <!-- No HP -->
-                <div>
-                    <x-input-label for="phone" value="No HP / WhatsApp" />
-                    <x-text-input id="phone" class="block mt-1 w-full"
-                        type="text" name="phone" :value="old('phone')" required />
-                </div>
-
-                <!-- Nama Orang Tua -->
-                <div>
-                    <x-input-label for="parent_name" value="Nama Ayah / Ibu" />
-                    <x-text-input id="parent_name" class="block mt-1 w-full"
-                        type="text" name="parent_name" :value="old('parent_name')" required />
-                </div>
-
-                <!-- No HP Orang Tua -->
-                <div>
-                    <x-input-label for="parent_phone" value="No HP / WA Ayah / Ibu" />
-                    <x-text-input id="parent_phone" class="block mt-1 w-full"
-                        type="text" name="parent_phone" :value="old('parent_phone')" required />
-                </div>
-
-                <!-- Mapel Disukai -->
-                <div>
-                    <x-input-label for="favorite_subject" value="Mapel yang Disukai (boleh lebih dari 1)" />
-                    <x-text-input id="favorite_subject" class="block mt-1 w-full"
-                        type="text" name="favorite_subject"
-                        placeholder="Contoh: Matematika, Bahasa Inggris" />
-                </div>
-
-                <!-- Instagram -->
-                <div>
-                    <x-input-label for="instagram" value="Instagram" />
-                    <x-text-input id="instagram" class="block mt-1 w-full"
-                        type="text" name="instagram" :value="old('instagram')" />
-                </div>
-
-                <!-- TikTok -->
-                <div>
-                    <x-input-label for="tiktok" value="TikTok" />
-                    <x-text-input id="tiktok" class="block mt-1 w-full"
-                        type="text" name="tiktok" :value="old('tiktok')" />
-                </div>
-
-                <!-- Email -->
-                <div>
-                    <x-input-label for="email" value="Email" />
-                    <x-text-input id="email" class="block mt-1 w-full"
-                        type="email" name="email" :value="old('email')" required />
-                </div>
-
-                <!-- Password -->
-                <div>
-                    <x-input-label for="password" value="Password" />
-                    <x-text-input id="password" class="block mt-1 w-full"
-                        type="password" name="password" required />
-                </div>
-
-                <!-- Konfirmasi Password -->
-                <div>
-                    <x-input-label for="password_confirmation" value="Konfirmasi Password" />
-                    <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                        type="password" name="password_confirmation" required />
-                </div>
-
-                <input type="hidden" name="role" value="siswa">
-
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mt-6">
-                    <a class="text-sm text-blue-600 underline text-center sm:text-left" href="{{ route('login') }}">
-                        Sudah punya akun?
-                    </a>
-
-                    <x-primary-button class="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
-                        Daftar
-                    </x-primary-button>
-                </div>
-
-            </form>
+            </div>
         </div>
-    </div>
+
+        <!-- KONTAK & ALAMAT -->
+        <div class="space-y-6">
+            <h3 class="text-md font-semibold text-gray-800 border-b pb-2">
+                Kontak & Alamat
+            </h3>
+
+            <div class="space-y-5">
+
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">Alamat Domisili</label>
+                    <textarea name="address" rows="3" required
+                        class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">{{ old('address') }}</textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-gray-700">Nama Orang Tua / Wali</label>
+                        <input type="text" name="parent_name" required
+                            class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-gray-700">No WhatsApp Orang Tua</label>
+                        <input type="text" name="parent_phone" required
+                            class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- AKUN SISWA -->
+        <div class="space-y-6">
+            <h3 class="text-md font-semibold text-gray-800 border-b pb-2">
+                Akun Siswa
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">Alamat Email</label>
+                    <input type="email" name="email" required
+                        class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">No WhatsApp Siswa</label>
+                    <input type="text" name="phone" required
+                        class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">Password</label>
+                    <input type="password" name="password" required
+                        class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-sm font-semibold text-gray-700">Konfirmasi Password</label>
+                    <input type="password" name="password_confirmation" required
+                        class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition shadow-sm">
+                </div>
+
+            </div>
+        </div>
+
+        <input type="hidden" name="role" value="siswa">
+
+        <!-- ACTION BUTTON -->
+        <div class="flex items-center justify-between pt-6 border-t border-gray-100">
+
+            <a href="{{ route('login') }}"
+               class="text-sm font-semibold text-gray-600 hover:text-blue-600 transition">
+                Sudah punya akun? Login
+            </a>
+
+            <button type="submit"
+                class="px-8 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-md shadow-indigo-100 transition transform active:scale-95">
+                Selesaikan Pendaftaran
+            </button>
+
+        </div>
+    </form>
+</div>
+<script>
+    // Progress bar otomatis
+    const inputs = document.querySelectorAll("input, textarea, select");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+
+    function updateProgress() {
+        let filled = 0;
+        inputs.forEach(input => {
+            if (input.value.trim() !== "" && input.type !== "hidden") {
+                filled++;
+            }
+        });
+
+        const percent = Math.round((filled / (inputs.length - 1)) * 100);
+        progressBar.style.width = percent + "%";
+        progressText.innerText = percent + "%";
+    }
+
+    inputs.forEach(input => {
+        input.addEventListener("input", updateProgress);
+    });
+
+    updateProgress();
+
+    // Disable button saat submit
+    const form = document.querySelector("form");
+    form.addEventListener("submit", function () {
+        const btn = form.querySelector("button[type='submit']");
+        btn.innerHTML = "⏳ Mendaftarkan...";
+        btn.disabled = true;
+        btn.classList.add("opacity-70");
+    });
+
+    // Validasi visual realtime
+    inputs.forEach(input => {
+        input.addEventListener("blur", function () {
+            if (input.value.trim() === "" && input.hasAttribute("required")) {
+                input.classList.add("border-red-400");
+            } else {
+                input.classList.remove("border-red-400");
+            }
+        });
+    });
+</script>
 </x-guest-layout>

@@ -37,6 +37,10 @@ if ($user->role === 'admin') {
 if ($user->role === 'siswa') {
     return redirect()->route('siswa.dashboard');
 }
+if ($user->role === 'pengajar') {
+    return redirect()->route('pengajar.dashboard');
+}
+
 
 return redirect('/');
             }
