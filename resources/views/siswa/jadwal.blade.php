@@ -8,7 +8,6 @@
         <thead class="table-primary">
             <tr>
                 <th>No</th>
-                <th>Guru</th>
                 <th>Hari</th>
                 <th>Tanggal</th>
                 <th>Jam</th>
