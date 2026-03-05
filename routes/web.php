@@ -5,13 +5,28 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PengajarController;
+use App\Http\Controllers\SiswaController;
 use App\Models\User;
 
 Route::get('/', function () {
-    return view('dashboard'); // dashboard umum
+
+    if (Auth::check()) {
+
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if (Auth::user()->role === 'pengajar') {
+            return redirect()->route('pengajar.dashboard');
+        }
+
+        if (Auth::user()->role === 'siswa') {
+            return redirect()->route('siswa.dashboard');
+        }
+    }
+
+    return view('dashboard'); // landing page untuk tamu
 })->name('home');
-
-
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,9 +61,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:siswa', 'check.status'])->group(function () {
 
-    Route::get('/siswa', function () {
-        return view('siswa.dashboard');
-    })->name('siswa.dashboard');
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.dashboard');
 
     Route::get('/siswa/absen', function () {
         return view('siswa.absen');
@@ -59,7 +72,6 @@ Route::middleware(['auth', 'role:siswa', 'check.status'])->group(function () {
     })->name('siswa.jadwal');
 
 });
-
 
 Route::middleware(['auth','role:pengajar'])
     ->prefix('pengajar')
