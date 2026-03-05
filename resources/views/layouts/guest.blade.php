@@ -14,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-   <body class="font-sans text-gray-900 antialiased bg-gradient-to-br from-blue-50 via-white to-blue-100">
+<body class="font-sans text-gray-900 antialiased bg-gradient-to-br from-blue-50 via-white to-blue-100 caret-transparent">
 
     <div class="min-h-screen flex justify-center px-6 py-12">
 

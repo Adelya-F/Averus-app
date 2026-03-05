@@ -4,26 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Averus - Bimbel Kreatif</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         body { padding-top: 80px; }
-        .nav-link { color: white !important; font-weight: 500; }
-        .nav-link:hover { opacity: 0.8; }
-        
-        .navbar-logo-img {
-            max-height: 45px;
-            width: auto;
-            margin-right: 12px;
+
+        .navbar-logo-img{
+            max-height:45px;
+            width:auto;
+            margin-right:12px;
         }
     </style>
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand fixed-top shadow-sm bg-gradient-to-r from-blue-300 to-indigo-500 text-white w-full">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="/">
-            <img src="{{ asset('image/averus.png') }}" alt="Logo Averus" class="navbar-logo-img">
+<nav class="navbar fixed-top shadow-sm bg-gradient-to-r from-blue-300 to-indigo-500 w-full">
+    <div class="container flex items-center justify-between">
+
+        <!-- LOGO -->
+        <a class="flex items-center" href="/">
+            <img src="{{ asset('image/averus.png') }}" class="navbar-logo-img" alt="Logo Averus">
+
             <h1 class="text-xl md:text-2xl font-bold flex mb-0">
                 <span class="text-red-500">A</span>
                 <span class="text-yellow-500">v</span>
@@ -34,31 +38,44 @@
             </h1>
         </a>
 
-        <a href="{{ route('admin.dashboard') }}" 
-           class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 text-gray-600 rounded-xl shadow-sm hover:bg-blue-100/50 hover:text-blue-600 transition-all duration-200 group">
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                 class="h-6 w-6 group-hover:-translate-x-1 transition-transform" 
-                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                      d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-        </a>
+        <!-- RIGHT MENU -->
+        <div class="flex items-center gap-3">
 
+            <!-- BACK BUTTON -->
+            <a href="{{ route('admin.dashboard') }}"
+               class="w-10 h-10 flex items-center justify-center bg-white rounded-lg shadow hover:bg-blue-50 transition">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="w-5 h-5 text-gray-700"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 19l-7-7 7-7"/>
+                </svg>
+
+            </a>
+
+            <!-- LOGOUT -->
             @auth
-            <li class="nav-item">
-                <form method="POST" action="{{ route('logout') }}" class="m-0">
-                    @csrf
-                    <button type="submit" class="nav-link btn btn-link p-0" style="border:none; text-decoration: none;">
-                        Logout
-                    </button>
-                </form>
-            </li>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    class="text-white font-medium hover:opacity-80">
+                    Logout
+                </button>
+            </form>
             @endauth
-        </ul>
+
+        </div>
+
     </div>
 </nav>
 
-{{-- ISI KONTEN --}}
+{{-- CONTENT --}}
 <main>
     @yield('content')
 </main>
@@ -66,11 +83,12 @@
 <section class="py-10 bg-gradient-to-r from-yellow-300 to-amber-100 w-full text-center mt-auto">
     <div class="container">
         <footer class="text-amber-900 font-medium">
-            &copy; 2026 Averus. Semua hak cipta dilindungi.
+            © 2026 Averus. Semua hak cipta dilindungi.
         </footer>
     </div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

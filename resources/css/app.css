@@ -30,12 +30,15 @@ body {
     transform: translateY(0);
 }
 
-/* 4. Tipografi Khusus */
+
 h1 span {
     display: inline-block; /* Agar teks warna-warni tidak pecah saat wrap */
 }
 
-/* 5. Custom Card Styling (Opsional agar bayangan lebih halus) */
 .card {
     will-change: transform; /* Optimasi performa animasi */
+}
+
+input, textarea {
+    caret-color: auto;
 }

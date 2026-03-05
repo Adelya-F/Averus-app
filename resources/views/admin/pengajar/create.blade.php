@@ -6,7 +6,7 @@
     <title>Tambah Pengajar - Averus</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-stone-50 min-h-screen">
+<body class="bg-stone-50 min-h-screen caret-transparent">
 
     <header class="bg-gradient-to-r from-blue-300 to-indigo-500 shadow-md">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
