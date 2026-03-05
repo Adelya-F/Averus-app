@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class SiswaController extends Controller
+{
+    public function dashboard()
+    {
+        $user = auth()->user();
+        return view('siswa.dashboard', compact('user'));
+=======
 <?php
 
 namespace App\Http\Controllers;
@@ -35,5 +47,6 @@ class SiswaController extends Controller
             'kelasAktif', 
             'jadwalHariIni'
         ));
+>>>>>>> f395cbaa24c485e99227485ec99a260c15694f13
     }
 }
