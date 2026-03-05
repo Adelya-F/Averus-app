@@ -10,23 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('jadwals', function (Blueprint $table) {
-        $table->id();
-        $table->string('hari');
-        $table->date('tanggal');
-        $table->string('jam');
-        $table->string('mapel');
-        $table->string('pengajar');
-        $table->timestamps();
-    });
-}
+    {
+        Schema::table('jadwals', function (Blueprint $table) {
+            //
+        });
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('jadwals');
+        Schema::table('jadwals', function (Blueprint $table) {
+            //
+        });
     }
 };
