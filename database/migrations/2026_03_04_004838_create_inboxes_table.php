@@ -12,9 +12,9 @@ return new class extends Migration
     public function up() {
     Schema::create('inboxes', function (Blueprint $table) {
         $table->id();
-        $table->string('title');   // Contoh: "Pendaftaran Baru"
-        $table->text('message');   // Contoh: "Budi (SMA 1) baru saja mendaftar"
-        $table->string('link');    // Isinya: route('admin.verifikasi')
+        $table->string('title');   
+        $table->text('message');   
+        $table->string('link')->nullable(); // Ditambah nullable agar tidak error jika kosong
         $table->boolean('is_read')->default(false);
         $table->timestamps();
     });

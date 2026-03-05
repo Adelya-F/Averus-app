@@ -21,6 +21,7 @@ return new class extends Migration
     $table->string('password');
 
     // Data Form Averus
+
     $table->string('school')->nullable();
     $table->string('class')->nullable();
     $table->string('hobby')->nullable();
