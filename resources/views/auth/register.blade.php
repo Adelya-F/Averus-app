@@ -11,7 +11,7 @@
 
     <!-- Header Form -->
     <div class="p-8 bg-gradient-to-r from-indigo-50 to-blue-100 border-b border-indigo-200">
-        <h2 class="text-lg font-bold text-blue-800">Formulir Pendaftaran Siswa</h2>
+        <h1 class="text-lg font-bold text-blue-800">Formulir Pendaftaran Siswa</h1>
         <p class="text-sm text-blue-600">Pastikan semua data diisi dengan benar.</p>
     </div>
 
@@ -30,9 +30,9 @@
         
         <!-- INFORMASI DASAR -->
         <div class="space-y-6 p-6 rounded-2xl bg-white/70 backdrop-blur-sm border border-indigo-50 shadow-sm">
-            <h3 class="text-md font-semibold text-gray-800 border-b pb-2">
+            <h5 class="text-md font-semibold text-gray-800 border-b pb-2">
                 Informasi Dasar
-            </h3>
+            </h5>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -64,9 +64,9 @@
 
         <!-- KONTAK & ALAMAT -->
         <div class="space-y-6">
-            <h3 class="text-md font-semibold text-gray-800 border-b pb-2">
+            <h5 class="text-md font-semibold text-gray-800 border-b pb-2">
                 Kontak & Alamat
-            </h3>
+            </h5>
 
             <div class="space-y-5">
 
@@ -96,9 +96,9 @@
 
         <!-- AKUN SISWA -->
         <div class="space-y-6">
-            <h3 class="text-md font-semibold text-gray-800 border-b pb-2">
+            <h5 class="text-md font-semibold text-gray-800 border-b pb-2">
                 Akun Siswa
-            </h3>
+            </h5>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
