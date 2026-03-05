@@ -39,14 +39,24 @@
 
             <div class="bg-gray-50 rounded-xl p-4 mb-8 space-y-3 border border-gray-100">
                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-tighter border-b border-gray-200 pb-2 mb-3">Data Terdaftar</h3>
+                
                 <div class="flex justify-between text-sm">
                     <span class="text-gray-500">Sekolah</span>
                     <span class="font-semibold text-gray-700">{{ auth()->user()->school }}</span>
                 </div>
+                
                 <div class="flex justify-between text-sm">
                     <span class="text-gray-500">Kelas</span>
-                    <span class="font-semibold text-gray-700">{{ auth()->user()->class }}</span>
+                    <span class="font-semibold text-gray-700">Kelas {{ auth()->user()->class }}</span>
                 </div>
+
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">Tanggal Lahir</span>
+                    <span class="font-semibold text-gray-700">
+                        {{ auth()->user()->tanggal_lahir ? \Carbon\Carbon::parse(auth()->user()->tanggal_lahir)->format('d F Y') : '-' }}
+                    </span>
+                </div>
+
                 <div class="flex justify-between text-sm">
                     <span class="text-gray-500">No. WhatsApp</span>
                     <span class="font-semibold text-gray-700">{{ auth()->user()->phone }}</span>

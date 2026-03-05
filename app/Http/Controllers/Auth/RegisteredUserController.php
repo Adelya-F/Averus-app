@@ -22,7 +22,8 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        // 1. Validasi SEMUA field yang ada di form register kamu
+        // 1. Validasi SEMUA field
+        // Pastikan nama di sini SAMA dengan atribut 'name' di file register.blade.php
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -32,11 +33,12 @@ class RegisteredUserController extends Controller
             'school' => ['required', 'string', 'max:255'],
             'parent_name' => ['required', 'string', 'max:255'],
             'parent_phone' => ['required', 'string', 'max:20'],
-            'address' => ['nullable', 'string'],
-            'hobby' => ['nullable', 'string'],
-            'favorite_subject' => ['nullable', 'string'],
-            'instagram' => ['nullable', 'string'],
-            'tiktok' => ['nullable', 'string'],
+            'address' => ['required', 'string'],
+            'tanggal_lahir' => ['required', 'date'], // Sesuaikan dengan <input name="tanggal_lahir">
+            'hobby' => ['nullable', 'string', 'max:255'],
+            'favorite_subject' => ['nullable', 'string', 'max:255'],
+            'instagram' => ['nullable', 'string', 'max:255'],
+            'tiktok' => ['nullable', 'string', 'max:255'],
         ]);
 
         // 2. Simpan data ke Database
@@ -50,6 +52,7 @@ class RegisteredUserController extends Controller
             'parent_name' => $request->parent_name,
             'parent_phone' => $request->parent_phone,
             'address' => $request->address,
+            'tanggal_lahir' => $request->tanggal_lahir, 
             'hobby' => $request->hobby,
             'favorite_subject' => $request->favorite_subject,
             'instagram' => $request->instagram,
@@ -59,6 +62,7 @@ class RegisteredUserController extends Controller
         ]);
 
         // 3. Buat Notifikasi Inbox untuk Admin
+        // Pastikan model Inbox sudah benar dan ada kolom link, message, dll.
         Inbox::create([
             'title' => 'Pendaftaran Siswa Baru',
             'message' => 'Siswa baru bernama ' . $user->name . ' (Kelas ' . $user->class . ') baru saja mendaftar.',
@@ -70,7 +74,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // Pastikan route 'registration.status' sudah ada di web.php
+        // Pastikan route ini ada di web.php kamu
         return redirect()->route('registration.status');
     }
 }
