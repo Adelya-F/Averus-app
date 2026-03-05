@@ -9,10 +9,24 @@ use App\Http\Controllers\SiswaController;
 use App\Models\User;
 
 Route::get('/', function () {
-    return view('dashboard'); // dashboard umum
+
+    if (Auth::check()) {
+
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if (Auth::user()->role === 'pengajar') {
+            return redirect()->route('pengajar.dashboard');
+        }
+
+        if (Auth::user()->role === 'siswa') {
+            return redirect()->route('siswa.dashboard');
+        }
+    }
+
+    return view('dashboard'); // landing page untuk tamu
 })->name('home');
-
-
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

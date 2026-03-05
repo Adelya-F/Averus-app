@@ -17,7 +17,6 @@ body{
 </style>
 
 </head>
-
 <body>
 
 <!-- NAVBAR -->
@@ -66,7 +65,6 @@ class="h-10 w-auto">
 <footer class="text-amber-900 font-medium">
 &copy; 2026 Averus. Semua hak cipta dilindungi.
 </footer>
-
 </section>
 
 

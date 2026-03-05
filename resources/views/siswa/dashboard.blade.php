@@ -129,7 +129,7 @@
                 </div>
             </div>
 
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 rounded-xl text-white flex justify-between items-center">
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-300 p-6 rounded-xl text-white flex justify-between items-center">
                 <div>
                     <h3 class="text-xl font-bold">Absen Kehadiran Hari Ini</h3>
                     <p class="text-sm opacity-90">Pastikan kamu melakukan absensi sebelum kelas dimulai</p>

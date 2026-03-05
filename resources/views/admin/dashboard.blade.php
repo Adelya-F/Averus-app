@@ -99,6 +99,7 @@
 
 
 <a href="{{ route('admin.inbox') }}" 
+
    class="flex justify-between items-center px-4 py-2 rounded-lg hover:bg-blue-700 transition group">
 
     <div class="flex items-center gap-3">
@@ -124,6 +125,7 @@
     @endif
 
 </a> 
+
         </nav>
 
         <div class="p-4 border-t border-blue-700">
