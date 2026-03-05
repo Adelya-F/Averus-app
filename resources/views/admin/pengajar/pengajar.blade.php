@@ -65,6 +65,8 @@
             <thead class="bg-blue-50 text-blue-700">
                 <tr>
                     <th class="px-6 py-4 text-left font-semibold">Nama</th>
+                    <th class="px-6 py-4 text-left font-semibold">Mata Pelajaran</th>
+                    <th class="px-6 py-4 text-left font-semibold">No telp</th>
                     <th class="px-6 py-4 text-left font-semibold">Email</th>
                 </tr>
             </thead>
@@ -75,7 +77,15 @@
                     <tr class="hover:bg-blue-50 transition">
 
                         <td class="px-6 py-4 font-medium text-gray-800">
-                            {{ $data->name }}
+                            {{ $data->nama }}
+                        </td>
+
+                        <td class="px-6 py-4 font-medium text-gray-800">
+                            {{ $data->mata_pelajaran }}
+                        </td>
+
+                        <td class="px-6 py-4 font-medium text-gray-800">
+                            {{ $data->no_hp }}
                         </td>
 
                         <td class="px-6 py-4 text-gray-600">

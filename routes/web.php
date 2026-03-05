@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PengajarController;
+use App\Http\Controllers\SiswaController;
 use App\Models\User;
 
 Route::get('/', function () {
@@ -46,9 +47,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:siswa', 'check.status'])->group(function () {
 
-    Route::get('/siswa', function () {
-        return view('siswa.dashboard');
-    })->name('siswa.dashboard');
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.dashboard');
 
     Route::get('/siswa/absen', function () {
         return view('siswa.absen');
@@ -59,7 +58,6 @@ Route::middleware(['auth', 'role:siswa', 'check.status'])->group(function () {
     })->name('siswa.jadwal');
 
 });
-
 
 Route::middleware(['auth','role:pengajar'])
     ->prefix('pengajar')
