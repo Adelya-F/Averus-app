@@ -31,7 +31,11 @@ class User extends Authenticatable
         'tiktok',
         'role',
         'status',
-    ];
+        'nip',
+        'mata_pelajaran',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        ];
 
     protected $hidden = [
         'password',
