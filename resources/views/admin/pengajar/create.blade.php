@@ -18,7 +18,6 @@
                     </svg>
                 </a>
 
-
                 <h1 class="text-white text-xl font-semibold">
                     Tambah Pengajar 
                     <span class="text-red-500">A</span><span class="text-yellow-500">v</span><span class="text-green-500">e</span><span class="text-blue-500">r</span><span class="text-purple-500">u</span><span class="text-pink-500">s</span>

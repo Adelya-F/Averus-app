@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PengajarController;
-use App\Http\Controllers\JadwalController; // <-- ditambahkan
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\SiswaController;
 use App\Models\User;
 use App\Models\Jadwal;
 
@@ -75,9 +76,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // ======================
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
 
+
     Route::get('/', function () {
         return view('siswa.dashboard');
     })->name('dashboard');
+
+Route::middleware(['auth', 'role:siswa', 'check.status'])->group(function () {
+
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.dashboard');
 
     Route::get('/absen', function () {
         return view('siswa.absen');

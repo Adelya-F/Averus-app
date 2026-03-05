@@ -101,7 +101,6 @@
 <a href="{{ route('admin.inbox') }}" 
 
    class="flex justify-between items-center px-4 py-2 rounded-lg hover:bg-blue-700 transition group">
-    
 
     <div class="flex items-center gap-3">
         <svg xmlns="http://www.w3.org/2000/svg" 
@@ -117,7 +116,6 @@
     </div>
 
     @if(isset($unreadCount) && $unreadCount > 0)
-
         <span class="relative flex h-6 w-6">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
             <span class="relative inline-flex items-center justify-center rounded-full h-6 w-6 bg-red-600 text-white text-[10px] font-bold border border-white">
@@ -127,7 +125,7 @@
     @endif
 
 </a> 
-            
+
         </nav>
 
         <div class="p-4 border-t border-blue-700">
