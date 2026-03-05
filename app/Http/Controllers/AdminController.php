@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pengajar;
 use App\Models\Inbox;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class AdminController extends Controller
             ->where('status', 'accepted')
             ->count();
 
-        $totalPengajar = User::where('role', 'pengajar')->count();
+        $totalPengajar = Pengajar::count();
 
         $pendingSiswa = User::where('role', 'siswa')
             ->where('status', 'pending')
@@ -88,49 +89,50 @@ class AdminController extends Controller
         }
 
     // 🔥 DATA PENGAJAR
-    public function pengajar()
-    {
-        $pengajar = User::where('role', 'pengajar')->get();
+        public function pengajar()
+        {
+            // 🟢 PERBAIKAN: Ambil dari tabel pengajar agar muncul di list
+            $pengajar = Pengajar::all(); 
 
-        return view('admin.pengajar.pengajar', compact('pengajar'));
-    }
+            // Sesuaikan dengan letak file blade Anda (admin.pengajar.pengajar)
+            return view('admin.pengajar.pengajar', compact('pengajar'));
+        }
 
     // 🔥 FORM TAMBAH PENGAJAR
-    public function createPengajar()
-    {
-        return view('admin.pengajar.create');
-    }
+        public function createPengajar()
+        {
+            return view('admin.pengajar.create');
+        }
 
-    // 🔥 SIMPAN PENGAJAR
-    public function storePengajar(Request $request)
-    {
+        // 🔥 SIMPAN PENGAJAR
+        public function storePengajar(Request $request)
+        {
+        // 1. Validasi - Arahkan ke tabel 'pengajar'
         $request->validate([
-            'nip' => 'required|unique:users,nip',
+            'nip' => 'required|unique:pengajar,nip', // Ganti users jadi pengajar
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:pengajar,email', // Ganti users jadi pengajar
             'phone' => 'required',
             'address' => 'required',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan'
         ]);
 
-        User::create([
-            'name' => $request->nama,
-            'email' => $request->email,
-            'password' => 'password123',
-            'role' => 'pengajar',
-            'status' => 'accepted',
-            'nip' => $request->nip,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'jenis_kelamin' => $request->jenis_kelamin,
-        ]);
+    // 2. Simpan ke tabel 'pengajar' (Ganti User::create jadi Pengajar::create)
+    \App\Models\Pengajar::create([
+        'nip'           => $request->nip,
+        'nama'          => $request->nama,
+        'email'         => $request->email,
+        'no_hp'         => $request->phone,   // Nama kolom di migration Anda 'no_hp'
+        'alamat'        => $request->address, // Nama kolom di migration Anda 'alamat'
+        'tanggal_lahir' => $request->tanggal_lahir,
+        'jenis_kelamin' => $request->jenis_kelamin,
+        'mata_pelajaran'=> 'Umum',            // Tambahkan default karena di migration NOT NULL
+    ]);
 
-        return redirect()->route('admin.pengajar')
-            ->with('success', 'Pengajar berhasil ditambahkan');
-    }
-
+    return redirect()->route('admin.pengajar')
+        ->with('success', 'Pengajar berhasil ditambahkan ke tabel pengajar!');
+}
     // 🔥 INBOX
     public function inbox()
     {

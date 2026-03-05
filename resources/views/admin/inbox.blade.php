@@ -27,7 +27,7 @@
 
         <div class="space-y-4">
             @forelse($messages as $msg)
-                <div class="flex items-center justify-between p-5 rounded-2xl border transition-all duration-300 {{ $msg->is_read ? 'bg-white border-gray-100 opacity-80' : 'bg-white border-blue-300 shadow-lg shadow-blue-50 ring-1 ring-blue-100' }}">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between p-5 rounded-2xl border transition-all duration-300 {{ $msg->is_read ? 'bg-white border-gray-100 opacity-80' : 'bg-white border-blue-300 shadow-lg shadow-blue-50 ring-1 ring-blue-100' }}">
                     <div class="flex items-start gap-4">
                         <div class="mt-1 w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center {{ $msg->is_read ? 'bg-gray-100 text-gray-400' : 'bg-blue-600 text-white shadow-md shadow-blue-200' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

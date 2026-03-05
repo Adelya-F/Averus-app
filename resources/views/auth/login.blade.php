@@ -7,9 +7,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-[#faf6ef] px-4">
+<body class="min-h-screen flex items-center justify-center bg-[#faf6ef] px-4 caret-transparent">
 
-    <div class="bg-white w-full max-w-md sm:max-w-lg p-6 sm:p-8 rounded-2xl shadow-2xl">
+<div class="w-full max-w-5xl bg-white rounded-2xl shadow-2xl grid md:grid-cols-2 overflow-hidden">
+
+    <!-- LEFT SIDE (LOGIN FORM) -->
+    <div class="p-6 sm:p-8">
 
         <h2 class="text-2xl sm:text-3xl font-bold text-center text-blue-700 mb-2">
             Selamat Datang
@@ -26,99 +29,100 @@
         @endif
 
         <form method="POST" action="{{ route('login') }}">
-            @csrf
+        @csrf
 
-            <!-- Email -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">
-                    Email
-                </label>
-                <input 
-                    type="email"
-                    name="email"
-                    value="{{ old('email') }}"
-                    required
-                    autofocus
-                    class="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                >
-                @error('email')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Password -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">
-                    Password
-                </label>
-
-                <div class="relative">
-                    <input 
-                        type="password"
-                        name="password"
-                        id="password"
-                        required
-                        class="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none pr-10"
-                    >
-
-                    <!-- Toggle Button -->
-                    <button 
-                        type="button"
-                        onclick="togglePassword()"
-                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-blue-600"
-                    >
-                        <!-- Eye Open -->
-                        <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" 
-                            class="h-5 w-5" fill="none" viewBox="0 0 24 24" 
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5
-                                c4.477 0 8.268 2.943 9.542 7
-                                -1.274 4.057-5.065 7-9.542 7
-                                -4.477 0-8.268-2.943-9.542-7z"/>
-                        </svg>
-
-                        <!-- Eye Closed -->
-                        <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 3l18 18"/>
-                        </svg>
-                    </button>
-                </div>
-
-                @error('password')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Remember -->
-            <div class="flex items-center justify-between mb-6 text-sm">
-                <label class="flex items-center">
-                    <input type="checkbox" name="remember" class="mr-2">
-                    Remember me
-                </label>
-
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" 
-                       class="text-blue-600 hover:underline">
-                        Forgot?
-                    </a>
-                @endif
-            </div>
-
-            <button 
-                type="submit"
-                class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+        <!-- Email -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">
+                Email
+            </label>
+            <input 
+                type="email"
+                name="email"
+                value="{{ old('email') }}"
+                required
+                autofocus
+                class="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
-                Log In
-            </button>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">
+                Password
+            </label>
+
+            <div class="relative">
+                <input 
+                    type="password"
+                    name="password"
+                    id="password"
+                    required
+                    class="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none pr-10"
+                >
+
+                <button 
+                    type="button"
+                    onclick="togglePassword()"
+                    class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-blue-600"
+                >
+                    <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" 
+                        class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5
+                            c4.477 0 8.268 2.943 9.542 7
+                            -1.274 4.057-5.065 7-9.542 7
+                            -4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+
+                    <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3l18 18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Remember -->
+        <div class="flex items-center justify-between mb-6 text-sm">
+            <label class="flex items-center">
+                <input type="checkbox" name="remember" class="mr-2">
+                Remember me
+            </label>
+
+            <a href="{{ route('password.request') }}" class="text-blue-600 hover:underline">
+                Forgot?
+            </a>
+        </div>
+
+        <button 
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+            Log In
+        </button>
 
         </form>
     </div>
+
+    <!-- RIGHT SIDE (WELCOME PANEL) -->
+    <div class="hidden md:flex flex-col items-center justify-center bg-gradient-to-br from-blue-300 to-indigo-700 text-white p-10">
+
+        <h1 class="text-4xl font-bold mb-4">
+            Averus
+        </h1>
+
+        <p class="text-center opacity-90">
+            Platform pembelajaran modern untuk membantu siswa berkembang lebih cepat.
+        </p>
+
+    </div>
+
+</div>
 
 <script>
 function togglePassword() {
