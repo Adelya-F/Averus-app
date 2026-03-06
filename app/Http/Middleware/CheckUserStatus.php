@@ -11,8 +11,8 @@ class CheckUserStatus
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-
-            if (Auth::user()->status === 'pending') {
+            // Cek jika status pending DAN user TIDAK sedang mengakses halaman status
+            if (Auth::user()->status === 'pending' && !$request->routeIs('registration.status')) {
                 return redirect()->route('registration.status');
             }
 
@@ -21,7 +21,6 @@ class CheckUserStatus
                 return redirect()->route('login')
                     ->with('status', 'Pendaftaran kamu ditolak admin.');
             }
-
         }
 
         return $next($request);

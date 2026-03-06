@@ -7,39 +7,32 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PengajarController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\SiswaController;
-use App\Models\User;
 use App\Models\Jadwal;
 
-// Dashboard umum
+// Dashboard / Landing Page dengan Logika Redirect Role
 Route::get('/', function () {
-<<<<<<< HEAD
-    return view('dashboard');
-})->name('home');
-
-// Middleware auth umum
-=======
-
     if (Auth::check()) {
-
-        if (Auth::user()->role === 'admin') {
+        $role = Auth::user()->role;
+        
+        if ($role === 'admin') {
             return redirect()->route('admin.dashboard');
-        }
-
-        if (Auth::user()->role === 'pengajar') {
+        } elseif ($role === 'pengajar') {
             return redirect()->route('pengajar.dashboard');
-        }
-
-        if (Auth::user()->role === 'siswa') {
+        } elseif ($role === 'siswa') {
             return redirect()->route('siswa.dashboard');
         }
     }
-
-    return view('dashboard'); // landing page untuk tamu
+    return view('dashboard'); // Tampilan untuk tamu (guest)
 })->name('home');
 
+// Middleware Auth Umum
+// Middleware Auth Umum
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    
+    // PERBAIKAN DI SINI: Ganti @patch menjadi Route::patch
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/registration-status', function () {
@@ -51,16 +44,15 @@ Route::middleware('auth')->group(function () {
 // Admin Routes
 // ======================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-
+    
     // Pengajar
     Route::get('/pengajar', [AdminController::class, 'pengajar'])->name('pengajar');
     Route::get('/pengajar/create', [AdminController::class, 'createPengajar'])->name('pengajar.create');
     Route::post('/pengajar/store', [AdminController::class, 'storePengajar'])->name('pengajar.store');
 
     // Jadwal admin CRUD
-    Route::resource('jadwal', JadwalController::class); // <-- ini wajib untuk halaman admin jadwal
+    Route::resource('jadwal', JadwalController::class);
 
     // Verifikasi siswa
     Route::get('/verifikasi', [AdminController::class, 'verifikasiSiswa'])->name('verifikasi');
@@ -75,35 +67,30 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // Siswa Routes
 // ======================
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
-
-
-    Route::get('/', function () {
+    
+    // Dashboard dasar (bisa diakses sebelum verifikasi jika perlu)
+    Route::get('/dashboard', function () {
         return view('siswa.dashboard');
     })->name('dashboard');
 
-Route::middleware(['auth', 'role:siswa', 'check.status'])->group(function () {
+    // Route khusus yang butuh status terverifikasi (check.status)
+    Route::middleware(['check.status'])->group(function () {
+        Route::get('/absen', function () {
+            return view('siswa.absen');
+        })->name('absen');
 
-    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.dashboard');
-
-    Route::get('/absen', function () {
-        return view('siswa.absen');
-    })->name('absen');
-
-    // Jadwal siswa
-    Route::get('/jadwal', function () {
-        $jadwal = Jadwal::all(); // ambil semua jadwal
-        return view('siswa.jadwal', compact('jadwal')); // kirim ke blade
-    })->name('jadwal');
+        Route::get('/jadwal', function () {
+            $jadwal = Jadwal::all();
+            return view('siswa.jadwal', compact('jadwal'));
+        })->name('jadwal');
+    });
 });
 
 // ======================
 // Pengajar Routes
 // ======================
-Route::middleware(['auth','role:pengajar'])
-    ->prefix('pengajar')
-    ->name('pengajar.')
-    ->group(function () {
-        Route::get('/dashboard', [PengajarController::class, 'dashboard'])->name('dashboard');
+Route::middleware(['auth', 'role:pengajar'])->prefix('pengajar')->name('pengajar.')->group(function () {
+    Route::get('/dashboard', [PengajarController::class, 'dashboard'])->name('dashboard');
 });
 
 // Auth routes (login, register, logout)
