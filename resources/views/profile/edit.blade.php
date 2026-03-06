@@ -169,18 +169,15 @@
 .profile-container{
 grid-template-columns:1fr;
 }
-
 .profile-card{
 position:relative;
 top:0;
 }
-
 .grid-form{
 grid-template-columns:1fr;
 }
 }
 </style>
-
 
 <div class="profile-section">
 
@@ -190,70 +187,45 @@ grid-template-columns:1fr;
 
 <div class="profile-container">
 
+<!-- Profile Card -->
 <div class="profile-card">
 
 <div class="avatar-wrapper">
-
 <div class="avatar" id="avatarPreview">
-
 @if(auth()->user()->avatar)
 <img src="{{ asset('storage/avatars/'.auth()->user()->avatar) }}">
 @else
 {{ strtoupper(substr(auth()->user()->name,0,1)) }}
 @endif
-
 </div>
 
-<label for="avatarInput" class="upload-label" id="uploadBtn">
-📷
-</label>
-
+<label for="avatarInput" class="upload-label" id="uploadBtn">📷</label>
 <input type="file" name="avatar" id="avatarInput" style="display:none" onchange="previewImage(this)">
-
 </div>
 
-<h2 style="font-size:20px;font-weight:700;">
-{{ auth()->user()->name }}
-</h2>
-
-<p style="color:#64748b;font-size:14px;margin-bottom:20px;">
-{{ auth()->user()->email }}
-</p>
+<h2 style="font-size:20px;font-weight:700;">{{ auth()->user()->name }}</h2>
+<p style="color:#64748b;font-size:14px;margin-bottom:20px;">{{ auth()->user()->email }}</p>
 
 <div style="margin-bottom:15px;">
-<span class="role-badge">
-{{ auth()->user()->role }}
-</span>
+<span class="role-badge">{{ auth()->user()->role }}</span>
 </div>
 
-<button type="button" id="editBtn" class="btn-action btn-edit">
-Edit Profil
-</button>
-
-<button type="submit" id="saveBtn" class="btn-action btn-save">
-Simpan Perubahan
-</button>
-
+<button type="button" id="editBtn" class="btn-action btn-edit">Edit Profil</button>
+<button type="submit" id="saveBtn" class="btn-action btn-save">Simpan Perubahan</button>
 </form>
 
 <form action="{{ route('logout') }}" method="POST">
 @csrf
-<button type="submit" class="btn-logout">
-Logout
-</button>
+<button type="submit" class="btn-logout">Logout</button>
 </form>
 
 </div>
 
-
+<!-- Info Card -->
 <div class="info-card">
-
-<h3 style="font-size:18px;font-weight:700;margin-bottom:25px;border-left:4px solid #2563eb;padding-left:15px;">
-Informasi Personal
-</h3>
+<h3 style="font-size:18px;font-weight:700;margin-bottom:25px;border-left:4px solid #2563eb;padding-left:15px;">Informasi Personal</h3>
 
 <div class="grid-form">
-
 <div class="input-group">
 <label class="input-label">Nama Lengkap</label>
 <input type="text" name="name" value="{{ old('name',auth()->user()->name) }}" class="edit-input" disabled>
@@ -264,8 +236,7 @@ Informasi Personal
 <input type="email" name="email" value="{{ old('email',auth()->user()->email) }}" class="edit-input" disabled>
 </div>
 
-@if(auth()->user()->role !== 'admin')
-
+@if(auth()->user()->role === 'siswa')
 <div class="input-group">
 <label class="input-label">WhatsApp</label>
 <input type="text" name="phone" value="{{ old('phone',auth()->user()->phone) }}" class="edit-input" disabled>
@@ -280,18 +251,14 @@ Informasi Personal
 <label class="input-label">TikTok</label>
 <input type="text" name="tiktok" value="{{ old('tiktok',auth()->user()->tiktok) }}" class="edit-input" disabled>
 </div>
-
 @endif
 
 @if(auth()->user()->role === 'pengajar')
-
 <div class="input-group">
 <label class="input-label">Mata Pelajaran</label>
 <input type="text" name="mata_pelajaran" value="{{ old('mata_pelajaran',auth()->user()->mata_pelajaran) }}" class="edit-input" disabled>
 </div>
-
 @endif
-
 </div>
 
 <div class="input-group" style="margin-top:15px;">
@@ -300,49 +267,31 @@ Informasi Personal
 </div>
 
 </div>
-
 </div>
-
 </div>
-
 
 <script>
-
 const editBtn=document.getElementById('editBtn')
 const saveBtn=document.getElementById('saveBtn')
 const uploadBtn=document.getElementById('uploadBtn')
 const inputs=document.querySelectorAll('.edit-input')
 
 editBtn.onclick=function(){
-
-inputs.forEach(input=>{
-input.disabled=false
-})
-
+inputs.forEach(input=>{ input.disabled=false })
 uploadBtn.style.display="flex"
 editBtn.style.display="none"
 saveBtn.style.display="block"
-
 }
 
 function previewImage(input){
-
 if(input.files && input.files[0]){
-
 var reader=new FileReader()
-
 reader.onload=function(e){
-
 document.getElementById('avatarPreview').innerHTML='<img src="'+e.target.result+'">'
-
 }
-
 reader.readAsDataURL(input.files[0])
-
 }
-
 }
-
 </script>
 
 @endsection

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Pengajar; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengajarController extends Controller
 {
@@ -11,7 +13,10 @@ class PengajarController extends Controller
     {
         $totalSiswa = User::where('role','siswa')->where('status','accepted')->count();
         $totalPengajar = User::where('role','pengajar')->count();
-        return view('admin.pengajar.dashboard', compact('totalSiswa', 'totalPengajar'));
+        $totalKelas = 0; 
+        $jadwalHariIni = 0; 
+        $unreadCount = 0;
+        return view('admin.pengajar.dashboard', compact('totalSiswa', 'totalPengajar',  'totalKelas','jadwalHariIni', 'unreadCount'));
     }
 
     public function store(Request $request)
