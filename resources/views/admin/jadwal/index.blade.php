@@ -15,7 +15,6 @@
         <thead class="table-primary">
             <tr>
                 <th>No</th>
-                <th>Guru</th>
                 <th>Hari</th>
                 <th>Tanggal</th>
                 <th>Jam</th>
@@ -28,12 +27,11 @@
             @forelse($jadwals as $index => $jadwal)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $jadwal->guru ?? '-' }}</td>
-                <td>{{ $jadwal->hari ?? '-' }}</td>
-                <td>{{ $jadwal->tanggal ?? '-' }}</td>
-                <td>{{ $jadwal->jam ?? '-' }}</td>
-                <td>{{ $jadwal->mapel ?? '-' }}</td>
-                <td>{{ $jadwal->pengajar ?? '-' }}</td>
+                <td>{{ $jadwal->hari }}</td>
+                <td>{{ $jadwal->tanggal }}</td>
+                <td>{{ $jadwal->jam }}</td>
+                <td>{{ $jadwal->mapel }}</td>
+                <td>{{ $jadwal->pengajar }}</td>
                 <td>
                     <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ route('admin.jadwal.destroy', $jadwal->id) }}" method="POST" style="display:inline;">
@@ -45,7 +43,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="8">Belum ada jadwal tersedia.</td>
+                <td colspan="8">Belum ada jadwal tersedia</td>
             </tr>
             @endforelse
         </tbody>

@@ -71,39 +71,42 @@
                 </tr>
             </thead>
 
-            <tbody class="divide-y">
+            @php
+    // Pastikan controller mengirimkan $pengajar = User::where('role','pengajar')->get();
+        @endphp
 
-                @forelse($pengajar as $data)
-                    <tr class="hover:bg-blue-50 transition">
+        <tbody class="divide-y">
 
-                        <td class="px-6 py-4 font-medium text-gray-800">
-                            {{ $data->nama }}
-                        </td>
+            @forelse($pengajar as $data)
+                <tr class="hover:bg-blue-50 transition">
 
-                        <td class="px-6 py-4 font-medium text-gray-800">
-                            {{ $data->mata_pelajaran }}
-                        </td>
+                    <td class="px-6 py-4 font-medium text-gray-800">
+                        {{ $data->name }}
+                    </td>
 
-                        <td class="px-6 py-4 font-medium text-gray-800">
-                            {{ $data->no_hp }}
-                        </td>
+                    <td class="px-6 py-4 font-medium text-gray-800">
+                        {{ $data->mata_pelajaran ?? '-' }}
+                    </td>
 
-                        <td class="px-6 py-4 text-gray-600">
-                            {{ $data->email }}
-                        </td>
+                    <td class="px-6 py-4 font-medium text-gray-800">
+                        {{ $data->phone ?? '-' }}
+                    </td>
 
-                    </tr>
+                    <td class="px-6 py-4 text-gray-600">
+                        {{ $data->email }}
+                    </td>
 
-                @empty
-                    <tr>
-                        <td colspan="2" class="px-6 py-12 text-center text-gray-400">
-                            Belum ada data pengajar.
-                        </td>
-                    </tr>
-                @endforelse
+                </tr>
 
-            </tbody>
+            @empty
+        <tr>
+            <td colspan="4" class="px-6 py-12 text-center text-gray-400">
+                Belum ada data pengajar.
+            </td>
+        </tr>
+    @endforelse
 
+</tbody>
         </table>
 
     </div>

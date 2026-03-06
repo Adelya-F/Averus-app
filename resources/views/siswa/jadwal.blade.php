@@ -8,7 +8,6 @@
         <thead class="table-primary">
             <tr>
                 <th>No</th>
-                <th>Guru</th>
                 <th>Hari</th>
                 <th>Tanggal</th>
                 <th>Jam</th>
@@ -20,7 +19,6 @@
             @forelse($jadwal as $index => $item)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $item->guru ?? '-' }}</td>
                 <td>{{ $item->hari ?? '-' }}</td>
                 <td>{{ $item->tanggal ?? '-' }}</td>
                 <td>{{ $item->jam ?? '-' }}</td>
