@@ -15,7 +15,7 @@ return new class extends Migration
     Schema::create('pengajar', function (Blueprint $table) {
         $table->id();
         $table->string('nip')->unique();
-        $table->string('nama');
+        $table->string('name');
         $table->string('email')->unique();
         $table->string('no_hp');
         $table->string('alamat');

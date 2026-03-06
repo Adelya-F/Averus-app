@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,17 +25,50 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,'.$user->id,
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'bio' => 'nullable|string|max:500',
+            'phone' => 'nullable|string|max:20',
+            'instagram' => 'nullable|string|max:50',
+            'tiktok' => 'nullable|string|max:50',
+            'mata_pelajaran' => 'nullable|string|max:100',
+        ]);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Handle Upload Avatar
+        if ($request->hasFile('avatar')) {
+
+            // Hapus foto lama jika ada
+            if ($user->avatar && Storage::disk('public')->exists('avatars/'.$user->avatar)) {
+                Storage::disk('public')->delete('avatars/'.$user->avatar);
+            }
+
+            // Simpan file baru ke storage/app/public/avatars
+            $fileName = time().'_'.$user->id.'.'.$request->avatar->extension();
+            $request->avatar->storeAs('avatars', $fileName, 'public');
+
+            $user->avatar = $fileName;
         }
 
-        $request->user()->save();
+        // Update field lainnya
+        $user->fill($request->only([
+            'name',
+            'email',
+            'bio',
+            'phone',
+            'instagram',
+            'tiktok',
+            'mata_pelajaran'
+        ]));
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        $user->save();
+
+        return back()->with('status', 'profile-updated');
     }
 
     /**
