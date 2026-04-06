@@ -10,18 +10,27 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('jadwals', function (Blueprint $table) {
-        $table->id();
-        $table->string('hari');
-        $table->date('tanggal');
-        $table->string('jam');
-        $table->string('mapel');
-        $table->string('pengajar');
-        $table->timestamps();
-    });
-}
+    {
+        // Tabel Mata Pelajaran (Subjek)
+        Schema::create('mapels', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_mapel');
+            $table->timestamps();
+        });
 
+        // Tabel Jadwal
+        Schema::create('jadwals', function (Blueprint $table) {
+            $table->id();
+            // user_id ini untuk ID Guru (relasi ke tabel users)
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            // mapel_id ini untuk ID Mata Pelajaran (relasi ke tabel mapels)
+            $table->foreignId('mapel_id')->constrained('mapels')->onDelete('cascade');
+            $table->string('hari'); 
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
+            $table->timestamps();
+        });
+    }
     /**
      * Reverse the migrations.
      */

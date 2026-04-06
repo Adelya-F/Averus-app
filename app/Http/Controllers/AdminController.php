@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Inbox;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Mapel;
 
 class AdminController extends Controller
 {
@@ -95,7 +96,11 @@ class AdminController extends Controller
     // 🔥 FORM TAMBAH PENGAJAR
     public function createPengajar()
     {
-        return view('admin.pengajar.create');
+        // 1. Ambil semua data mata pelajaran dari database
+        $mapels = \App\Models\Mapel::all(); 
+
+        // 2. Kirim variabel $mapels ke dalam view
+        return view('admin.pengajar.create', compact('mapels'));
     }
 
     // 🔥 SIMPAN PENGAJAR
@@ -110,11 +115,16 @@ class AdminController extends Controller
             'address'        => 'required|string',
             'tanggal_lahir'  => 'required|date',
             'jenis_kelamin'  => 'required|in:Laki-laki,Perempuan',
-            'mata_pelajaran' => 'nullable|string',
+            'mata_pelajaran' => 'required|array', // Sekarang divalidasi sebagai array
         ]);
 
-        // Simpan langsung ke table users dengan role = pengajar
-        User::create([
+        // Proses penggabungan array mata pelajaran menjadi string (misal: "Matematika, Fisika")
+        $mapelTerpilih = $request->has('mata_pelajaran') 
+            ? implode(', ', $request->mata_pelajaran) 
+            : 'Umum';
+
+        // Simpan ke table users
+        \App\Models\User::create([
             'name'           => $request->name,
             'email'          => $request->email,
             'password'       => bcrypt($request->password),
@@ -124,11 +134,41 @@ class AdminController extends Controller
             'address'        => $request->address,
             'tanggal_lahir'  => $request->tanggal_lahir,
             'jenis_kelamin'  => $request->jenis_kelamin,
-            'mata_pelajaran' => $request->mata_pelajaran ?? 'Umum',
+            'mata_pelajaran' => $mapelTerpilih, 
         ]);
 
         return redirect()->route('admin.pengajar')
             ->with('success', 'Pengajar berhasil ditambahkan!');
+    }
+
+    public function editPengajar($id)
+    {
+        $pengajar = User::findOrFail($id);
+        $mapels = Mapel::all(); // 🔥 ini yang kurang
+
+        return view('admin.pengajar.edit', compact('pengajar','mapels'));
+    }
+
+    public function updatePengajar(Request $request, $id)
+    {
+        $pengajar = User::findOrFail($id);
+
+        $pengajar->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'mata_pelajaran' => $request->mata_pelajaran,
+            'phone' => $request->phone,
+        ]);
+
+        return redirect()->route('admin.pengajar')->with('success', 'Data berhasil diupdate');
+    }
+
+    public function destroyPengajar($id)
+    {
+        $pengajar = User::findOrFail($id);
+        $pengajar->delete();
+
+        return redirect()->route('admin.pengajar')->with('success', 'Data berhasil dihapus');
     }
 
     // 🔥 INBOX
