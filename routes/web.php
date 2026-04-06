@@ -39,15 +39,30 @@ Route::middleware('auth')->group(function () {
 // =====================================
 Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // Data Pengajar
     Route::get('/pengajar', [AdminController::class, 'pengajar'])->name('pengajar');
     Route::get('/pengajar/create', [AdminController::class, 'createPengajar'])->name('pengajar.create');
     Route::post('/pengajar/store', [AdminController::class, 'storePengajar'])->name('pengajar.store');
+    // EDIT
+    Route::get('/pengajar/{id}/edit', [AdminController::class, 'editPengajar'])->name('pengajar.edit');
+    // UPDATE
+    Route::put('/pengajar/{id}', [AdminController::class, 'updatePengajar'])->name('pengajar.update');
+    // DELETE
+    Route::delete('/pengajar/{id}', [AdminController::class, 'destroyPengajar'])->name('pengajar.destroy');
 
+    // Data Mapel (Disederhanakan)
+    Route::get('/mapel', [App\Http\Controllers\MapelController::class, 'index'])->name('mapel');
+    Route::post('/mapel', [App\Http\Controllers\MapelController::class, 'store'])->name('mapel.store');
+    Route::delete('/mapel/{id}', [App\Http\Controllers\MapelController::class, 'destroy'])->name('mapel.destroy');
+
+    // Data Jadwal
+    // Karena kamu pakai resource, ini sudah mencakup index, create, store, dll.
     Route::resource('jadwal', JadwalController::class);
 
+    // Verifikasi & Inbox
     Route::get('/verifikasi', [AdminController::class, 'verifikasiSiswa'])->name('verifikasi');
     Route::patch('/verifikasi/{user}/update', [AdminController::class, 'updateStatus'])->name('verifikasi.update');
-
     Route::get('/inbox', [AdminController::class, 'inbox'])->name('inbox');
     Route::get('/inbox/read/{id}', [AdminController::class, 'readInbox'])->name('inbox.read');
 });
