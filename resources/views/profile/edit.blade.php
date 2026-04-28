@@ -278,7 +278,8 @@ const inputs=document.querySelectorAll('.edit-input')
 
 editBtn.onclick=function(){
 inputs.forEach(input=>{ input.disabled=false })
-uploadBtn.style.display="flex"
+uploadBtn.style.display="flex";
+uploadBtn.style.visibility="visible";
 editBtn.style.display="none"
 saveBtn.style.display="block"
 }

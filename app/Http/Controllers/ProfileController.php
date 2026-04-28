@@ -67,7 +67,7 @@ class ProfileController extends Controller
         ]));
 
         $user->save();
-
+        $user->refresh();
         return back()->with('status', 'profile-updated');
     }
 

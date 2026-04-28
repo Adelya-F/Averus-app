@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         // Tabel Mata Pelajaran (Subjek)
-        Schema::create('mapels', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_mapel');
-            $table->timestamps();
-        });
+        // Schema::create('mapels', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('nama_mapel');
+        //     $table->timestamps();
+        // });
 
         // Tabel Jadwal
         Schema::create('jadwals', function (Blueprint $table) {
