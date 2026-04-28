@@ -8,15 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('mapels', function (Blueprint $table) {
+        Schema::create('absensis', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_mapel');
+            $table->string('nama_siswa');
+            $table->string('kelas');
+            $table->date('tanggal');
+            $table->enum('status', ['hadir', 'izin', 'sakit', 'alpha']);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('mapels');
+        Schema::dropIfExists('absensis');
     }
 };
