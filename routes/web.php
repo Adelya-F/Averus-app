@@ -7,7 +7,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PengajarController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\JadwalController;
-use App\Models\Jadwal;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\MapelController;
 
 // Landing page / redirect berdasarkan role
 Route::get('/', function () {
@@ -22,7 +23,7 @@ Route::get('/', function () {
 })->name('home');
 
 // =====================================
-// PROFILE ROUTES (auth umum)
+// PROFILE & GENERAL ROUTES
 // =====================================
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,48 +38,64 @@ Route::middleware('auth')->group(function () {
 // =====================================
 // ADMIN ROUTES
 // =====================================
-Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     
-    // Data Pengajar
+    // Pengajar, Mapel, Jadwal
     Route::get('/pengajar', [AdminController::class, 'pengajar'])->name('pengajar');
     Route::get('/pengajar/create', [AdminController::class, 'createPengajar'])->name('pengajar.create');
     Route::post('/pengajar/store', [AdminController::class, 'storePengajar'])->name('pengajar.store');
-    // EDIT
     Route::get('/pengajar/{id}/edit', [AdminController::class, 'editPengajar'])->name('pengajar.edit');
-    // UPDATE
     Route::put('/pengajar/{id}', [AdminController::class, 'updatePengajar'])->name('pengajar.update');
-    // DELETE
     Route::delete('/pengajar/{id}', [AdminController::class, 'destroyPengajar'])->name('pengajar.destroy');
 
-    // Data Mapel (Disederhanakan)
-    Route::get('/mapel', [App\Http\Controllers\MapelController::class, 'index'])->name('mapel');
-    Route::post('/mapel', [App\Http\Controllers\MapelController::class, 'store'])->name('mapel.store');
-    Route::delete('/mapel/{id}', [App\Http\Controllers\MapelController::class, 'destroy'])->name('mapel.destroy');
+    Route::get('/mapel', [MapelController::class, 'index'])->name('mapel');
+    Route::post('/mapel', [MapelController::class, 'store'])->name('mapel.store');
+    Route::delete('/mapel/{id}', [MapelController::class, 'destroy'])->name('mapel.destroy');
 
-    // Data Jadwal
-    // Karena kamu pakai resource, ini sudah mencakup index, create, store, dll.
     Route::resource('jadwal', JadwalController::class);
 
-    // Verifikasi & Inbox
+    // Verifikasi & Inbox Admin
     Route::get('/verifikasi', [AdminController::class, 'verifikasiSiswa'])->name('verifikasi');
     Route::patch('/verifikasi/{user}/update', [AdminController::class, 'updateStatus'])->name('verifikasi.update');
     Route::get('/inbox', [AdminController::class, 'inbox'])->name('inbox');
     Route::get('/inbox/read/{id}', [AdminController::class, 'readInbox'])->name('inbox.read');
+
+    // Manajemen Siswa & Kelas
+    Route::get('/siswa', [AdminController::class, 'indexKelas'])->name('siswa.index');
+    Route::get('/siswa/kelas/{slug}', [AdminController::class, 'showSiswaPerKelas'])->name('siswa.show');
+    Route::post('/siswa/naik/{id}', [AdminController::class, 'naikKelas'])->name('siswa.naik-kelas');
+    Route::post('/siswa/lulus/{id}', [AdminController::class, 'lulus'])->name('siswa.lulus');
+    Route::post('/siswa/berhenti/{id}', [AdminController::class, 'berhenti'])->name('siswa.berhenti');
+    Route::post('/siswa/store-direct', [AdminController::class, 'storeSiswa'])->name('siswa.store-direct');
+    Route::put('/siswa/update-direct/{id}', [AdminController::class, 'updateSiswa'])->name('siswa.update-direct');
+
+    // Manajemen Master Kelas & Undangan
+    Route::get('/kelas-management', [KelasController::class, 'index'])->name('kelas.index');
+    Route::post('/kelas-management', [KelasController::class, 'store'])->name('kelas.store');
+    Route::delete('/kelas-management/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy');
+    Route::post('/siswa/kirim-undangan-naik/{kelas_id}', [AdminController::class, 'kirimUndanganNaikKelas'])->name('siswa.kirim-undangan');
 });
 
 // =====================================
 // SISWA ROUTES
 // =====================================
 Route::middleware(['auth','role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
-    Route::get('/', [SiswaController::class, 'index'])->name('dashboard');
+    
+    // 1. Halaman Reaktivasi
+    Route::get('/reaktivasi', [SiswaController::class, 'showReaktivasi'])->name('reaktivasi.index');
+    Route::post('/reaktivasi/ajukan', [SiswaController::class, 'ajukanReaktivasi'])->name('reaktivasi.ajukan');
 
+    // 2. Inbox & Konfirmasi
+    Route::get('/inbox', [SiswaController::class, 'inbox'])->name('inbox');
+    Route::post('/inbox/konfirmasi/{id}', [SiswaController::class, 'konfirmasiKenaikan'])->name('inbox.konfirmasi');
+    Route::post('/inbox/berhenti/{id}', [SiswaController::class, 'berhenti'])->name('inbox.berhenti');
+
+    // 3. Halaman yang Butuh Status 'Accepted/Active'
     Route::middleware(['check.status'])->group(function () {
+        Route::get('/', [SiswaController::class, 'index'])->name('dashboard');
         Route::get('/absen', function () { return view('siswa.absen'); })->name('absen');
-        Route::get('/jadwal', function () {
-            $jadwal = Jadwal::all();
-            return view('siswa.jadwal', compact('jadwal'));
-        })->name('jadwal');
+        Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
     });
 });
 
@@ -87,9 +104,7 @@ Route::middleware(['auth','role:siswa'])->prefix('siswa')->name('siswa.')->group
 // =====================================
 Route::middleware(['auth','role:pengajar'])->prefix('pengajar')->name('pengajar.')->group(function () {
     Route::get('/dashboard', [PengajarController::class, 'dashboard'])->name('dashboard');
+    Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
 });
 
-// =====================================
-// AUTH ROUTES
-// =====================================
 require __DIR__.'/auth.php';

@@ -10,27 +10,25 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        // Tabel Mata Pelajaran (Subjek)
-        Schema::create('mapels', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_mapel');
-            $table->timestamps();
-        });
+{
+    Schema::create('jadwals', function (Blueprint $table) {
+        $table->id();
+        // ID Guru (yang ngajar)
+        $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
+        
+        // ID Kelas (Biar sekali input, semua siswa di kelas itu dapet jadwalnya)
+        $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade'); 
+        
+        // ID Mapel
+        $table->foreignId('mapel_id')->constrained('mapels')->onDelete('cascade'); 
+        
+        $table->string('hari'); 
+        $table->time('jam_mulai');
+        $table->time('jam_selesai');
+        $table->timestamps();
+    });
 
-        // Tabel Jadwal
-        Schema::create('jadwals', function (Blueprint $table) {
-            $table->id();
-            // user_id ini untuk ID Guru (relasi ke tabel users)
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            // mapel_id ini untuk ID Mata Pelajaran (relasi ke tabel mapels)
-            $table->foreignId('mapel_id')->constrained('mapels')->onDelete('cascade');
-            $table->string('hari'); 
-            $table->time('jam_mulai');
-            $table->time('jam_selesai');
-            $table->timestamps();
-        });
-    }
+}
     /**
      * Reverse the migrations.
      */
