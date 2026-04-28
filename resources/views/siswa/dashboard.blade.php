@@ -60,6 +60,27 @@
                </svg>
                Edit Profile
             </a>
+
+            <a href="{{ route('siswa.inbox') }}" 
+            class="flex items-center justify-between px-4 py-2 rounded-lg hover:bg-blue-700 transition {{ request()->routeIs('siswa.inbox') ? 'bg-blue-700 font-semibold shadow-inner' : '' }}">
+                <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Inbox
+                </div>
+                
+                {{-- Badge Notifikasi Angka Merah --}}
+                @php
+                    $unreadInbox = \App\Models\Inbox::where('user_id', Auth::id())->where('is_read', false)->count();
+                @endphp
+                
+                @if($unreadInbox > 0)
+                    <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-bounce">
+                        {{ $unreadInbox }}
+                    </span>
+                @endif
+            </a>
         </nav>
 
         <div class="p-4 border-t border-blue-700">
@@ -127,7 +148,41 @@
                     <p class="text-gray-400 italic">Tidak ada jadwal hari ini.</p>
                     @endforelse
                 </div>
+            </div><div class="bg-white p-6 rounded-xl shadow mb-8">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-gray-800">Jadwal Hari Ini ({{ $hariIni }})</h2>
+        @if($jadwalHariIni->count() > 0)
+            <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-semibold">
+                {{ $jadwalHariIni->count() }} Pelajaran
+            </span>
+        @endif
+    </div>
+
+    <div class="space-y-4">
+        @forelse($jadwalHariIni as $jadwal)
+        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-300 transition group">
+            <div class="flex items-center gap-4">
+                <div class="bg-blue-600 text-white p-3 rounded-xl font-bold text-xs shadow-sm group-hover:scale-110 transition">
+                    {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }}
+                </div>
+                <div>
+                    <p class="font-bold text-gray-800 uppercase tracking-tight">{{ $jadwal->mapel->nama_mapel }}</p>
+                    <p class="text-xs text-gray-500 font-medium italic">{{ $jadwal->guru->name }}</p>
+                </div>
             </div>
+            <div class="text-right">
+                <span class="text-[10px] font-bold text-gray-400 block uppercase">Selesai</span>
+                <span class="text-sm font-semibold text-gray-600">{{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }}</span>
+            </div>
+        </div>
+        @empty
+        <div class="text-center py-10">
+            <div class="text-5xl mb-3">☕</div>
+            <p class="text-gray-400 font-medium italic">Hari {{ $hariIni }} tidak ada jadwal pelajaran.</p>
+        </div>
+        @endforelse
+    </div>
+</div>
 
             <div class="bg-gradient-to-r from-blue-500 to-indigo-300 p-6 rounded-xl text-white flex justify-between items-center">
                 <div>
@@ -139,6 +194,19 @@
                    Absen Sekarang
                 </a>
             </div>
+            @if(session('success'))
+            <div class="mx-6 mt-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 shadow-sm rounded-r-lg flex justify-between items-center">
+                <span>{{ session('success') }}</span>
+                <button onclick="this.parentElement.remove()" class="text-green-900 font-bold">✕</button>
+            </div>
+            @endif
+
+            @if(session('error'))
+            <div class="mx-6 mt-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 shadow-sm rounded-r-lg flex justify-between items-center">
+                <span>{{ session('error') }}</span>
+                <button onclick="this.parentElement.remove()" class="text-red-900 font-bold">✕</button>
+            </div>
+            @endif
         </main>
     </div>
 
