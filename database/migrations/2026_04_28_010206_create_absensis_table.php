@@ -10,10 +10,15 @@ return new class extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_siswa');
-            $table->string('kelas');
-            $table->date('tanggal');
-            $table->enum('status', ['hadir', 'izin', 'sakit', 'alpha']);
+
+            // relasi ke user (siswa)
+            $table->foreignId('user_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            // tanggal + jam
+            $table->dateTime('tanggal');
+
             $table->timestamps();
         });
     }

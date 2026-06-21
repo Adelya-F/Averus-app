@@ -1,28 +1,38 @@
-use App\Models\Absensi;
+<?php
+
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
+use App\Models\Absensi;
+use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
     public function index()
     {
-        $absensis = Absensi::all();
-        return view('absensi.index', compact('absensis'));
+        $absensis = Absensi::where('user_id', Auth::id())
+                        ->latest()
+                        ->get();
+
+        return view('siswa.absen', compact('absensis'));
     }
 
-    public function create()
+    public function store()
     {
-        return view('absensi.create');
-    }
+        // ❗ CEGAH ABSEN 2X HARI INI
+        $sudahAbsen = Absensi::where('user_id', Auth::id())
+            ->whereDate('tanggal', now()->toDateString())
+            ->exists();
 
-    public function store(Request $request)
-    {
-        Absensi::create($request->all());
-        return redirect()->route('absensi.index');
-    }
+        if ($sudahAbsen) {
+            return back()->with('error', 'Kamu sudah absen hari ini!');
+        }
 
-    public function destroy(Absensi $absensi)
-    {
-        $absensi->delete();
-        return redirect()->route('absensi.index');
+        Absensi::create([
+            'user_id' => Auth::id(),
+            'tanggal' => now()
+        ]);
+
+        return back()->with('success', 'Absen berhasil!');
     }
 }
