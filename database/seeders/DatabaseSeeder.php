@@ -13,6 +13,8 @@ use Illuminate\Database\Seeder;
         $this->call([
             AdminSeeder::class,
             PengajarSeeder::class,
+            KelasSeeder::class, 
+            SiswaSeeder::class,
         ]);
     }
 }

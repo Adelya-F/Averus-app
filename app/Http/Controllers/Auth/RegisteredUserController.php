@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Inbox; 
+use App\Models\Kelas; 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,24 +18,24 @@ class RegisteredUserController extends Controller
 {
     public function create(): View
     {
-        return view('auth.register');
+        $daftar_kelas = Kelas::all();
+        return view('auth.register', compact('daftar_kelas'));
     }
 
     public function store(Request $request): RedirectResponse
     {
-        // 1. Validasi SEMUA field
-        // Pastikan nama di sini SAMA dengan atribut 'name' di file register.blade.php
+        // 1. Validasi
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required', 'string', 'max:20'],
-            'class' => ['required', 'string'],
+            'kelas_id' => ['required', 'exists:kelas,id'], // 🔥 Ganti 'class' jadi 'kelas_id'
             'school' => ['required', 'string', 'max:255'],
             'parent_name' => ['required', 'string', 'max:255'],
             'parent_phone' => ['required', 'string', 'max:20'],
             'address' => ['required', 'string'],
-            'tanggal_lahir' => ['required', 'date'], // Sesuaikan dengan <input name="tanggal_lahir">
+            'tanggal_lahir' => ['required', 'date'],
             'hobby' => ['nullable', 'string', 'max:255'],
             'favorite_subject' => ['nullable', 'string', 'max:255'],
             'instagram' => ['nullable', 'string', 'max:255'],
@@ -47,7 +48,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-            'class' => $request->class,
+            'kelas_id' => $request->kelas_id, 
             'school' => $request->school,
             'parent_name' => $request->parent_name,
             'parent_phone' => $request->parent_phone,
@@ -61,20 +62,19 @@ class RegisteredUserController extends Controller
             'status' => 'pending', 
         ]);
 
-        // 3. Buat Notifikasi Inbox untuk Admin
-        // Pastikan model Inbox sudah benar dan ada kolom link, message, dll.
+        // 3. Notifikasi Inbox (Gunakan relasi untuk nama kelas jika perlu)
+        $namaKelas = $user->kelas ? $user->kelas->nama_kelas : 'Tidak Diketahui';
+
         Inbox::create([
             'title' => 'Pendaftaran Siswa Baru',
-            'message' => 'Siswa baru bernama ' . $user->name . ' (Kelas ' . $user->class . ') baru saja mendaftar.',
+            'message' => 'Siswa baru bernama ' . $user->name . ' (' . $namaKelas . ') baru saja mendaftar.',
             'link' => route('admin.verifikasi'), 
             'is_read' => false,
         ]);
 
         event(new Registered($user));
-
         Auth::login($user);
 
-        // Pastikan route ini ada di web.php kamu
         return redirect()->route('registration.status');
     }
 }

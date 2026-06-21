@@ -68,6 +68,7 @@
                     <th class="px-6 py-4 text-left font-semibold">Mata Pelajaran</th>
                     <th class="px-6 py-4 text-left font-semibold">No telp</th>
                     <th class="px-6 py-4 text-left font-semibold">Email</th>
+                    <th class="px-6 py-4 text-center font-semibold">Aksi</th>
                 </tr>
             </thead>
 
@@ -94,6 +95,30 @@
 
                     <td class="px-6 py-4 text-gray-600">
                         {{ $data->email }}
+                    </td>
+
+                    <td class="px-6 py-4 text-center space-x-2">
+
+                        <!-- EDIT -->
+                        <a href="{{ route('admin.pengajar.edit', $data->id) }}"
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-xs shadow">
+                            Edit
+                        </a>
+
+                        <!-- HAPUS -->
+                        <form action="{{ route('admin.pengajar.destroy', $data->id) }}"
+                            method="POST"
+                            class="inline-block"
+                            onsubmit="return confirm('Yakin mau hapus data ini?')">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs shadow">
+                                Hapus
+                            </button>
+                        </form>
+
                     </td>
 
                 </tr>

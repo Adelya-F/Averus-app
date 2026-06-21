@@ -30,8 +30,9 @@ return new class extends Migration
             $table->string('jenis_kelamin')->nullable();
 
             // 🔹 Data siswa
-            $table->string('school')->nullable();
-            $table->string('class')->nullable();
+           // 🔹 Data siswa (BAGIAN YANG DIUBAH)
+            $table->string('school')->nullable();        
+            $table->foreignId('kelas_id')->nullable()->constrained('kelas')->onDelete('set null');
             $table->string('hobby')->nullable();
             $table->text('address')->nullable();
             $table->string('phone')->nullable();

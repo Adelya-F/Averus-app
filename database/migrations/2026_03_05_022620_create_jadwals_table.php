@@ -13,15 +13,22 @@ return new class extends Migration
 {
     Schema::create('jadwals', function (Blueprint $table) {
         $table->id();
-        $table->string('hari');
-        $table->date('tanggal');
-        $table->string('jam');
-        $table->string('mapel');
-        $table->string('pengajar');
+        // ID Guru (yang ngajar)
+        $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
+        
+        // ID Kelas (Biar sekali input, semua siswa di kelas itu dapet jadwalnya)
+        $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade'); 
+        
+        // ID Mapel
+        $table->foreignId('mapel_id')->constrained('mapels')->onDelete('cascade'); 
+        
+        $table->string('hari'); 
+        $table->time('jam_mulai');
+        $table->time('jam_selesai');
         $table->timestamps();
     });
-}
 
+}
     /**
      * Reverse the migrations.
      */
