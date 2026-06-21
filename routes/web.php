@@ -67,7 +67,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/siswa/naik/{id}', [AdminController::class, 'naikKelas'])->name('siswa.naik-kelas');
     Route::post('/siswa/lulus/{id}', [AdminController::class, 'lulus'])->name('siswa.lulus');
     Route::post('/siswa/berhenti/{id}', [AdminController::class, 'berhenti'])->name('siswa.berhenti');
-    Route::post('/siswa/store-direct', [AdminController::class, 'storeSiswa'])->name('siswa.store-direct');
+    Route::post('/siswa/store-direct', [AdminController::class, 'storeSiswa'])->name('siswa.store-direct'); 
+    // Halaman Form Edit 
+    Route::get('/siswa/{id}/edit', [AdminController::class, 'editSiswa'])->name('siswa.edit');  
+    // Proses Update
     Route::put('/siswa/update-direct/{id}', [AdminController::class, 'updateSiswa'])->name('siswa.update-direct');
 
     // Manajemen Master Kelas & Undangan

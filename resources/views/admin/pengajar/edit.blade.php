@@ -2,21 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Pengajar - Averus</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
+        /* Custom Select2 agar serasi dengan desain create */
         .select2-container--default .select2-selection--multiple {
             border-radius: 0.75rem !important;
             border-color: #e5e7eb !important;
             padding: 5px !important;
+            transition: all 0.3s;
         }
-        .select2-container--default .select2-selection__choice {
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #6366f1 !important;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
             background-color: #6366f1 !important;
             color: white !important;
+            border: none !important;
             border-radius: 0.5rem !important;
+            padding: 2px 8px !important;
         }
     </style>
 </head>
@@ -26,132 +34,154 @@
     <header class="bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500 shadow-lg">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
             <a href="{{ route('admin.pengajar') }}"
-            class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-xl text-white">
-                ←
+               class="w-10 h-10 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-xl shadow-sm hover:bg-white/30 transition text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
             </a>
-            <h1 class="text-white text-xl font-bold">
-                Edit Pengajar
+            <h1 class="text-white text-xl font-bold tracking-tight">
+                Edit Data Pengajar <span class="bg-white/20 px-3 py-1 rounded-lg ml-2">Averus</span>
             </h1>
         </div>
     </header>
 
     <div class="max-w-4xl mx-auto px-6 py-12">
+        <div class="relative rounded-3xl shadow-2xl border border-indigo-100 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-indigo-50 backdrop-blur-sm">
+            
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500"></div>
 
-    <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="p-8 bg-gradient-to-r from-indigo-50 to-blue-100 border-b border-indigo-200">
+                <h2 class="text-lg font-bold text-blue-800">Ubah Data Profil</h2>
+                <p class="text-sm text-blue-600">Perbarui informasi pengajar jika terdapat perubahan data.</p>
+            </div>
 
-    @if ($errors->any())
-    <div class="mb-6 bg-red-100 text-red-600 p-4 rounded">
-        @foreach ($errors->all() as $error)
-            <div>{{ $error }}</div>
-        @endforeach
+            @if ($errors->any())
+            <div class="mx-8 mt-6 bg-red-50 border-l-4 border-red-400 text-red-700 p-4 rounded-r-xl shadow-sm">
+                <ul class="text-sm">
+                    @foreach ($errors->all() as $error)
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                            {{ $error }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
+            <form method="POST" action="{{ route('admin.pengajar.update', $pengajar->id) }}" class="p-8 space-y-10">
+                @csrf
+                @method('PUT')
+
+                <div class="space-y-6 p-6 rounded-2xl bg-white/70 backdrop-blur-sm border border-indigo-50 shadow-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-gray-700">NIP</label>
+                            <input type="text" name="nip" value="{{ old('nip', $pengajar->nip) }}" required
+                                   class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition shadow-sm">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-gray-700">Nama Lengkap</label>
+                            <input type="text" name="name" value="{{ old('name', $pengajar->name) }}" required
+                                   class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition shadow-sm">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-gray-700">Alamat Email</label>
+                            <input type="email" name="email" value="{{ old('email', $pengajar->email) }}" required
+                                   class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition shadow-sm">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-gray-700">Password <span class="text-xs text-gray-400 font-normal">(Opsional)</span></label>
+                            <input type="password" name="password" placeholder="Kosongkan jika tidak diubah"
+                                   class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition shadow-sm">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-gray-700">No. HP / WhatsApp</label>
+                            <input type="text" name="phone" value="{{ old('phone', $pengajar->phone) }}" required
+                                   class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition shadow-sm">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-gray-700">Mata Pelajaran</label>
+                            <select name="mata_pelajaran[]" id="mapel" class="w-full" multiple required>
+                                @php
+                                    // Perbaikan bug spasi di explode (menggunakan ', ')
+                                    $selected = explode(', ', $pengajar->mata_pelajaran ?? '');
+                                @endphp
+                                @foreach($mapels as $mapel)
+                                    <option value="{{ $mapel->nama_mapel }}" @if(in_array($mapel->nama_mapel, $selected)) selected @endif>
+                                        {{ $mapel->nama_mapel }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-gray-700">Tanggal Lahir</label>
+                            <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $pengajar->tanggal_lahir) }}" required
+                                   class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition shadow-sm">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-gray-700">Jenis Kelamin</label>
+                            <select name="jenis_kelamin" required
+                                    class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition shadow-sm">
+                                <option value="">Pilih</option>
+                                <option value="Laki-laki" {{ old('jenis_kelamin', $pengajar->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="Perempuan" {{ old('jenis_kelamin', $pengajar->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="space-y-1 mt-4">
+                        <label class="text-sm font-semibold text-gray-700">Alamat Lengkap</label>
+                        <textarea name="address" rows="3" required
+                                  class="w-full px-4 py-2.5 rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition shadow-sm">{{ old('address', $pengajar->address) }}</textarea>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-6 border-t border-gray-100">
+                    <a href="{{ route('admin.pengajar') }}" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">
+                        ← Kembali ke Daftar
+                    </a>
+                    <button type="submit" id="btnSubmit" class="px-8 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-md shadow-indigo-100 transition transform active:scale-95">
+                        Update Data Pengajar
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
-    @endif
 
-    <form method="POST" action="{{ route('admin.pengajar.update', $pengajar->id) }}">
-    @csrf
-    @method('PUT')
-
-    <div class="grid grid-cols-2 gap-6">
-
-    <div>
-    <label>NIP</label>
-    <input type="text" name="nip"
-    value="{{ old('nip', $pengajar->nip) }}"
-    class="w-full border rounded-lg px-3 py-2">
-    </div>
-
-    <div>
-    <label>Nama</label>
-    <input type="text" name="name"
-    value="{{ old('name', $pengajar->name) }}"
-    class="w-full border rounded-lg px-3 py-2">
-    </div>
-
-    <div>
-    <label>Email</label>
-    <input type="email" name="email"
-    value="{{ old('email', $pengajar->email) }}"
-    class="w-full border rounded-lg px-3 py-2">
-    </div>
-
-    <div>
-    <label>Password (opsional)</label>
-    <input type="password" name="password"
-    placeholder="Kosongkan jika tidak diubah"
-    class="w-full border rounded-lg px-3 py-2">
-    </div>
-
-    <div>
-    <label>No HP</label>
-    <input type="text" name="phone"
-    value="{{ old('phone', $pengajar->phone) }}"
-    class="w-full border rounded-lg px-3 py-2">
-    </div>
-
-    <div>
-    <label>Mata Pelajaran</label>
-    <select name="mata_pelajaran[]" id="mapel" multiple class="w-full">
-
-    @php
-    $selected = explode(',', $pengajar->mata_pelajaran ?? '');
-    @endphp
-
-    @foreach($mapels as $mapel)
-    <option value="{{ $mapel->nama_mapel }}"
-    @if(in_array($mapel->nama_mapel, $selected)) selected @endif>
-    {{ $mapel->nama_mapel }}
-    </option>
-    @endforeach
-
-    </select>
-    </div>
-
-    <div>
-    <label>Tanggal Lahir</label>
-    <input type="date" name="tanggal_lahir"
-    value="{{ old('tanggal_lahir', $pengajar->tanggal_lahir) }}"
-    class="w-full border rounded-lg px-3 py-2">
-    </div>
-
-    <div>
-    <label>Jenis Kelamin</label>
-    <select name="jenis_kelamin" class="w-full border rounded-lg px-3 py-2">
-    <option value="">Pilih</option>
-    <option value="Laki-laki" {{ $pengajar->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-    <option value="Perempuan" {{ $pengajar->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-    </select>
-    </div>
-
-    </div>
-
-    <div class="mt-6">
-    <label>Alamat</label>
-    <textarea name="address" class="w-full border rounded-lg px-3 py-2">{{ old('address', $pengajar->address) }}</textarea>
-    </div>
-
-    <div class="mt-8 flex justify-between">
-    <a href="{{ route('admin.pengajar') }}" class="text-gray-600">
-    ← Kembali
-    </a>
-
-    <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg">
-    Update
-    </button>
-    </div>
-
-    </form>
-
-    </div>
-    </div>
+    <footer class="text-gray-400 py-8 text-center text-xs">
+        © 2026 Averus. Semua hak cipta dilindungi.
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-    $('#mapel').select2({
-        placeholder: "Pilih mapel"
-    });
-    </script>
+        $(document).ready(function() {
+            // Inisialisasi Select2
+            $('#mapel').select2({
+                placeholder: " Pilih mata pelajaran...",
+                allowClear: true
+            });
 
-    </body>
-    </html>
+            // Efek Loading saat Submit agar user tahu proses sedang berjalan
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function () {
+                const btn = document.getElementById("btnSubmit");
+                btn.innerHTML = "⏳ Memperbarui...";
+                btn.disabled = true;
+                btn.classList.add("opacity-70");
+            });
+        });
+    </script>
+</body>
+</html>
