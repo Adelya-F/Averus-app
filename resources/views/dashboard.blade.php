@@ -26,7 +26,7 @@
     </div>
 
     <div class="flex items-center space-x-2 md:space-x-6">
-      <a href="#dashboard" class="text-[10px] md:text-base hover:text-yellow-600 transition font-medium">Dashboard</a>
+      <a href="#top" class="text-[10px] md:text-base hover:text-yellow-600 transition font-medium">Dashboard</a>
       <a href="#program" class="text-[10px] md:text-base hover:text-yellow-600 transition font-medium">Program</a>
       
       <a href="{{ route('register') }}" class="text-[10px] md:text-base text-blue-600 font-bold hover:underline">Daftar</a>
