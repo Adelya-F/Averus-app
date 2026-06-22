@@ -30,12 +30,13 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required', 'string', 'max:20'],
-            'kelas_id' => ['required', 'exists:kelas,id'], // 🔥 Ganti 'class' jadi 'kelas_id'
+            'kelas_id' => ['required', 'exists:kelas,id'], 
             'school' => ['required', 'string', 'max:255'],
             'parent_name' => ['required', 'string', 'max:255'],
             'parent_phone' => ['required', 'string', 'max:20'],
             'address' => ['required', 'string'],
             'tanggal_lahir' => ['required', 'date'],
+            'jenis_kelamin' => ['required', 'date'],
             'hobby' => ['nullable', 'string', 'max:255'],
             'favorite_subject' => ['nullable', 'string', 'max:255'],
             'instagram' => ['nullable', 'string', 'max:255'],
@@ -62,14 +63,20 @@ class RegisteredUserController extends Controller
             'status' => 'pending', 
         ]);
 
-        // 3. Notifikasi Inbox (Gunakan relasi untuk nama kelas jika perlu)
+        // 3. Cari Admin untuk menerima notifikasi
+        // Kita cari user yang punya role 'admin' biar gak asal tembak ID 1
+        $admin = User::where('role', 'admin')->first();
+
+        // 4. Notifikasi Inbox
         $namaKelas = $user->kelas ? $user->kelas->nama_kelas : 'Tidak Diketahui';
 
         Inbox::create([
+            'user_id' => $admin ? $admin->id : 1, // Kirim ke admin, kalau gak ketemu default ke 1
             'title' => 'Pendaftaran Siswa Baru',
             'message' => 'Siswa baru bernama ' . $user->name . ' (' . $namaKelas . ') baru saja mendaftar.',
             'link' => route('admin.verifikasi'), 
             'is_read' => false,
+            'type' => 'registration', // Menambahkan tipe pesan
         ]);
 
         event(new Registered($user));

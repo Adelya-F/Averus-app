@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($jadwal as $index => $item)
+            @forelse($jadwals as $index => $item)
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $item->hari ?? '-' }}</td>

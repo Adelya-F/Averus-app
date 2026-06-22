@@ -13,6 +13,7 @@
                transform -translate-x-full transition-transform duration-300 ease-in-out
                md:relative md:translate-x-0 md:flex md:flex-col shadow-xl">
 
+<<<<<<< HEAD
         <div class="p-6 text-2xl font-bold border-b border-blue-700 flex justify-between items-center drop-shadow-md">
             <div>
                 <span class="text-red-500">A</span>
@@ -25,6 +26,41 @@
             </div>
             <button id="closeSidebar" class="md:hidden text-white focus:outline-none">
                 <span class="text-2xl">✕</span>
+=======
+    <div class="p-6 text-2xl font-bold border-b border-blue-700">
+        Averus Pengajar
+    </div>
+
+    <nav class="flex-1 p-4 space-y-3">
+
+        <a href="{{ route('pengajar.dashboard') }}"
+           class="block px-4 py-2 rounded-lg bg-blue-700 font-semibold">
+           Dashboard
+        </a>
+
+        <a href="#"
+           class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            Jadwal Mengajar
+        </a>
+
+        <a href="{{ route('pengajar.absensi') }}"
+           class="block px-6 py-4 text-white hover:bg-blue-700">
+           Absensi
+        </a>
+
+        <a href="#"
+           class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            Laporan
+        </a>
+
+    </nav>
+
+    <div class="p-4 border-t border-blue-700">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button class="w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg font-semibold">
+                Logout
+>>>>>>> 71050cc6f2e5503e982144e19a17e240644d4644
             </button>
         </div>
 

@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    /**
-     * 🔥 DASHBOARD ADMIN
-     */
+
     public function dashboard()
     {
         $totalSiswa = User::where('role', 'siswa')
@@ -38,9 +36,6 @@ class AdminController extends Controller
         ));
     }
 
-    /**
-     * 🔥 KOTAK MASUK ADMIN (Biar nggak error 500 lagi)
-     */
     public function inbox()
     {
         $messages = Inbox::where('user_id', Auth::id())
@@ -50,9 +45,7 @@ class AdminController extends Controller
         return view('admin.inbox', compact('messages'));
     }
 
-    /**
-     * 🔥 DETAIL PESAN ADMIN
-     */
+
     public function inboxShow($id)
     {
         $message = Inbox::where('user_id', Auth::id())->findOrFail($id);
@@ -61,9 +54,7 @@ class AdminController extends Controller
         return view('admin.inbox_show', compact('message'));
     }
 
-    /**
-     * 🔥 INDEX DATA SISWA (FOLDER KELAS)
-     */
+
     public function indexKelas()
     {
         $daftar_kelas = Kelas::withCount(['users' => function($query) {
@@ -73,9 +64,6 @@ class AdminController extends Controller
         return view('admin.siswa.index_kelas', compact('daftar_kelas'));
     }
 
-    /**
-     * 🔥 TAMPILKAN SISWA PER KELAS
-     */
     public function showSiswaPerKelas(Request $request, $slug)
     {
         $kelas = Kelas::where('slug', $slug)->firstOrFail();
@@ -92,9 +80,64 @@ class AdminController extends Controller
         return view('admin.siswa.show', compact('kelas', 'siswa'));
     }
 
-    /**
-     * 🔥 SISTEM UNDANGAN KENAIKAN KELAS (MASSAL)
-     */
+    public function editSiswa($id)
+    {
+        $siswa = User::where('role', 'siswa')->findOrFail($id);
+        return view('admin.siswa.edit', compact('siswa'));
+    }
+
+    public function updateSiswa(Request $request, $id)
+    {
+        $siswa = User::where('role', 'siswa')->findOrFail($id);
+
+        // Validasi seluruh input data lengkap siswa
+        $request->validate([
+            'name'             => 'required|string|max:255',
+            'email'            => 'required|email|unique:users,email,' . $id,
+            'password'         => 'nullable|min:6',
+            'school'           => 'nullable|string|max:255',
+            'phone'            => 'nullable|string|max:20',
+            'tanggal_lahir'    => 'nullable|date',
+            'jenis_kelamin'    => 'nullable|in:Laki-laki,Perempuan',
+            'address'          => 'nullable|string',
+            'parent_name'      => 'nullable|string|max:255',
+            'parent_phone'     => 'nullable|string|max:20',
+            'hobby'            => 'nullable|string|max:255',
+            'favorite_subject' => 'nullable|string|max:255',
+            'instagram'        => 'nullable|string|max:255',
+            'tiktok'           => 'nullable|string|max:255',
+        ]);
+
+        // Menyusun data pembaruan
+        $data = [
+            'name'             => $request->name,
+            'email'            => $request->email,
+            'school'           => $request->school,
+            'phone'            => $request->phone,
+            'tanggal_lahir'    => $request->tanggal_lahir,
+            'jenis_kelamin'    => $request->jenis_kelamin,
+            'address'          => $request->address,
+            'parent_name'      => $request->parent_name,
+            'parent_phone'     => $request->parent_phone,
+            'hobby'            => $request->hobby,
+            'favorite_subject' => $request->favorite_subject,
+            'instagram'        => $request->instagram,
+            'tiktok'           => $request->tiktok,
+        ];
+
+        // Update password baru hanya jika kolom password diisi oleh admin
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $siswa->update($data);
+
+        // Kembali ke halaman daftar siswa per kelas sebelumnya dengan flash message sukses
+        return redirect()->route('admin.siswa.show', $siswa->kelas->slug)
+                         ->with('success', "Data siswa {$siswa->name} berhasil diperbarui!");
+    }
+
+
     public function kirimUndanganNaikKelas(Request $request, $kelas_id)
     {
         $kelasSekarang = Kelas::findOrFail($kelas_id);
@@ -130,9 +173,6 @@ class AdminController extends Controller
         return back()->with('success', "Berhasil! $count undangan kenaikan kelas telah dikirim.");
     }
 
-    /**
-     * 🔥 FUNGSI NAIK KELAS (MANUAL PER SISWA)
-     */
     public function naikKelas($id)
     {
         $user = User::findOrFail($id);
@@ -146,9 +186,6 @@ class AdminController extends Controller
         return back()->with('error', 'Gagal! Kelas tujuan belum diatur.');
     }
 
-    /**
-     * 🔥 VERIFIKASI SISWA BARU
-     */
     public function verifikasiSiswa()
     {
         $today = Carbon::today();
@@ -188,13 +225,18 @@ class AdminController extends Controller
         return back()->with('success', 'Pesan telah ditandai sebagai dibaca.');
     }
 
-    /**
-     * 🔥 MANAJEMEN PENGAJAR (CRUD)
-     */
     public function pengajar()
     {
         $pengajar = User::where('role', 'pengajar')->get();
         return view('admin.pengajar.pengajar', compact('pengajar'));
+    }
+
+    public function createPengajar()
+    {
+        // Ubah dari $mapel menjadi $mapels agar sesuai dengan di Blade
+        $mapels = Mapel::all();
+
+        return view('admin.pengajar.create', compact('mapels'));
     }
 
     public function storePengajar(Request $request)
@@ -223,9 +265,52 @@ class AdminController extends Controller
         return redirect()->route('admin.pengajar')->with('success', 'Pengajar berhasil ditambahkan!');
     }
 
-    /**
-     * 🔥 LAIN-LAIN
-     */
+    public function editPengajar($id)
+    {
+        $pengajar = User::where('role', 'pengajar')->findOrFail($id);
+        $mapels = Mapel::all();
+
+        return view('admin.pengajar.edit', compact('pengajar', 'mapels'));
+    }
+
+    public function updatePengajar(Request $request, $id)
+    {
+        $pengajar = User::where('role', 'pengajar')->findOrFail($id);
+
+        $request->validate([
+            'nip'            => 'required|unique:users,nip,' . $id,
+            'name'           => 'required',
+            'email'          => 'required|email|unique:users,email,' . $id,
+            'password'       => 'nullable|min:6', // Boleh kosong kalau nggak mau ganti password
+            'mata_pelajaran' => 'required|array',
+        ]);
+
+        $data = [
+            'name'           => $request->name,
+            'email'          => $request->email,
+            'nip'            => $request->nip,
+            'phone'          => $request->phone,
+            'address'        => $request->address,
+            'tanggal_lahir'  => $request->tanggal_lahir,
+            'jenis_kelamin'  => $request->jenis_kelamin,
+            'mata_pelajaran' => implode(', ', $request->mata_pelajaran),
+        ];
+
+        // Enkripsi password baru hanya jika kolom password diisi
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $pengajar->update($data);
+
+        return redirect()->route('admin.pengajar')->with('success', 'Data pengajar berhasil diperbarui!');
+    }
+
+    public function destroyPengajar($id) {
+        User::findOrFail($id)->delete();
+        return redirect()->route('admin.pengajar')->with('success', 'Data berhasil dihapus');
+    }
+
     public function lulus($id) {
         User::findOrFail($id)->update(['status' => 'alumni']);
         return back()->with('success', "Siswa telah lulus.");
@@ -234,10 +319,5 @@ class AdminController extends Controller
     public function berhenti($id) {
         User::findOrFail($id)->update(['status' => 'inactive']);
         return back()->with('success', "Siswa telah berhenti.");
-    }
-
-    public function destroyPengajar($id) {
-        User::findOrFail($id)->delete();
-        return redirect()->route('admin.pengajar')->with('success', 'Data berhasil dihapus');
     }
 }

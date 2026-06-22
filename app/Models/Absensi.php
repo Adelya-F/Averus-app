@@ -9,13 +9,17 @@ class Absensi extends Model
     protected $fillable = [
         'user_id',
         'guru_id',
-        'tanggal'
+        'tanggal',
+        'jam_masuk',
+        'status'
     ];
+
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
 
     public function guru()
     {
