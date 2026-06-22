@@ -13,7 +13,6 @@
                transform -translate-x-full transition-transform duration-300 ease-in-out
                md:relative md:translate-x-0 md:flex md:flex-col shadow-xl">
 
-<<<<<<< HEAD
         <div class="p-6 text-2xl font-bold border-b border-blue-700 flex justify-between items-center drop-shadow-md">
             <div>
                 <span class="text-red-500">A</span>
@@ -26,41 +25,6 @@
             </div>
             <button id="closeSidebar" class="md:hidden text-white focus:outline-none">
                 <span class="text-2xl">✕</span>
-=======
-    <div class="p-6 text-2xl font-bold border-b border-blue-700">
-        Averus Pengajar
-    </div>
-
-    <nav class="flex-1 p-4 space-y-3">
-
-        <a href="{{ route('pengajar.dashboard') }}"
-           class="block px-4 py-2 rounded-lg bg-blue-700 font-semibold">
-           Dashboard
-        </a>
-
-        <a href="#"
-           class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-            Jadwal Mengajar
-        </a>
-
-        <a href="{{ route('pengajar.absensi') }}"
-           class="block px-6 py-4 text-white hover:bg-blue-700">
-           Absensi
-        </a>
-
-        <a href="#"
-           class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-            Laporan
-        </a>
-
-    </nav>
-
-    <div class="p-4 border-t border-blue-700">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button class="w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg font-semibold">
-                Logout
->>>>>>> 71050cc6f2e5503e982144e19a17e240644d4644
             </button>
         </div>
 
@@ -87,6 +51,22 @@
                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10m-11 9h12a2 2 0 002-2V7H3v11a2 2 0 002 2z" />
                </svg>
                Jadwal Mengajar
+            </a>
+
+            <a href="{{ route('pengajar.absensi') }}"
+               class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+               </svg>
+               Absensi
+            </a>
+
+            <a href="#"
+               class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h3m0 0l-3-3m3 3l-3 3M4 6h7a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" />
+               </svg>
+               Laporan
             </a>
         </nav>
 
