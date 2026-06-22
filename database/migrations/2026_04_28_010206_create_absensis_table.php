@@ -9,17 +9,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('absensis', function (Blueprint $table) {
-            $table->id();
+        $table->id();
 
-            // relasi ke user (siswa)
-            $table->foreignId('user_id')
-                  ->constrained()
-                  ->onDelete('cascade');
+        $table->foreignId('user_id')
+          ->constrained()
+          ->onDelete('cascade');
 
-            // tanggal + jam
-            $table->dateTime('tanggal');
+        $table->dateTime('tanggal');
 
-            $table->timestamps();
+        $table->time('jam_masuk')->nullable();
+
+        $table->string('status')->default('Hadir');
+
+        $table->timestamps();
         });
     }
 

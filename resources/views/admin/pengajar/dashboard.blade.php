@@ -20,12 +20,17 @@
 
         <a href="{{ route('pengajar.dashboard') }}"
            class="block px-4 py-2 rounded-lg bg-blue-700 font-semibold">
-            Dashboard
+           Dashboard
         </a>
 
         <a href="#"
            class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">
             Jadwal Mengajar
+        </a>
+
+        <a href="{{ route('pengajar.absensi') }}"
+           class="block px-6 py-4 text-white hover:bg-blue-700">
+           Absensi
         </a>
 
         <a href="#"

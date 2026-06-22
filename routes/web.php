@@ -161,8 +161,22 @@ Route::middleware(['auth', 'role:pengajar'])
     ->name('pengajar.')
     ->group(function () {
 
-        Route::get('/dashboard', [PengajarController::class, 'dashboard'])->name('dashboard');
-        Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
+        Route::get('/dashboard', [PengajarController::class, 'dashboard'])
+            ->name('dashboard');
+
+
+        // JADWAL
+        Route::get('/jadwal', [JadwalController::class, 'index'])
+            ->name('jadwal');
+
+
+        // ABSENSI PENGAJAR
+        Route::get('/absensi', [AbsensiController::class, 'pengajarIndex'])
+            ->name('absensi');
+
+        Route::post('/absensi', [AbsensiController::class, 'pengajarStore'])
+            ->name('absensi.store');
+
     });
 
 require __DIR__.'/auth.php';
