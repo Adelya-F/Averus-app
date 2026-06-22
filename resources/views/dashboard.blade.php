@@ -46,8 +46,11 @@
       <h2 class="text-4xl md:text-5xl font-bold leading-tight">Tingkatkan Prestasimu Bersama Kami</h2>
       <p class="mt-6 text-lg">Tempat kursus terbaik untuk SD, SMP, dan SMA. Mentor berpengalaman dan metode belajar interaktif.</p>
       <div class="mt-8">
-        <a href="{{ route('register') }}" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Daftar Sekarang</a>
-      </div>
+  <a href="{{ route('register') }}"
+     class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-50 hover:scale-105 hover:shadow-[0_0_25px_rgba(255,255,255,0.6)]">
+    Daftar Sekarang
+  </a>
+</div>
     </div>
     <div>
       <img src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b" class="rounded-xl shadow-2xl w-full mt-10 md:mt-0" alt="Kursus">
@@ -68,32 +71,38 @@
 
       <div id="cardContainer" class="flex gap-8 overflow-x-auto scroll-smooth py-10 no-scrollbar px-6 md:px-12">
         
-        <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
+        <div class="card min-w-[280px] p-6 bg-gradient-to-b from-blue-50 to-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-lg hover:border-blue-200 transition-all duration-300 cursor-pointer border-2 border-transparent text-left">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl mb-4">🎓</div>
           <h4 class="font-semibold text-lg mb-2">Mentor Profesional</h4>
           <p class="text-gray-600 text-sm">Pengajar berpengalaman & tersertifikasi.</p>
         </div>
 
-        <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
+        <div class="card min-w-[280px] p-6 bg-gradient-to-b from-orange-50 to-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-lg hover:border-orange-200 transition-all duration-300 cursor-pointer border-2 border-transparent text-left">
+          <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-2xl mb-4">⚡</div>
           <h4 class="font-semibold text-lg mb-2">Kelas Interaktif</h4>
           <p class="text-gray-600 text-sm">Belajar jadi aktif, tidak membosankan, dan pastinya jauh lebih menyenangkan bagi siswa.</p>
         </div>
 
-        <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
+        <div class="card min-w-[280px] p-6 bg-gradient-to-b from-green-50 to-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-lg hover:border-green-200 transition-all duration-300 cursor-pointer border-2 border-transparent text-left">
+          <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl mb-4">💡</div>
           <h4 class="font-semibold text-lg mb-2">Belajar Jadi Mudah</h4>
           <p class="text-gray-600 text-sm">Penjelasan materi dibuat sesederhana mungkin agar konsep tersulit pun jadi gampang dimengerti.</p>
         </div>
 
-        <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
+        <div class="card min-w-[280px] p-6 bg-gradient-to-b from-purple-50 to-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-lg hover:border-purple-200 transition-all duration-300 cursor-pointer border-2 border-transparent text-left">
+          <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl mb-4">📚</div>
           <h4 class="font-semibold text-lg mb-2">Kurikulum Update</h4>
           <p class="text-gray-600 text-sm">Materi selalu disesuaikan dengan kurikulum sekolah terbaru (Merdeka).</p>
         </div>
 
-        <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
+        <div class="card min-w-[280px] p-6 bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-lg hover:border-teal-200 transition-all duration-300 cursor-pointer border-2 border-transparent text-left">
+          <div class="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center text-2xl mb-4">🏠</div>
           <h4 class="font-semibold text-lg mb-2">Fasilitas Terpenuhi</h4>
           <p class="text-gray-600 text-sm">Faisilitas alat tulis, Ruangan kelas yang nyaman dan lingkungan belajar yang tenang serta bersih.</p>
         </div>
 
-        <div class="card min-w-[280px] p-6 bg-white rounded-2xl shadow-md hover:-translate-y-2 transition-all duration-300 cursor-pointer border-2 border-transparent">
+        <div class="card min-w-[280px] p-6 bg-gradient-to-b from-pink-50 to-white rounded-2xl shadow-md hover:-translate-y-2 hover:shadow-lg hover:border-pink-200 transition-all duration-300 cursor-pointer border-2 border-transparent text-left">
+          <div class="w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center text-2xl mb-4">🗓️</div>
           <h4 class="font-semibold text-lg mb-2">Jadwal Belajar Fleksibel</h4>
           <p class="text-gray-600 text-sm">Pilihan waktu belajar yang dapat disesuaikan dengan jadwal sekolah agar siswa tidak terlalu lelah.</p>
         </div>
@@ -110,9 +119,9 @@
     <p class="text-gray-600 mb-10">Pilih jenjang pendidikan untuk melihat detail program kami.</p>
 
     <div class="flex flex-wrap justify-center gap-4 mb-12">
-      <button onclick="changeProgram('sd')" id="btn-sd" class="prog-btn px-8 py-3 rounded-full border-2 border-blue-600 font-bold transition-all duration-300 bg-blue-600 text-white shadow-lg active:scale-95">Kelas SD</button>
-      <button onclick="changeProgram('smp')" id="btn-smp" class="prog-btn px-8 py-3 rounded-full border-2 border-blue-600 font-bold transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 active:scale-95">Kelas SMP</button>
-      <button onclick="changeProgram('sma')" id="btn-sma" class="prog-btn px-8 py-3 rounded-full border-2 border-blue-600 font-bold transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 active:scale-95">Kelas SMA</button>
+      <button onclick="changeProgram('sd')" id="btn-sd" class="prog-btn px-8 py-3 rounded-full border-2 border-blue-500 font-bold transition-all duration-300 bg-blue-600 text-white shadow-lg active:scale-95">Kelas SD</button>
+      <button onclick="changeProgram('smp')" id="btn-smp" class="prog-btn px-8 py-3 rounded-full border-2 border-blue-500 font-bold transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 active:scale-95">Kelas SMP</button>
+      <button onclick="changeProgram('sma')" id="btn-sma" class="prog-btn px-8 py-3 rounded-full border-2 border-blue-500 font-bold transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 active:scale-95">Kelas SMA</button>
     </div>
 
     <div id="programDisplay" class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100 transition-all duration-500 transform opacity-100 translate-y-0">
