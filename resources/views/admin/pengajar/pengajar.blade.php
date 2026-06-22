@@ -86,7 +86,7 @@
                     </td>
 
                     <td class="px-6 py-4 font-medium text-gray-800">
-                        {{ $data->mata_pelajaran ?? '-' }}
+                        {{ $data->mapel->nama_mapel ?? '-' }}
                     </td>
 
                     <td class="px-6 py-4 font-medium text-gray-800">

@@ -2,35 +2,35 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Jadwal extends Model
 {
-    // Sesuaikan fillable dengan migration terbaru (pake kelas_id)
+    use HasFactory;
+
     protected $fillable = [
-        'user_id', 
-        'kelas_id', 
-        'mapel_id', 
-        'hari', 
-        'jam_mulai', 
-        'jam_selesai'
+        'user_id',
+        'kelas_id',
+        'mapel_id',
+        'tanggal',
+        'hari',
+        'jam_mulai',
+        'jam_selesai',
+        'is_active',
     ];
 
-    // Relasi ke Guru (User yang mengajar)
-    public function guru(): BelongsTo
+    public function guru()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relasi ke Kelas (Bukan ke siswa satuan lagi)
-    public function kelas(): BelongsTo
+    public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 
-    // Relasi ke Mata Pelajaran
-    public function mapel(): BelongsTo
+    public function mapel()
     {
         return $this->belongsTo(Mapel::class, 'mapel_id');
     }

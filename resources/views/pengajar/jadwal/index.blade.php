@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Belajar - Averus</title>
+    <title>Jadwal Mengajar - Averus</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-gray-100 min-h-screen flex">
 
-<aside class="w-64 bg-blue-600 text-white hidden md:flex md:flex-col">
+<aside class="w-64 bg-blue-500 text-white hidden md:flex md:flex-col">
 
-    <div class="p-6 text-2xl font-bold border-b border-blue-800">
-        Averus Siswa
+    <div class="p-6 text-2xl font-bold border-b border-blue-700">
+        Averus Pengajar
     </div>
 
     <nav class="flex-1 p-4 space-y-3">
 
-        <a href="{{ route('siswa.dashboard') }}"
+        <a href="{{ route('pengajar.dashboard') }}"
            class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">
              Dashboard
         </a>
 
-        <a href="{{ route('siswa.jadwal.index') }}"
+        <a href="{{ route('pengajar.jadwal.index') }}"
            class="block px-4 py-2 rounded-lg bg-blue-700 font-semibold">
-             Jadwal Belajar
+             Jadwal Mengajar
         </a>
 
-        <a href="{{ route('siswa.inbox') }}"
+        <a href="#"
            class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-             Inbox
+             Laporan
         </a>
 
     </nav>
 
-    <div class="p-4 border-t border-blue-800">
+    <div class="p-4 border-t border-blue-700">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button class="w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg font-semibold transition">
+            <button class="w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg font-semibold">
                  Logout
             </button>
         </form>
@@ -49,7 +49,7 @@
 
     <header class="bg-white shadow p-4 flex justify-between items-center">
         <h1 class="text-xl font-semibold text-gray-700">
-            Jadwal Belajar Bimbel
+            Jadwal Mengajar
         </h1>
 
         <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 hover:bg-gray-50 p-2 rounded-lg transition group">
@@ -58,7 +58,7 @@
                     {{ Auth::user()->name }}
                 </p>
                 <p class="text-xs text-gray-500 uppercase">
-                    Kelas: {{ Auth::user()->kelas->nama_kelas ?? 'Belum Pilih' }}
+                    {{ Auth::user()->role }}
                 </p>
             </div>
 
@@ -76,9 +76,9 @@
 
         <div class="bg-white p-6 rounded-xl shadow">
             
-            @if($jadwal_siswa->isEmpty())
+            @if($jadwal_pengajar->isEmpty())
                 <div class="p-8 text-center">
-                    <p class="text-gray-500 text-sm">Tidak ada jadwal belajar aktif atau mading jadwal kosong saat ini, bray.</p>
+                    <p class="text-gray-500 text-sm">Tidak ada jadwal mengajar aktif untuk hari ini ke depan bray.</p>
                 </div>
             @else
                 <div class="overflow-x-auto">
@@ -89,11 +89,11 @@
                                 <th class="px-6 py-3">Jam Belajar</th>
                                 <th class="px-6 py-3">Mata Pelajaran</th>
                                 <th class="px-6 py-3">Kelas</th>
-                                <th class="px-6 py-3">Tentor / Guru</th> 
+                                <th class="px-6 py-3">Pengajar / Guru</th> 
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 bg-white">
-                            @foreach($jadwal_siswa as $jadwal)
+                            @foreach($jadwal_pengajar as $jadwal)
                                 <tr class="hover:bg-gray-50 transition">
                                     <td class="px-6 py-4 font-semibold text-gray-800">
                                         {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->translatedFormat('l, d F Y') }}

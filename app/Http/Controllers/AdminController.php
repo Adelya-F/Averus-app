@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Inbox;
 use App\Models\Mapel;
 use App\Models\Kelas; 
+use App\Models\Jadwal; // <-- INI GUE TAMBAHIN BIAR ENGGAK EROR PAS EDIT/UPDATE
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-
     public function dashboard()
     {
         $totalSiswa = User::where('role', 'siswa')
@@ -45,7 +45,6 @@ class AdminController extends Controller
         return view('admin.inbox', compact('messages'));
     }
 
-
     public function inboxShow($id)
     {
         $message = Inbox::where('user_id', Auth::id())->findOrFail($id);
@@ -53,7 +52,6 @@ class AdminController extends Controller
 
         return view('admin.inbox_show', compact('message'));
     }
-
 
     public function indexKelas()
     {
@@ -90,7 +88,6 @@ class AdminController extends Controller
     {
         $siswa = User::where('role', 'siswa')->findOrFail($id);
 
-        // Validasi seluruh input data lengkap siswa
         $request->validate([
             'name'             => 'required|string|max:255',
             'email'            => 'required|email|unique:users,email,' . $id,
@@ -108,7 +105,6 @@ class AdminController extends Controller
             'tiktok'           => 'nullable|string|max:255',
         ]);
 
-        // Menyusun data pembaruan
         $data = [
             'name'             => $request->name,
             'email'            => $request->email,
@@ -125,18 +121,15 @@ class AdminController extends Controller
             'tiktok'           => $request->tiktok,
         ];
 
-        // Update password baru hanya jika kolom password diisi oleh admin
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
         }
 
         $siswa->update($data);
 
-        // Kembali ke halaman daftar siswa per kelas sebelumnya dengan flash message sukses
         return redirect()->route('admin.siswa.show', $siswa->kelas->slug)
                          ->with('success', "Data siswa {$siswa->name} berhasil diperbarui!");
     }
-
 
     public function kirimUndanganNaikKelas(Request $request, $kelas_id)
     {
@@ -197,8 +190,6 @@ class AdminController extends Controller
         return view('admin.verifikasi', compact('siswas', 'diterimaHariIni', 'ditolakHariIni'));
     }
 
-
-
     public function updateStatus(Request $request, User $user)
     {
         $request->validate(['status' => 'required|in:accepted,rejected']);
@@ -209,19 +200,13 @@ class AdminController extends Controller
 
     public function readInbox($id)
     {
-        // 1. Cari pesan berdasarkan ID dan pastikan itu milik Admin yang sedang login
         $message = Inbox::where('user_id', Auth::id())->findOrFail($id);
-        
-        // 2. Tandai sudah dibaca
         $message->update(['is_read' => true]);
 
-        // 3. LOGIKA PINDAH HALAMAN
-        // Jika pesan adalah permintaan re-aktivasi atau pendaftaran baru, arahkan ke halaman verifikasi
         if ($message->type === 'request' || $message->type === 'registration') {
             return redirect()->route('admin.verifikasi')->with('success', 'Pesan dibaca. Silakan proses verifikasi siswa.');
         }
 
-        // Kalau pesan tipe lain, tetap di halaman inbox tapi kasih notif sukses
         return back()->with('success', 'Pesan telah ditandai sebagai dibaca.');
     }
 
@@ -233,9 +218,7 @@ class AdminController extends Controller
 
     public function createPengajar()
     {
-        // Ubah dari $mapel menjadi $mapels agar sesuai dengan di Blade
         $mapels = Mapel::all();
-
         return view('admin.pengajar.create', compact('mapels'));
     }
 
@@ -246,7 +229,7 @@ class AdminController extends Controller
             'name'           => 'required',
             'email'          => 'required|email|unique:users,email',
             'password'       => 'required|min:6',
-            'mata_pelajaran' => 'required|array',
+            'mapel_id'       => 'required|exists:mapels,id',
         ]);
 
         User::create([
@@ -259,10 +242,10 @@ class AdminController extends Controller
             'address'        => $request->address,
             'tanggal_lahir'  => $request->tanggal_lahir,
             'jenis_kelamin'  => $request->jenis_kelamin,
-            'mata_pelajaran' => implode(', ', $request->mata_pelajaran), 
+            'mapel_id'       => $request->mapel_id, 
         ]);
 
-        return redirect()->route('admin.pengajar')->with('success', 'Pengajar berhasil ditambahkan!');
+        return redirect()->route('admin.pengajar.index')->with('success', 'Pengajar berhasil ditambahkan!');
     }
 
     public function editPengajar($id)
@@ -281,8 +264,8 @@ class AdminController extends Controller
             'nip'            => 'required|unique:users,nip,' . $id,
             'name'           => 'required',
             'email'          => 'required|email|unique:users,email,' . $id,
-            'password'       => 'nullable|min:6', // Boleh kosong kalau nggak mau ganti password
-            'mata_pelajaran' => 'required|array',
+            'password'       => 'nullable|min:6',
+            'mapel_id'       => 'required|exists:mapels,id',
         ]);
 
         $data = [
@@ -293,22 +276,21 @@ class AdminController extends Controller
             'address'        => $request->address,
             'tanggal_lahir'  => $request->tanggal_lahir,
             'jenis_kelamin'  => $request->jenis_kelamin,
-            'mata_pelajaran' => implode(', ', $request->mata_pelajaran),
+            'mapel_id'       => $request->mapel_id,
         ];
 
-        // Enkripsi password baru hanya jika kolom password diisi
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
         }
 
         $pengajar->update($data);
 
-        return redirect()->route('admin.pengajar')->with('success', 'Data pengajar berhasil diperbarui!');
+        return redirect()->route('admin.pengajar.index')->with('success', 'Data pengajar berhasil diperbarui!');
     }
 
     public function destroyPengajar($id) {
         User::findOrFail($id)->delete();
-        return redirect()->route('admin.pengajar')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('admin.pengajar.index')->with('success', 'Data berhasil dihapus');
     }
 
     public function lulus($id) {
@@ -319,5 +301,81 @@ class AdminController extends Controller
     public function berhenti($id) {
         User::findOrFail($id)->update(['status' => 'inactive']);
         return back()->with('success', "Siswa telah berhenti.");
+    }
+
+    // ==========================================
+    //          MANAJEMEN JADWAL (SMART)
+    // ==========================================
+
+    public function indexJadwal()
+    {
+        $hariIni = Carbon::today()->format('Y-m-d');
+
+        // 1. OTOMATIS ARSIPKAN JADWAL YANG SUDAH LEWAT TANGGALNYA
+        Jadwal::where('is_active', true)
+              ->where('tanggal', '<', $hariIni)
+              ->update(['is_active' => false]);
+
+        // 2. QUERY UTAMA: Urutkan pintar berdasarkan tanggal terdekat, lalu jam mulai
+        $daftar_jadwal = Jadwal::with(['guru', 'kelas', 'mapel'])
+            ->where('is_active', true)
+            ->orderBy('tanggal', 'asc')
+            ->orderBy('jam_mulai', 'asc')
+            ->get();
+
+        return view('admin.jadwal.index', compact('daftar_jadwal'));
+    }
+
+    public function createJadwal()
+    {
+        $gurus = User::where('role', 'pengajar')->with('mapel')->get();
+        $kelas = Kelas::all();
+        $mapels = Mapel::all();
+
+        return view('admin.jadwal.create', compact('gurus', 'kelas', 'mapels'));
+    }
+
+    public function storeJadwal(Request $request)
+    {
+        // Validasi input berbentuk array karena dikirim barengan
+        $request->validate([
+            'jadwal'               => 'required|array|min:1',
+            'jadwal.*.user_id'     => 'required|exists:users,id',
+            'jadwal.*.kelas_id'    => 'required|exists:kelas,id',
+            'jadwal.*.mapel_id'    => 'required|exists:mapels,id',
+            'jadwal.*.tanggal'     => 'required|date|after_or_equal:today',
+            'jadwal.*.jam_mulai'   => 'required',
+            'jadwal.*.jam_selesai' => 'required',
+        ]);
+
+        // Looping untuk simpan semua baris jadwal yang diinput admin
+        foreach ($request->jadwal as $item) {
+            // Deteksi nama hari otomatis berdasarkan tanggal yang dipilih
+            $namaHari = Carbon::parse($item['tanggal'])->locale('id')->dayName;
+
+            Jadwal::create([
+                'user_id'     => $item['user_id'],
+                'kelas_id'    => $item['kelas_id'],
+                'mapel_id'    => $item['mapel_id'],
+                'tanggal'     => $item['tanggal'],
+                'hari'        => $namaHari, // Otomatis kesimpan "Senin", "Selasa", dll
+                'jam_mulai'   => $item['jam_mulai'],
+                'jam_selesai' => $item['jam_selesai'],
+                'is_active'   => true,
+            ]);
+        }
+
+        return redirect()->route('admin.jadwal.index')->with('success', 'Semua jadwal pelajaran berhasil dijadwalkan untuk minggu ini!');
+    }
+
+    public function historyJadwal()
+    {
+        $history_jadwal = Jadwal::with(['guru', 'kelas', 'mapel'])
+            ->where('is_active', false)
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('jam_mulai', 'desc')
+            ->get();
+
+        return view('admin.jadwal.history', compact('history_jadwal'));
     }
 }

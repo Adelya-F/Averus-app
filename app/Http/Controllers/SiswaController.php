@@ -15,28 +15,48 @@ class SiswaController extends Controller
     {
         $user = Auth::user();
         
-        // Ambil hari ini (Contoh: "Minggu")
-        $hariIni = Carbon::now()->isoFormat('dddd'); 
+        // Kembalikan nama penampungnya menjadi $hariIni bray
+        $hariIni = Carbon::now()->locale('id')->translatedFormat('l'); 
 
-        // Ambil jadwal asli dari database sesuai kelas_id si siswa
-        $jadwalHariIni = Jadwal::where('kelas_id', $user->kelas_id)
-                        ->where('hari', $hariIni)
-                        ->with(['mapel', 'guru'])
-                        ->orderBy('jam_mulai', 'asc')
-                        ->get();
+        $jadwalHariIni = Jadwal::where('is_active', true)
+                                ->whereDate('tanggal', Carbon::today())
+                                ->with(['mapel', 'guru', 'kelas']) 
+                                ->orderBy('jam_mulai', 'asc')
+                                ->get();
 
-        // Data statistik
         $totalKehadiran = 20; 
         $totalTidakHadir = 2;
-        $kelasAktif = 5;
+        $kelasAktif = Jadwal::where('is_active', true)->distinct('kelas_id')->count('kelas_id');
 
+        // Ubah compact-nya juga kembali mengirimkan 'hariIni'
         return view('siswa.dashboard', compact(
             'totalKehadiran', 
             'totalTidakHadir', 
             'kelasAktif', 
             'jadwalHariIni',
-            'hariIni'
+            'hariIni' 
         ));
+    }
+
+    /**
+     * FITUR BARU: Menampilkan seluruh Jadwal Belajar Terpusat untuk Siswa
+     */
+    public function indexJadwal()
+    {
+        $hariIni = Carbon::today()->format('Y-m-d');
+
+        Jadwal::where('is_active', true)
+            ->where('tanggal', '<', $hariIni)
+            ->update(['is_active' => false]);
+
+        $jadwal_siswa = Jadwal::with(['kelas', 'mapel', 'guru']) 
+                                ->where('is_active', true)
+                                ->orderBy('tanggal', 'asc')
+                                ->orderBy('jam_mulai', 'asc')
+                                ->get();
+
+        // FIXED: Diarahkan langsung ke file jadwal.blade.php di folder siswa
+        return view('siswa.jadwal', compact('jadwal_siswa')); 
     }
 
     public function inbox()

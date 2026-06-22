@@ -76,7 +76,7 @@
     Data Kelas
 </a>
 
-<a href="{{ route('admin.pengajar') }}" 
+<a href="{{ route('admin.pengajar.index') }}" 
    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-700 transition">
 
     <!-- Icon User -->
@@ -92,7 +92,7 @@
     Data Pengajar
 </a>
 
-<a href="{{ route('admin.mapel') }}" 
+<a href="{{ route('admin.mapel.index') }}" 
    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-700 transition">
 
     <svg xmlns="http://www.w3.org/2000/svg" 

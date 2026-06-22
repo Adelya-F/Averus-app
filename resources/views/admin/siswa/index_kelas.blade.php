@@ -25,7 +25,7 @@
                 
                 {{-- Tombol Kirim Undangan Global (Pojok Kanan Atas) --}}
                 @if($kelas->next_class_id)
-                <form action="{{ route('admin.siswa.kirim-undangan', $kelas->id) }}" method="POST" class="absolute top-4 right-4 z-10" onsubmit="return confirm('Kirim undangan kenaikan ke SEMUA siswa di {{ $kelas->nama_kelas }}?')">
+                <form action="{{ route('admin.siswa.kirim-undangan.index', $kelas->id) }}" method="POST" class="absolute top-4 right-4 z-10" onsubmit="return confirm('Kirim undangan kenaikan ke SEMUA siswa di {{ $kelas->nama_kelas }}?')">
                     @csrf
                     <button type="submit" class="p-2 bg-green-50 text-green-600 rounded-xl hover:bg-green-600 hover:text-white transition shadow-sm" title="Kirim Undangan Kenaikan Kelas">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

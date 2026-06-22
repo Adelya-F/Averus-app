@@ -25,7 +25,7 @@ return new class extends Migration
 
             // 🔥 Data pengajar
             $table->string('nip')->nullable()->unique();
-            $table->string('mata_pelajaran')->nullable();
+            $table->foreignId('mapel_id')->nullable()->constrained('mapels')->onDelete('set null');
             $table->date('tanggal_lahir')->nullable();
             $table->string('jenis_kelamin')->nullable();
 

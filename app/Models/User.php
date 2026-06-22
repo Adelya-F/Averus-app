@@ -17,6 +17,7 @@ class User extends Authenticatable
         'password',
         'school',
         'kelas_id', 
+        'mapel_id', 
         'hobby',
         'address',
         'phone',
@@ -90,5 +91,13 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    // app/Models/User.php
+
+    public function mapel()
+    {
+        // Pastikan 'mapel_id' di sini adalah nama kolom di database tabel 'users'
+        return $this->belongsTo(\App\Models\Mapel::class, 'mapel_id', 'id');
     }
 }

@@ -9,7 +9,6 @@
 
 <body class="bg-gray-100 min-h-screen flex">
 
-<!-- SIDEBAR -->
 <aside class="w-64 bg-blue-500 text-white hidden md:flex md:flex-col">
 
     <div class="p-6 text-2xl font-bold border-b border-blue-700">
@@ -23,7 +22,7 @@
             Dashboard
         </a>
 
-        <a href="#"
+        <a href="{{ route('pengajar.jadwal.index') }}"
            class="block px-4 py-2 rounded-lg hover:bg-blue-700 transition">
             Jadwal Mengajar
         </a>
@@ -46,10 +45,8 @@
 
 </aside>
 
-<!-- CONTENT -->
 <div class="flex-1 flex flex-col">
 
-    <!-- HEADER -->
     <header class="bg-white shadow p-4 flex justify-between items-center">
     <h1 class="text-xl font-semibold text-gray-700">
         Dashboard Pengajar
@@ -75,7 +72,6 @@
     </a>
     </header>
 
-    <!-- MAIN -->
     <main class="p-6 flex-1">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -110,7 +106,6 @@
 
         </div>
 
-        <!-- INFO BOX -->
         <div class="mt-8 bg-white p-6 rounded-xl shadow">
             <h3 class="text-lg font-semibold text-gray-700 mb-4">
                 Selamat Datang 👋

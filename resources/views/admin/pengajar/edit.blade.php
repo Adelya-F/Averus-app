@@ -33,7 +33,7 @@
 
     <header class="bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500 shadow-lg">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
-            <a href="{{ route('admin.pengajar') }}"
+            <a href="{{ route('admin.pengajar.index') }}"
                class="w-10 h-10 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-xl shadow-sm hover:bg-white/30 transition text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -146,7 +146,7 @@
                 </div>
 
                 <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                    <a href="{{ route('admin.pengajar') }}" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">
+                    <a href="{{ route('admin.pengajar.index') }}" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">
                         ← Kembali ke Daftar
                     </a>
                     <button type="submit" id="btnSubmit" class="px-8 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-md shadow-indigo-100 transition transform active:scale-95">
